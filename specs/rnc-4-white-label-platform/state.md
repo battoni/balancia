@@ -1,5 +1,5 @@
 # State: Reforma hub as a white-label platform for accounting firms
-Stage: verify
+Stage: delivered — PR #5
 Updated: 14/11/2026
 Branch: feature/rnc-4-white-label-platform · Worktree: .claude/worktrees/rnc-4
 ## Done
@@ -596,9 +596,9 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   key order), Auth 2.18.1. Runbook → Database rewritten with the proof and the repeat commands; "Open before go-live" loses the
   MySQL line. No `whereRaw`/`selectRaw` needed a change (all portable `CASE`/`COUNT`/`SUM`), no JSON or text default exists. W112.
 ## Next
-1. F9a and F9b done (every builder phase built). Then `/battoni-verify rnc-4`: full gate (full Playwright included), `fable-reviewer` with spec + `main..HEAD` (P6 points of F1a,
-   F4a, F4c, and F9a's `ResolveCurrentFirm` offboarded branch + `FirmResolver::belongsTo`), Chrome QA rounds 1–6, draft PR. MySQL 8
-   is proven (F7b); before a deploy that touches a migration, repeat `make test-mysql` (`docs/deploy/runbook.md` → "Database").
+1. Merge #4 (run tooling) first, then review and merge #5. Read "Decided while you were away" (W1–W127) and spec.md → C1–C24 first.
+2. Owed: the human QA round (`/battoni-new-qa-session rnc-4` turns qa-script.md into the doc); 390 px steps the Chrome window could not reach are covered by Playwright where marked.
+3. Open Known Gaps for the owner: offboarding of partners/portfolio/contracts/NF-e/assistant notes; cross-firm username availability; landing news line source; 401 during view-as keeps the cached brand until the next public/firm answer.
 ## Pitfalls
 - (F1a) `UserFactory` now puts every user in the default firm (`franco` under phpunit), creating it
   when absent. A test that creates `Firm::factory(['slug' => 'franco'])` AFTER a user would collide
@@ -784,11 +784,11 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 - (F7b) The MySQL root password is the owner's (same local user as boanerges): pass it through the environment only, never into
   `.env`, docs or state.
 ## QA
-(none yet — rounds in plan.md → QA)
 - Layer 1 (tests, full gate, 14/11/2026): 2417 Pest · 1540 Vitest · 234 Playwright, all green (verify's final gate: `make pre-commit` static steps + sanitize + wt-test, then the three suites; Vitest `--maxWorkers=2`).
 - Verify review (3 fable-reviewer slices): 16 API findings accepted (P1-A1, P1-A2 part, P2-A3, P2-A4, P2-A5, P2-A6, PE1, PE3, P1-C1, P2-C2, P2-C3, P2-C4, P2-C6, 3 nits), fixed in 6ad129e, 400d16a, 1588a01 (2417 Pest on SQLite and on MySQL 8, all green; SPA slice is the app builder's); rejected: PE2 (cross-firm username/e-mail check is inherent to global identifiers — Auth RULES Known Gap), P2-C5 (read-only cross-module reads are allowed by arcus and declared in the reader's RULES), A45 (EnvInventoryTest checks the runbook; the MySQL proof is `make test-mysql`, owner-run). SPA slice: P1-S1 + P2-S4 in 474124c, P2-S2 + P2-S5 + P2-S6 + the API's `platform.viewAsOffboarded` in 03951de, the roles screen kept to the operator (W118) in the commit carrying this line; rejected: P2-S3 (news source naming — editorial, the owner's call; list in the PR).
 - Layer 2 Chrome: rounds 1–2 run; fixes 13dae23 (1.11 QA login host) and the commit carrying this line (1.10 beta fields + beta consent summary). Gate after the fixes: 478 Pest (Auth, QaLogin, Lead, Pipeline, Mail, Platform) · 1542 Vitest · 8 Playwright (`e2e/pipeline`), all green; `make check-api`, `make check-app`, `make sync-mirror-check` clean.
 - Layer 2 Chrome: rounds 1–7 run (Guilherme's Chrome, 1440 only — window min 606 px; 390 covered by Playwright where marked); fixes bcd247c (5.21 firm brand kept per host, dropped on logout and on "Sair"; 4.11/4.12 prime→principal pinned, W123), 4ab5397 (5.2 Operador group, landing and Users screen the operator's alone, footer copies dropped, W124) and 5600215 (3.4 first-save toast pinned, not reproduced, W125). Gate: 1552 Vitest (`--maxWorkers=2`) · 90 Playwright (site, brand, navigation, firm-settings, platform, users, roles), all green; no PHP touched (no Pest run); `make check-app`, `make sync-mirror-check` clean. Retest: 3.4, 4.10 pass; 4.11/4.12, 5.21 fixed in 76add80 (a start under another brand is a new lead of that brand, C24, W127) and 16496bb (the brand read outlives the logout's navigation abort, W126); qa-script 5.2 expects the operator's rail by design (AM1). Gate: 2419 Pest · 1554 Vitest (`--maxWorkers=2`) · 71 Playwright (site, brand, diagnostic, platform), all green; `make check-app`, `make sync-mirror-check` clean.
+- Layer 2 Chrome final retest (14/11, 18:00): 4.10, 4.11, 4.12, 5.2, 5.21 pass after 76add80 / 16496bb. Human round: owed.
 ## Seeded people (password `seeding.password`; `battoni` uses `seeding.superadmin_password`)
 - Platform: `battoni` — operador, no firm (since F4a), root only (`localhost:5173`).
 - Platform firm `hub` (F1a): `gestao.hub` — gestao, local only (`PlatformManagerSeeder`, F3b2).
@@ -812,6 +812,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 ## Away run
 Stop at: draft PR after verify · Reviewer: fable-reviewer (#fable session) · Chrome QA: on
 Started: 2026-11-13 23:58
+Ended: 2026-11-14 18:05 — done (verified; draft PR #5 → ready)
 00:00 F1a started, attempt 1
 F1a done
 23:39 F1b started, attempt 1
