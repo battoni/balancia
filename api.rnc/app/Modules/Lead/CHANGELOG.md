@@ -2,6 +2,16 @@
 
 All notable changes to this unit are documented here. Versioned with SemVer.
 
+## 1.13.0 — 2026-11-14
+
+### Changed
+
+- `LeadService::startLead` starts the visitor's open `visitante` again only under the same brand
+  (`LeadRepository::findOpenVisitanteOfVisitor` takes the brand id; null = main brand): a start under another
+  brand is a new lead of that brand (rnc-4 C24, Chrome QA 4.11/4.12). `ResolveCurrentBrand` now sets the main
+  brand on a request without `X-Brand` — `CurrentBrand` is `scoped`, and inside one test (or a long-lived
+  worker) the previous request's brand stayed. `BrandLeadTest`'s helper drops the header for a main-brand start.
+
 ## 1.12.0 — 2026-11-14
 
 ### Changed

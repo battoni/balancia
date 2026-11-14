@@ -34,11 +34,15 @@ class LeadRepository
         return Lead::query()->where('report_token', $reportToken)->where('report_expires_at', '>', $now)->first();
     }
 
-    /** The newest lead of this visitor still at `visitante` with a live token, in the current firm. */
-    public function findOpenVisitanteOfVisitor(string $visitorUuid, Carbon $now): ?Lead
+    /**
+     * The newest lead of this visitor still at `visitante` with a live token, in the current firm and under
+     * this sub-brand (null: the main brand) — a start under another brand is that brand's lead (rnc-4 C24).
+     */
+    public function findOpenVisitanteOfVisitor(string $visitorUuid, ?int $brandId, Carbon $now): ?Lead
     {
         return Lead::query()
             ->where('visitor_uuid', $visitorUuid)
+            ->where('brand_id', $brandId)
             ->where('stage', LeadStage::Visitante->value)
             ->where('token_expires_at', '>', $now)
             ->latest('id')

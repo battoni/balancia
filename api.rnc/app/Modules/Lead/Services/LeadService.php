@@ -71,7 +71,10 @@ class LeadService
      * channel is the new lead's only (rnc-2 R14): a reopened `visitante` keeps the one it began in.
      *
      * `brand_id` is the sub-brand the visitor is on (rnc-3 R4), written once here and never by a later
-     * step — like `channel`. A visitor who starts again keeps the brand the lead was born under.
+     * step — like `channel`. Only the visitor's open `visitante` of the SAME brand is started again: a start
+     * under another brand is a lead of that brand (rnc-4 C24, Chrome QA 4.11/4.12 — a page in the main brand
+     * showed a reopened Prime lead's consent).
+     * _Retired 14/11/2026:_ "a visitor who starts again keeps the brand the lead was born under".
      *
      * @param  array{path: string, visitor_uuid: string|null, source: string, medium: string|null, sector: string|null, brand_id: int|null, channel: LeadChannel}  $start
      */
@@ -82,7 +85,7 @@ class LeadService
         }
 
         $now = Carbon::now();
-        $open = $start['visitor_uuid'] === null ? null : $this->leadRepository->findOpenVisitanteOfVisitor($start['visitor_uuid'], $now);
+        $open = $start['visitor_uuid'] === null ? null : $this->leadRepository->findOpenVisitanteOfVisitor($start['visitor_uuid'], $start['brand_id'], $now);
 
         if ($open) {
             return $this->leadRepository->updateLead($open, [

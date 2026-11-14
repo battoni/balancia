@@ -31,7 +31,8 @@ const PRIME_CONSENT = 'Autorizo a Franco Prime Contabilidade a me apresentar a e
 
 function startBrandDiagnostic(?string $brand, string $visitor = BRAND_LEAD_VISITOR): string
 {
-    $request = $brand === null ? test() : test()->withHeader('X-Brand', $brand);
+    // `withHeader` stays on the test case: the main brand's start must drop it, not inherit the last one.
+    $request = $brand === null ? test()->withoutHeader('X-Brand') : test()->withHeader('X-Brand', $brand);
 
     return $request->postJson('/api/public/diagnostics', ['visitor' => $visitor, 'path' => 'quiz', 'source' => 'direto'])
         ->assertCreated()
@@ -97,11 +98,29 @@ describe('a lead started under a brand (A3)', function () {
         expect(brandLeadOf($token)->brand_id)->toBe($this->prime->id);
     });
 
-    it('keeps its brand when the same visitor starts again under another one', function () {
-        $token = startBrandDiagnostic('prime');
+    /*
+     * rnc-4 C24 (Chrome QA 4.11/4.12): the visitor's open Prime `visitante` was started again under the
+     * main brand, so a page titled "Franco Contabilidade" showed Prime's consent and finished a lead labelled
+     * "Franco Prime". A start under another brand is a lead of THAT brand; the Prime one is left as it was,
+     * and going back to Prime starts it again.
+     */
+    it('starts a lead of the new brand when the same visitor starts again under another one', function () {
+        $prime = startBrandDiagnostic('prime');
+        $main = startBrandDiagnostic(null);
 
-        expect(startBrandDiagnostic('express'))->toBe($token)
-            ->and(brandLeadOf($token)->brand_id)->toBe($this->prime->id);
+        expect($main)->not->toBe($prime)
+            ->and(brandLeadOf($main)->brand_id)->toBeNull()
+            ->and(brandLeadOf($prime)->brand_id)->toBe($this->prime->id)
+            ->and(startBrandDiagnostic('prime'))->toBe($prime)
+            ->and(startBrandDiagnostic(null))->toBe($main);
+    });
+
+    it("answers the main brand's consent to a visitor who had started under Prime", function () {
+        startBrandDiagnostic('prime');
+
+        $this->withoutHeader('X-Brand')->postJson('/api/public/diagnostics', ['visitor' => BRAND_LEAD_VISITOR, 'path' => 'quiz', 'source' => 'direto'])
+            ->assertCreated()
+            ->assertJsonPath('data.consent.text', FRANCO_MAIN_CONSENT);
     });
 
     it('shows and stores a consent that names Prime', function () {

@@ -46,6 +46,10 @@ class ResolveCurrentBrand
     {
         $slug = trim((string) $request->header(self::HEADER));
 
+        // A request without the header is the main brand, never the brand a former request of this
+        // container set: `scoped` is not flushed between requests in one test (or a long-lived worker).
+        $this->currentBrand->set(null);
+
         if ($slug === '') {
             return $next($request);
         }

@@ -1246,3 +1246,12 @@ F7b done
   navigates around it. Rejected: reordering (`push().then(forget)`) — fixes one caller and leaves the trap; a full reload of `/entrar`
   — drops the "Até logo" toast and the SPA's own reset. The 401 path (session expired mid view-as) still does not call `forget()`
   (bcd247c's Known Gap). Reverse: drop the flag from `useFirmBrand`.
+- W127 Chrome QA 4.11/4.12 (lead 86 "Franco Prime" with Prime's consent after a full load of `/diagnostico?marca=principal`):
+  reproduced headless on the live stack. The SPA was right — the second start left without `X-Brand`, title "Franco Contabilidade"
+  — and the API answered the SAME token with Prime's consent: `LeadService::startLead` reopens the visitor's open `visitante`
+  (same `rnc:visitor` uuid in localStorage, no stored diagnostic token) and kept the brand it was born under. The hypothesis of a
+  resumed client-side token was wrong; the resume is server-side, by visitor. Picked: reopen only under the same brand, else a new
+  lead of the current one (C24) — keeps rnc-3 R4's "brand written once" and the per-brand start counts honest. Rejected: re-brand
+  the reopened lead (rewrites where a counted Prime start came from); re-apply the lead's brand to the page (overrides the visitor's
+  explicit `?marca=`). Cost: an empty Prime `visitante` stays on the board (QA-only path). Also: `ResolveCurrentBrand` sets the main
+  brand on a request without the header — `CurrentBrand` is `scoped` and kept the previous request's brand inside one test.

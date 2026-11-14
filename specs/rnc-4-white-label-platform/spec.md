@@ -467,3 +467,7 @@ the deploy; a per-action audit trail inside view-as; firm self-signup without th
   failed exit deletes its export file. Partners, clients, contracts, NF-e files and notes stay a Known Gap. Reverse: deactivate only.
 - C23 (verify P2-A3, W113) R26's view-as never enters an offboarded firm (422 `platform.viewAsOffboarded`), and one open when the firm
   is offboarded ends there (the operator is back in the platform firm). Reverse: view-as ignores `offboarded_at`.
+- C24 (Chrome QA 4.11/4.12, W127) rnc-3 R4's lead brand: the visitor's open `visitante` is started again only under the SAME
+  brand; a start under another brand (`?marca=principal` after `?marca=prime`) is a new lead of that brand, so the consent, the
+  title and the lead's label agree. The first lead stays as it was, and going back to its brand starts it again. Reverse: drop
+  the brand from `findOpenVisitanteOfVisitor`.

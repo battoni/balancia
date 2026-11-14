@@ -1,5 +1,5 @@
 ---
-version: 1.12.0
+version: 1.13.0
 origin: rnc
 based-on: 1.10.0
 ---
@@ -54,8 +54,11 @@ them and writes the team's notes — through this module's service.
   Franco's version 1 is its rnc-1 sentence with its name as the placeholder (`FirmSeeder`, spec C5).
   *Retired 14/11/2026 (rnc-4 F2a):* "`ConsentTerms::TEXT`, `VERSION` 1" — one firm's words as code.
 - **A lead's brand is fixed at creation (rnc-3 R4)**: `brand_id` is the `CurrentBrand` of the
-  diagnostic's start (null = the main brand), written once by `startLead` — never by a later step,
-  and kept when the same visitor starts again under another brand — like `channel`. No foreign key:
+  diagnostic's start (null = the main brand), written once by `startLead` — never by a later step —
+  like `channel`. The visitor's open `visitante` is started again only under the SAME brand: a start under
+  another brand is a new lead of that brand, and the first is left as it was (rnc-4 C24, Chrome QA
+  4.11/4.12 — a page in the main brand showed a reopened Prime lead's consent and finished it as Prime).
+  _Retired 14/11/2026:_ "kept when the same visitor starts again under another brand". No foreign key:
   `firm_brands` is the Firm module's. The board's filter passes `Lead::MAIN_BRAND` (0) for "only the
   main brand"; ids start at 1.
 - **The consent names the visitor's brand (rnc-3 R3)**: `{escritorio}` takes the lead's sub-brand's
