@@ -1,5 +1,5 @@
 ---
-version: 1.10.0
+version: 1.11.0
 origin: pendulum
 based-on: 1.6.0
 ---
@@ -94,6 +94,10 @@ Every "resend in 42s" uses it; do not count ticks in a component.
 - **The kept answer is the host's and the session's** (Chrome QA 5.21): stored as `{ firm, host }` and read
   only on that host; `forget()` — the navbar's logout — drops the firm at once and asks again, so the root's
   login never shows the firm a view-as showed. The view-as banner's "Sair" reloads even when `auth/me` fails.
+- **The brand read outlives navigation** (`outlivesNavigation` on `API`, Chrome QA 5.21 second round): the route
+  guard aborts every request in flight on each navigation, and the navbar's logout pushes the login and forgets in
+  the same tick — the read went with the push, a cancelled call never settles, and the root's login kept the view-as
+  firm's names. Every caller of `forget()` / `reload()` / `load()` is safe whatever it navigates around it.
 - **`useBrandTheme()` is mounted once, by `App.vue`**, and paints the firm's ramp (`brandPalette`) on
   `<html>` for both layouts; `useSubBrandTheme(firm)` is `ThePublicLayout`'s and lays a sub-brand's
   ramp over it only while a public layout is up, handing back after the route fade. One painter, two

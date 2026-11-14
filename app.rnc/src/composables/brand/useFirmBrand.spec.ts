@@ -207,4 +207,31 @@ describe('useFirmBrand', () => {
 
     expect(firm.value?.slug).toBe('hub');
   });
+
+  /*
+   * Chrome QA 5.21, second round: the rail's "Sair" pushes the login, THEN forgets — and the route guard
+   * aborts every request in flight on that navigation. The brand read went with it, never settled, and the
+   * root's login kept the view-as firm's names. The brand is the page's, not a screen's: no navigation
+   * calls it off.
+   */
+  it('reads the firm through a navigation that aborts every request in flight', async () => {
+    const { firm, forget, load } = await freshFirmBrand();
+    const { useGlobalAbortController } = await import('../useGlobalAbortController');
+    const { cancelAllRequests, createNewController } = useGlobalAbortController();
+
+    await load();
+
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Hub da Reforma', slug: 'hub' } })
+      )
+    );
+
+    forget();
+    await Promise.resolve();
+    cancelAllRequests();
+    createNewController();
+
+    await vi.waitFor(() => expect(firm.value?.slug).toBe('hub'));
+  });
 });

@@ -1237,3 +1237,12 @@ F7b done
 - W125 Chrome QA 3.4 (first "Salvar" on /gestao/escritorio without a toast): not reproduced — a first save and a second each toast once
   (`FirmContactView` spec, red with the first toast skipped); the screen keeps no dirty state. Likely the driver read the page after the
   3.5 s toast had gone, or a Chrome `type="time"` field not yet committed (the inline "horário" error, no toast). Left as is.
+- W126 Chrome QA 5.21, second round (rail's account "Sair" during a view-as → root's login in Alvorada's brand, sessionStorage
+  empty): reproduced headless on the live stack — after `POST auth/logout` the `GET public/firm` that `forget()` sends was
+  `net::ERR_ABORTED`. `completeLogout` pushes the login and forgets in the same tick; the route guard (`attachAuthGuard`) aborts every
+  request in flight on that navigation, a cancelled `API` call never settles, so the firm stayed null and the translations kept
+  Alvorada's `{firmShort}` / `{firmName}`. Picked: the brand read outlives navigation (`outlivesNavigation` on `ApiParams`, no global
+  signal) — the brand is the page's, not a screen's, and every `forget()` / `reload()` / `load()` caller is then safe whatever it
+  navigates around it. Rejected: reordering (`push().then(forget)`) — fixes one caller and leaves the trap; a full reload of `/entrar`
+  — drops the "Até logo" toast and the SPA's own reset. The 401 path (session expired mid view-as) still does not call `forget()`
+  (bcd247c's Known Gap). Reverse: drop the flag from `useFirmBrand`.

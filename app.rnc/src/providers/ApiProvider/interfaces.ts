@@ -31,6 +31,12 @@ interface ApiParams {
   headers?: Record<string, string>;
   isUpload?: boolean;
   method?: 'get' | 'post' | 'delete' | 'patch' | 'put';
+  /**
+   * The read is the PAGE's, not a screen's: the route guard's abort-on-navigation leaves it alone. Only for
+   * app-wide state a navigation must not lose (the host firm's brand, read again on a logout that also
+   * pushes the login — Chrome QA 5.21).
+   */
+  outlivesNavigation?: boolean;
   payload?: any;
   query?: ApiQuery;
 }

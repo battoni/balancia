@@ -1,11 +1,13 @@
 import { computed } from 'vue';
 import { flushPromises } from '@vue/test-utils';
+import { http, HttpResponse } from 'msw';
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import type * as AuthModule from '@AuthModule';
 import type { Router } from 'vue-router';
 import { mountWithPlugins } from '@/test/mount';
+import { server } from '@/test/msw/server';
 import { NAV_EXPANDED_GROUPS_STORAGE_KEY } from '@Constants';
 import useUiStore from '@Stores';
 
@@ -559,6 +561,38 @@ describe('TheNavbar — logout', () => {
     await flushPromises();
 
     expect(forgetFirm).toHaveBeenCalledOnce();
+  });
+
+  /*
+   * Chrome QA 5.21, second round: the rail's "Sair" after a view-as of Alvorada at the root. The login push
+   * goes first, and the app's route guard aborts every request in flight on it — the brand read
+   * `forget()` had just sent went with it, and the root's login kept Alvorada's names. Real `forget()`,
+   * real provider, a router that aborts like the app's.
+   */
+  it("ends on the host's own brand although the login navigation aborts what is in flight", async () => {
+    const actual = await vi.importActual<{
+      useFirmBrand: () => { firm: { value: { slug: string } | null }; forget: () => Promise<unknown> };
+      useGlobalAbortController: () => { cancelAllRequests: () => void; createNewController: () => void };
+    }>('@Composables');
+    const { firm, forget } = actual.useFirmBrand();
+    const { cancelAllRequests, createNewController } = actual.useGlobalAbortController();
+
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { logo_text: 'Hub da Reforma', name: 'Hub da Reforma', slug: 'hub' } })
+      )
+    );
+    forgetFirm.mockImplementationOnce(forget);
+    router.beforeEach(() => {
+      cancelAllRequests();
+      createNewController();
+    });
+
+    const { wrapper } = mountNavbar();
+
+    await wrapper.findComponent(desktopStub).vm.$emit('logout');
+
+    await vi.waitFor(() => expect(firm.value?.slug).toBe('hub'));
   });
 
   it('keeps the stores when the logout request fails', async () => {

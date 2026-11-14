@@ -3,6 +3,15 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.11.0 — 2026-11-14
+
+### Fixed
+
+- `useFirmBrand` (Chrome QA 5.21, second round — the rail's account "Sair" during a view-as): `public/firm` goes
+  with `outlivesNavigation` (new `ApiParams` flag: no global abort signal), so the login push of a logout no longer
+  aborts the read `forget()` sends and the root's login ends in the platform's brand. Spec: the read survives a
+  `cancelAllRequests()` right after `forget()`.
+
 ## 1.10.0 — 2026-11-14
 
 ### Fixed

@@ -25,6 +25,11 @@ import { FIRM_BRAND_STORAGE_KEY } from './constants';
  * kept answer first, so a failed read leaves nothing stale. `forget()` is signing out: the firm goes at
  * once, the root's login never wears the firm a view-as showed (Chrome QA 5.21). The kept answer names
  * its host and is read only there.
+ *
+ * The read outlives navigation (`outlivesNavigation`): the route guard aborts every request in flight on
+ * each navigation, and a logout pushes the login and forgets in the same tick — the brand read went with
+ * the push, never settled (a cancelled call stays pending), and the root's login kept the view-as firm's
+ * names (Chrome QA 5.21, second round). The brand is the page's, not a screen's.
  */
 interface ApiFailure {
   response?: { data?: { error?: unknown }; status?: number };
@@ -80,7 +85,7 @@ function useFirmBrand() {
   function load(): Promise<PublicFirm | null> {
     if (isLoaded) return Promise.resolve(firm.value);
 
-    pendingRequest ??= API({ endpoint: 'public/firm', method: 'get' }).then(onLoaded).catch(onFailed);
+    pendingRequest ??= API({ endpoint: 'public/firm', method: 'get', outlivesNavigation: true }).then(onLoaded).catch(onFailed);
 
     return pendingRequest;
   }

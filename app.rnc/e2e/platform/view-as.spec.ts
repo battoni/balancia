@@ -261,4 +261,32 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
     await expect(page.getByTestId('navbar-firm-name').first()).toContainText('Hub da Reforma');
     expect(state.viewing).toBe(false);
   });
+
+  /*
+   * Chrome QA 5.21, second round: the rail's account "Sair" (not the banner's) during a view-as. The login
+   * push aborted the brand read logout had just sent, and the root's login kept Alvorada's names.
+   */
+  test("the rail's logout during a view-as lands on the root's login in the platform's brand", async ({
+    baseURL,
+    page,
+  }) => {
+    const state = await signInAsOperator(page);
+
+    await page.route('**/api/auth/logout', (route) => {
+      state.viewing = false;
+
+      return route.fulfill(json({ data: null }));
+    });
+
+    await page.goto(hostUrl(baseURL, 'localhost', '/platform/firms'));
+    await page.locator('[data-testid="firm-row"][data-firm="alvorada"]').getByTestId('firm-view-as').click();
+    await expect(page.getByTestId('navbar-firm-name').first()).toContainText('Alvorada Contabilidade');
+
+    // The rail's account button; the banner's own is "Leave".
+    await page.getByRole('button', { name: /Log out$/ }).click();
+
+    await expect(page).toHaveURL(/\/(login|entrar)$/);
+    await expect(page.locator('body')).toContainText('Hub da Reforma');
+    await expect(page.locator('body')).not.toContainText('Alvorada');
+  });
 });

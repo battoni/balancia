@@ -49,7 +49,7 @@ function isPresent(value: unknown): boolean {
 }
 
 export default async function (params: ApiParams) {
-  const { forwardError, headers, isUpload, method, payload } = params;
+  const { forwardError, headers, isUpload, method, outlivesNavigation, payload } = params;
 
   const endpoint = `${API_URL}/${params.endpoint}${buildQuery(params.query)}`;
 
@@ -77,7 +77,7 @@ export default async function (params: ApiParams) {
       ...headers,
       ...(FIRM_SLUG ? { 'X-Firm': FIRM_SLUG } : {}),
     },
-    signal: getSignal(),
+    signal: outlivesNavigation ? undefined : getSignal(),
   };
 
   beginRequest();

@@ -3,6 +3,14 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.15.1 — 2026-11-14
+
+### Fixed
+
+- Chrome QA 5.21, second round: the rail's (and drawer's) logout now ends in the host's own brand — the fix is in
+  `useFirmBrand` (its read outlives the login push's abort). Spec: real `forget()` through a router that aborts
+  in-flight requests like the app's guard.
+
 ## 1.15.0 — 2026-11-14
 
 ### Changed
