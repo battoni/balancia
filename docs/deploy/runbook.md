@@ -180,7 +180,7 @@ First:
 1. `composer install --no-dev --optimize-autoloader`; `.env` from the inventory below;
    `php artisan key:generate`.
 2. `php artisan migrate --force` then the reference seeders only:
-   `php artisan db:seed --force` — in production it creates the firms Franco and `balancia`, the roles,
+   `php artisan db:seed --force` — in production it creates the firms Franco and `balancia` (a database seeded before the Balancia rename has the platform firm as `hub`; the seeder renames it in place), the roles,
    the super-admin and the sector pages; every demo seeder (the demo firm, the team, `gestao.hub`, the
    specialists' invented hours, the invented leads, partners, clients, brands and channel rows) returns
    without writing anywhere but `local` and `testing` — `staging` included (`DemoEnvironment`). A re-seed

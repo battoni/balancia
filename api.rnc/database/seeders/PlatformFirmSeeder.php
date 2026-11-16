@@ -21,6 +21,13 @@ class PlatformFirmSeeder extends Seeder
     public const PLATFORM_SLUG = 'balancia';
 
     /**
+     * The platform firm's slug before the Balancia rename (16/11/2026). A database seeded before it has a
+     * `hub` row; `run()` renames it in place, so its leads, people and consent stay with the platform
+     * instead of a second, empty platform firm being created beside it.
+     */
+    public const LEGACY_PLATFORM_SLUG = 'hub';
+
+    /**
      * What the root's only form — the beta signup (R29) — asks consent for (rnc-4 F6b, W66): contact
      * about the beta, not the partner introduction every firm's version 1 copies. Written as the
      * platform firm's next version, once; the operator's later edits stay theirs.
@@ -44,6 +51,8 @@ class PlatformFirmSeeder extends Seeder
         $name = (string) config('platform.name');
 
         $platformSettings->startConsentDefault();
+
+        $this->renameLegacyPlatformFirm();
 
         // Created once, never rewritten (verify P1-C1): `db:seed` runs on every deploy, and the console's
         // edits (look, modules, contact) are the operator's from then on. Only `is_platform` is enforced.
@@ -72,5 +81,17 @@ class PlatformFirmSeeder extends Seeder
         if ($first->version === self::FIRST_CONSENT_VERSION) {
             $consentTextService->createVersion($firm->id, self::BETA_CONSENT, null);
         }
+    }
+
+    /** `hub` → `balancia`, once, and only when nothing holds the new slug yet. */
+    private function renameLegacyPlatformFirm(): void
+    {
+        if (Firm::where('slug', self::PLATFORM_SLUG)->exists()) {
+            return;
+        }
+
+        Firm::where('slug', self::LEGACY_PLATFORM_SLUG)
+            ->where('is_platform', true)
+            ->update(['slug' => self::PLATFORM_SLUG]);
     }
 }

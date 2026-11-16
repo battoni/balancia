@@ -104,27 +104,28 @@ describe('useBrandTheme, mounted by App.vue', () => {
   });
 
   // Balancia rename, step 3: the teal neutrals (`themes/balancia.css`) are the platform firm's screens only.
-  it('marks <html> with data-platform while the host firm is the platform firm, and only then', async () => {
-    const { useBrandTheme } = await freshTheme();
-
-    mountApp(useBrandTheme);
-    await flushPromises();
-
-    expect(document.documentElement.hasAttribute('data-platform')).toBe(false);
-
+  it('marks <html> with data-platform while the host firm is the platform firm, and drops it when a tenant answers', async () => {
     server.use(
       http.get('http://localhost/public/firm', () =>
         HttpResponse.json({ data: { ...ALVORADA, is_platform: true, slug: 'balancia' } })
       )
     );
-    sessionStorage.clear();
 
-    const { useBrandTheme: useFreshBrandTheme } = await freshTheme();
+    const { useBrandTheme } = await freshTheme();
+    const { useFirmBrand } = await import('./useFirmBrand');
 
-    mountApp(useFreshBrandTheme);
+    mountApp(useBrandTheme);
     await flushPromises();
 
     expect(document.documentElement.hasAttribute('data-platform')).toBe(true);
+
+    // A view-as (or a sign-out) re-reads the host: the answer is now a tenant's.
+    server.use(http.get('http://localhost/public/firm', () => HttpResponse.json({ data: ALVORADA })));
+
+    await useFirmBrand().reload();
+    await flushPromises();
+
+    expect(document.documentElement.hasAttribute('data-platform')).toBe(false);
   });
 
   // rnc-4 R14: the copy's `{firmShort}` / `{firmName}` speak for the host firm, filled from the same answer.

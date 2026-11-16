@@ -18,7 +18,8 @@ use App\Modules\Firm\Repositories\FirmRepository;
  */
 class FirmResolver
 {
-    private const WWW = 'www';
+    /** The platform's own hosts under the root: `www`, the back office `app` and the API's `api` (never a firm). */
+    private const PLATFORM_HOST_LABELS = ['www', 'app', 'api'];
 
     public function __construct(private FirmRepository $firmRepository) {}
 
@@ -42,7 +43,7 @@ class FirmResolver
 
     /**
      * The firm a browser address names: `<slug>.<root>` is that firm (null when the slug is
-     * reserved or unknown), the root, `www` and any host outside the root are the default firm.
+     * reserved or unknown), the root, `www`, `app`, `api` and any host outside the root are the default firm.
      */
     public function findFirmByHost(string $host): ?Firm
     {
@@ -54,7 +55,7 @@ class FirmResolver
 
         $slug = substr($host, 0, -strlen($suffix));
 
-        return $slug === self::WWW ? $this->findDefaultFirm() : $this->findTenantBySlug($slug);
+        return in_array($slug, self::PLATFORM_HOST_LABELS, true) ? $this->findDefaultFirm() : $this->findTenantBySlug($slug);
     }
 
     /**

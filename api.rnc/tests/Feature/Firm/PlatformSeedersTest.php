@@ -36,6 +36,17 @@ describe('PlatformFirmSeeder', function () {
             ->and(Firm::where('is_platform', true)->count())->toBe(1);
     });
 
+    it('renames a platform firm seeded before the rename (hub) instead of creating a second one', function () {
+        $legacy = Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'is_platform' => true]);
+
+        $this->seed(PlatformFirmSeeder::class);
+        $this->seed(PlatformFirmSeeder::class);
+
+        expect(Firm::where('is_platform', true)->pluck('id')->all())->toBe([$legacy->id])
+            ->and($legacy->fresh()->slug)->toBe('balancia')
+            ->and(Firm::where('slug', 'hub')->exists())->toBeFalse();
+    });
+
     it("paints the platform firm in Balancia's teal and mint, as Balancia by default", function () {
         $this->seed(PlatformFirmSeeder::class);
 

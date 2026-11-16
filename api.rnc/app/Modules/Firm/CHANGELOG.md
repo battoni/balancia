@@ -7,11 +7,12 @@ All notable changes to this unit are documented here. Versioned with SemVer.
 ### Changed
 
 - Balancia rename, step 3: `PLATFORM_NAME` defaults to Balancia; the platform firm's slug is `balancia`
-  (`hub` stays reserved, the old address) and its colours `#0e5a5c` / `#2fb7a3`; `MailBrand::platform()`
+  (`hub` stays reserved, the old address; `PlatformFirmSeeder` renames an existing `hub` platform row in place) and its colours `#0e5a5c` / `#2fb7a3`; `MailBrand::platform()`
   paints them.
 
 ### Added
 
+- `FirmResolver::findFirmByHost`: `app.<root>` and `api.<root>` are the platform's hosts like `www` (local Valet: app.balancia.test, api.balancia.test); `X-Firm: app` is still refused.
 - `MailBrand::$poweredBy`: the product's name on a tenant firm's message, null on the platform's; the
   layout signs the footer with it (`MailPoweredByTest`).
 

@@ -17,6 +17,12 @@ describe('firmSlugFromHost', () => {
     expect(firmSlugFromHost('www.localhost', 'localhost')).toBeNull();
   });
 
+  // Balancia's local hosts: `app.<root>` is the back office of the platform, never a firm called "app".
+  it('answers no firm on the app host, the platform back office', () => {
+    expect(firmSlugFromHost('app.balancia.test', 'balancia.test')).toBeNull();
+    expect(firmSlugFromHost('APP.localhost:5173', 'localhost')).toBeNull();
+  });
+
   it('answers no firm for a host outside the root', () => {
     expect(firmSlugFromHost('192.168.0.10', 'localhost')).toBeNull();
     expect(firmSlugFromHost('franco.example.com', 'localhost')).toBeNull();

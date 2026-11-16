@@ -1,7 +1,10 @@
 <?php
 
+use App\Mail\EmailVerificationCodeMail;
 use App\Modules\Firm\Models\Firm;
+use App\Modules\Firm\Services\CurrentFirm;
 use App\Modules\Firm\Services\MailBrand;
+use Illuminate\Support\Facades\Mail;
 
 /*
  * The product signs a tenant's e-mail, discreetly (brand/SYSTEM.md §5): the icon at 16px and
@@ -45,5 +48,23 @@ describe('the powered-by signature', function () {
         $text = view('mail.verification-code-text', ['mailBrand' => MailBrand::fromFirm($firm), 'code' => '123456', 'ttlMinutes' => 10])->render();
 
         expect($text)->toContain('powered by Balancia');
+    });
+
+    it('embeds the icon as an inline part when a real message is sent', function () {
+        config(['mail.default' => 'array']);
+        app(CurrentFirm::class)->set(Firm::factory()->create(['slug' => 'alvorada', 'is_platform' => false]));
+
+        expect(resource_path('images/mail/powered-by-icon.png'))->toBeFile();
+
+        Mail::to('cliente@exemplo.test')->send(new EmailVerificationCodeMail('123456'));
+
+        $email = app('mailer')->getSymfonyTransport()->messages()->first()->getOriginalMessage();
+        $inline = collect($email->getAttachments())->filter(fn ($part) => $part->getDisposition() === 'inline');
+
+        expect($inline)->toHaveCount(1)
+            ->and($inline->first()->getContentType())->toBe('image/png')
+            ->and($email->getHtmlBody())->toContain('cid:')
+            ->and($email->getHtmlBody())->toContain('powered by Balancia')
+            ->and($email->getHtmlBody())->not->toContain('data:image/png;base64,');
     });
 });

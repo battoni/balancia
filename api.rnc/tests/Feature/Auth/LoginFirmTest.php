@@ -214,6 +214,16 @@ describe('the QA login-as (AM8)', function () {
         $this->assertAuthenticatedAs($operator);
     });
 
+    // Balancia local hosts: `app.<root>` (the back office) and `api.<root>` (the API's own) are the platform's.
+    it("signs the platform firm's member in on the app and api hosts, which are the platform", function (string $label) {
+        $platform = Firm::factory()->create(['slug' => 'balancia', 'is_platform' => true]);
+        config(['firms.default_slug' => 'balancia', 'rnc.frontend_url' => 'http://localhost:5173']);
+        $member = User::factory()->create(['username' => 'gestao.balancia', 'firm_id' => $platform->id]);
+
+        get("http://{$label}.localhost/api/qa/login-as/gestao.balancia")->assertRedirect('http://localhost:5173/');
+        $this->assertAuthenticatedAs($member);
+    })->with(['app', 'api']);
+
     it('answers 404 on a host that is no firm', function () {
         get('http://xyz.localhost/api/qa/login-as/patricia')->assertNotFound();
         $this->assertGuest();

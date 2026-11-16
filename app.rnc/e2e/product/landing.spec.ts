@@ -198,7 +198,7 @@ test.describe('the product landing on the root', () => {
     await expect(page.getByTestId('product-beta')).toContainText(
       'Preço promocional para os escritórios do beta — fale com a gente'
     );
-    await expect(page).toHaveTitle('Balancia Tributária para escritórios de contabilidade · Balancia');
+    await expect(page).toHaveTitle('A plataforma para escritórios de contabilidade · Balancia');
     await expect(page.locator('a[href*="diagnostico"]')).toHaveCount(0);
     await expect(page.getByTestId('hero-cta')).toHaveCount(0);
   });

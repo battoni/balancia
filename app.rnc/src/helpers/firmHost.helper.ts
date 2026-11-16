@@ -1,12 +1,16 @@
 import { ROOT_DOMAIN } from '@Constants';
 
 /**
- * The firm a host names (rnc-4 R2): `<slug>.<root>` → `slug`; the root, `www.<root>` and any host
- * outside the root (an IP, a preview domain) → `null`, which the API answers as the platform firm.
+ * The firm a host names (rnc-4 R2): `<slug>.<root>` → `slug`; the root, `www.<root>`, `app.<root>` (the
+ * platform's back office, e.g. app.balancia.test) and any host outside the root (an IP, a preview domain)
+ * → `null`, which the API answers as the platform firm (its `FirmResolver` treats the same labels so).
  *
  * The slug is passed on as the host spells it, lower-cased: whether it exists, or is reserved, is the
  * API's answer (404 `firms.notFound`), never a list kept here.
  */
+/** The platform's own labels under the root: never a firm's slug. */
+const PLATFORM_HOST_LABELS = ['www', 'app'];
+
 function firmSlugFromHost(host: string, rootDomain: string): string | null {
   const HOSTNAME = host.toLowerCase().split(':')[0] ?? '';
   const ROOT = rootDomain.toLowerCase();
@@ -16,7 +20,7 @@ function firmSlugFromHost(host: string, rootDomain: string): string | null {
 
   const SLUG = HOSTNAME.slice(0, -SUFFIX.length);
 
-  return SLUG && SLUG !== 'www' ? SLUG : null;
+  return SLUG && !PLATFORM_HOST_LABELS.includes(SLUG) ? SLUG : null;
 }
 
 /** The firm of the page's own host — what every API call names in `X-Firm`. */

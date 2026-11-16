@@ -130,7 +130,7 @@ describe('ProductLandingView', () => {
     renderProductLanding();
 
     expect(sendBeacon).toHaveBeenCalledTimes(1);
-    await waitFor(() => expect(document.title).toContain('Reforma hub for accounting firms'));
+    await waitFor(() => expect(document.title).toContain('platform for accounting firms'));
   });
 });
 
