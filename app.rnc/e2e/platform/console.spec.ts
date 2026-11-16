@@ -20,7 +20,7 @@ const OPERATOR = {
   last_name: 'Battoni',
   name: 'Guilherme',
   permissions: ['home.read', 'users.read', 'permissions.read', 'platform.firms', 'platform.consent'],
-  platform: { is_operator: true, name: 'Hub da Reforma', view_as: null },
+  platform: { is_operator: true, name: 'Balancia', view_as: null },
   role: 'Operador',
   role_slug: 'operador',
   username: 'battoni',
@@ -30,10 +30,10 @@ const HUB_PUBLIC = {
   brand_accent: '#f2a900',
   brand_primary: '#1f4e79',
   is_platform: true,
-  logo_text: 'Hub da Reforma',
+  logo_text: 'Balancia',
   modules: [],
-  name: 'Hub da Reforma',
-  slug: 'hub',
+  name: 'Balancia',
+  slug: 'balancia',
 };
 
 const IPE_PUBLIC = {
@@ -95,7 +95,7 @@ async function mockIpeSite(context: BrowserContext) {
 }
 
 async function signInAsOperator(page: Page, baseURL: string | undefined) {
-  const hub = platformFirm(2, 'hub', 'Hub da Reforma', hostUrl(baseURL, 'localhost', '/'), {
+  const hub = platformFirm(2, 'balancia', 'Balancia', hostUrl(baseURL, 'localhost', '/'), {
     is_platform: true,
     modules: [],
   });

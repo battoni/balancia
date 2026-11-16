@@ -25,7 +25,7 @@ const ALVORADA = {
   name: 'Alvorada Contabilidade',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   slug: 'alvorada',
 } satisfies PublicFirm;
 
@@ -75,6 +75,7 @@ beforeEach(() => {
   sessionStorage.clear();
   document.documentElement.removeAttribute('style');
   delete document.documentElement.dataset.brand;
+  document.documentElement.removeAttribute('data-platform');
   document.title = 'neutral';
   server.use(
     http.get('http://localhost/public/firm', async () => {
@@ -99,7 +100,31 @@ describe('useBrandTheme, mounted by App.vue', () => {
 
     expect(rootPrimary()).toBe(ALVORADA_PRIMARY);
     expect(document.documentElement.dataset.brand).toBe('alvorada');
-    expect(document.title).toBe('Hub da Reforma');
+    expect(document.title).toBe('Balancia');
+  });
+
+  // Balancia rename, step 3: the teal neutrals (`themes/balancia.css`) are the platform firm's screens only.
+  it('marks <html> with data-platform while the host firm is the platform firm, and only then', async () => {
+    const { useBrandTheme } = await freshTheme();
+
+    mountApp(useBrandTheme);
+    await flushPromises();
+
+    expect(document.documentElement.hasAttribute('data-platform')).toBe(false);
+
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { ...ALVORADA, is_platform: true, slug: 'balancia' } })
+      )
+    );
+    sessionStorage.clear();
+
+    const { useBrandTheme: useFreshBrandTheme } = await freshTheme();
+
+    mountApp(useFreshBrandTheme);
+    await flushPromises();
+
+    expect(document.documentElement.hasAttribute('data-platform')).toBe(true);
   });
 
   // rnc-4 R14: the copy's `{firmShort}` / `{firmName}` speak for the host firm, filled from the same answer.

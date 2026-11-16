@@ -1,7 +1,6 @@
 # Balancia — tokens (readable summary)
 
-A summary for people. **The source is [`design-system/balancia.css`](design-system/balancia.css)**
-(until step 3 moves it into `app.rnc/src/styles/theme/`). Where this file and the CSS disagree,
+A summary for people. **The source is [`app.rnc/src/styles/theme/themes/balancia.css`](../app.rnc/src/styles/theme/themes/balancia.css)**. Where this file and the CSS disagree,
 the CSS wins. Machine copy: [`design-system/tokens.json`](design-system/tokens.json), which
 `design-system/extract.py` generates.
 

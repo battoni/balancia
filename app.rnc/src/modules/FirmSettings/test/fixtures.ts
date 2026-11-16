@@ -12,7 +12,7 @@ const MANAGER_FIXTURE = {
   id: 30,
   last_name: 'Alvorada',
   name: 'Helena',
-  platform: { is_operator: false, name: 'Hub da Reforma', view_as: null },
+  platform: { is_operator: false, name: 'Balancia', view_as: null },
   role: 'Gestão',
   role_slug: 'gestao',
   username: 'helena.alvorada',

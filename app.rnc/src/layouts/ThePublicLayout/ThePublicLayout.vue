@@ -40,7 +40,7 @@ import {
  * product landing's sections, the CTA takes a firm to the beta form, and the footer carries the
  * product's line and only the contact the platform firm has: never a firm's hours or credentials.
  */
-const { logoText: hostLogoText, logoUrl: hostLogoUrl } = useFirmBrand();
+const { isPlatform: isHostPlatform, logoText: hostLogoText, logoUrl: hostLogoUrl, platformName } = useFirmBrand();
 const { isProductSite } = useProductSite();
 const { firm, isBrandPending, load } = usePublicFirm();
 const { push } = useRouter();
@@ -72,6 +72,8 @@ const logoName = computed(() => firm.value?.logo_text || hostLogoText.value);
 // A sub-brand answers `logo_url` null: its words, never the firm's picture (rnc-4 R27).
 const logoSource = computed(() => (firm.value ? toStorageAssetPath(firm.value.logo_url) : hostLogoUrl.value));
 const isShellPending = computed(() => isBrandPending.value || !logoName.value);
+// Balancia's own site (the root): its mark, and no "powered by" under itself (brand/SYSTEM.md §5).
+const isPlatformSite = computed(() => (firm.value ? Boolean(firm.value.is_platform) : isHostPlatform.value));
 const hasContact = computed(() => Boolean(firm.value?.address || firm.value?.phone_href || firm.value?.mailbox));
 
 watch(firm, onFirmChange);
@@ -171,7 +173,13 @@ function onProductNavClick(anchor: string) {
           :to="{ name: SITE_ROUTE_NAMES.home }"
         >
           <span class="sm:hidden">
+            <APlatformLogo
+              v-if="isPlatformSite"
+              variant="min"
+            />
+
             <ALogo
+              v-else
               variant="min"
               :name="logoName"
               :src="logoSource"
@@ -179,7 +187,10 @@ function onProductNavClick(anchor: string) {
           </span>
 
           <span class="hidden sm:inline">
+            <APlatformLogo v-if="isPlatformSite" />
+
             <ALogo
+              v-else
               :name="logoName"
               :src="logoSource"
             />
@@ -296,7 +307,13 @@ function onProductNavClick(anchor: string) {
           data-testid="footer-brand"
           :class="['motion-quick flex flex-col gap-3 transition-opacity', { 'opacity-0': isShellPending }]"
         >
+          <APlatformLogo
+            v-if="isPlatformSite"
+            class="text-lg"
+          />
+
           <ALogo
+            v-else
             class="text-lg"
             :name="logoName"
             :src="logoSource"
@@ -389,6 +406,11 @@ function onProductNavClick(anchor: string) {
             >
               {{ $t('site.footer.copyright', { year: CURRENT_YEAR, name: firm?.name ?? '' }) }}
             </span>
+
+            <MPoweredBy
+              v-if="!isPlatformSite"
+              :name="platformName"
+            />
           </div>
         </div>
       </div>

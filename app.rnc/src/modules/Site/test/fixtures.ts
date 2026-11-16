@@ -96,21 +96,21 @@ const PLATFORM_FIRM_FIXTURE: PublicFirm = {
   brand_primary: '#1f4e79',
   business_hours: [{ from: '09:00', to: '18:00', weekdays: [1, 2, 3, 4, 5] }],
   is_platform: true,
-  logo_text: 'Hub da Reforma',
+  logo_text: 'Balancia',
   mailbox: null,
   modules: [],
-  name: 'Hub da Reforma',
+  name: 'Balancia',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   proof: null,
-  short_name: 'Hub da Reforma',
-  slug: 'hub',
+  short_name: 'Balancia',
+  slug: 'balancia',
 };
 
 /* `GET public/beta-signups/consent` (rnc-4 W61): the platform firm's current words, its name filled. */
 const BETA_CONSENT_FIXTURE: BetaConsent = {
-  text: 'Autorizo a equipe do Hub da Reforma a entrar em contato comigo sobre o programa beta.',
+  text: 'Autorizo a equipe do Balancia a entrar em contato comigo sobre o programa beta.',
   version: 2,
 };
 
@@ -128,7 +128,7 @@ const PRIVACY_FIXTURE: PublicPrivacy = {
     'consent_records',
   ],
   controller: { address: 'Rua das Palmeiras, 120, Centro, Campinas-SP', is_platform: false, name: 'Alvorada Contábil' },
-  operator: { name: 'Hub da Reforma' },
+  operator: { name: 'Balancia' },
   requests: { email: 'contato@alvorada.exemplo.com.br', phone: '19 3200-1100' },
   retention: [
     { data: 'lead_data', rule: 'until_request_or_firm_exit' },
@@ -141,7 +141,7 @@ const PRIVACY_FIXTURE: PublicPrivacy = {
 /* The same at the root: the platform is the controller itself, and no network shares anything. */
 const PLATFORM_PRIVACY_FIXTURE: PublicPrivacy = {
   ...PRIVACY_FIXTURE,
-  controller: { address: null, is_platform: true, name: 'Hub da Reforma' },
+  controller: { address: null, is_platform: true, name: 'Balancia' },
   requests: { email: null, phone: null },
   sharing: [],
 };

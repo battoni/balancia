@@ -19,7 +19,7 @@ class PlatformManagerSeeder extends Seeder
 {
     public const USERNAME = 'gestao.hub';
 
-    private const EMAIL = 'gestao@hub.exemplo.com.br';
+    private const EMAIL = 'gestao@balancia.exemplo.com.br';
 
     public function run(): void
     {

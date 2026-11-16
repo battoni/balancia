@@ -21,7 +21,7 @@ const ALVORADA = {
   name: 'Alvorada Contabilidade',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   slug: 'alvorada',
 };
 
@@ -66,7 +66,7 @@ describe('useFirmBrand', () => {
     expect(seen).toEqual([null]);
     expect(firm.value?.slug).toBe('alvorada');
     expect(logoText.value).toBe('Alvorada Contabilidade');
-    expect(platformName.value).toBe('Hub da Reforma');
+    expect(platformName.value).toBe('Balancia');
   });
 
   it("never sends the tab's sub-brand: the back office is the firm's", async () => {
@@ -145,7 +145,7 @@ describe('useFirmBrand', () => {
 
     server.use(
       http.get('http://localhost/public/firm', () =>
-        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Hub da Reforma', slug: 'hub' } })
+        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Balancia', slug: 'balancia' } })
       )
     );
 
@@ -155,8 +155,8 @@ describe('useFirmBrand', () => {
 
     await reload();
 
-    expect(firm.value?.slug).toBe('hub');
-    expect(JSON.parse(sessionStorage.getItem(FIRM_BRAND_STORAGE_KEY) ?? 'null')?.firm?.slug).toBe('hub');
+    expect(firm.value?.slug).toBe('balancia');
+    expect(JSON.parse(sessionStorage.getItem(FIRM_BRAND_STORAGE_KEY) ?? 'null')?.firm?.slug).toBe('balancia');
   });
 
   /*
@@ -194,7 +194,7 @@ describe('useFirmBrand', () => {
 
     server.use(
       http.get('http://localhost/public/firm', () =>
-        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Hub da Reforma', slug: 'hub' } })
+        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Balancia', slug: 'balancia' } })
       )
     );
 
@@ -205,7 +205,7 @@ describe('useFirmBrand', () => {
 
     await asked;
 
-    expect(firm.value?.slug).toBe('hub');
+    expect(firm.value?.slug).toBe('balancia');
   });
 
   /*
@@ -223,7 +223,7 @@ describe('useFirmBrand', () => {
 
     server.use(
       http.get('http://localhost/public/firm', () =>
-        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Hub da Reforma', slug: 'hub' } })
+        HttpResponse.json({ data: { ...ALVORADA, logo_text: 'Balancia', slug: 'balancia' } })
       )
     );
 
@@ -232,6 +232,6 @@ describe('useFirmBrand', () => {
     cancelAllRequests();
     createNewController();
 
-    await vi.waitFor(() => expect(firm.value?.slug).toBe('hub'));
+    await vi.waitFor(() => expect(firm.value?.slug).toBe('balancia'));
   });
 });

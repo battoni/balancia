@@ -22,9 +22,9 @@ There is no `image-prompt.md`: the mark is vector and final, so nothing is waiti
 ## Sources of truth
 
 - **Decisions:** `SURVEY.md`. Where another file disagrees, the survey wins.
-- **Colour and type:** [`design-system/balancia.css`](design-system/balancia.css) today. When step
-  3 copies it into `app.rnc/src/styles/theme/`, **the app's copy wins**. At that point, point
-  `extract.py` at the app's file and delete this copy. `tokens.md` is only a summary; the CSS wins.
+- **Colour and type:** [`app.rnc/src/styles/theme/themes/balancia.css`](../app.rnc/src/styles/theme/themes/balancia.css), the app's theme
+  since step 3 (rnc-4, 16/11/2026). `extract.py` reads it; the copy that lived in `design-system/`
+  is gone. `tokens.md` is only a summary; the CSS wins.
 - **The icon:** `logo/balancia-icon.svg` is the only drawn file. `build.py` generates every other
   file in `logo/`, and the copy in `design-system/assets/logo/`.
 - **`design-system/tokens.json` is generated, never hand-written.**
@@ -33,7 +33,7 @@ There is no `image-prompt.md`: the mark is vector and final, so nothing is waiti
 
 1. **Icon or wordmark:** edit `logo/balancia-icon.svg`, or the ratios in `build.py`. Then run
    `python3 brand/build.py`.
-2. **Theme:** edit `design-system/balancia.css`. Then run `python3 brand/design-system/extract.py`,
+2. **Theme:** edit `app.rnc/src/styles/theme/themes/balancia.css`. Then run `python3 brand/design-system/extract.py`,
    which rewrites `tokens.json` and `index.html`.
 3. **The Claude Design version, once it exists:** revise it with the new `tokens.json`.
 
@@ -50,12 +50,20 @@ You need `fontTools` and `Pillow` for `build.py`, Google Chrome for the PNGs, an
 - **Claude Design:** not created. The Artifact tool wasn't available in this session. Create it from
   `design-system/tokens.json` and `design-system/assets/` next time `/battoni-new-brand` runs with
   that tool.
-- **Not in the app yet (step 3, rnc-4):**
-  - `PLATFORM_NAME` = Balancia.
-  - Platform firm colours `#0e5a5c` and `#2fb7a3`, replacing `#1f4e79` and `#f2a900`.
-  - Manrope and the teal neutrals on the platform's screens.
-  - The logo in `MNavbarBrand` and `ALogo`.
-  - The favicon set from `logo/`.
-  - The root domain balancia.com.br.
+- **The root domain:** `PLATFORM_ROOT_DOMAIN=balancia.com.br` is in `api.rnc/.env.example`, but the
+  domain is unregistered, so nothing serves it yet.
 - **Not protected yet:** the domain is unregistered and INPI is unfiled; see
   [`BRIEF.md`](BRIEF.md) and `SURVEY.md`.
+- **PrimeVue's own surfaces stay warm on Balancia's screens.** The teal neutrals are the role tokens
+  (`canvas`, `panel`, `muted`…); PrimeVue components that read the `surface` ramp directly (the
+  secondary button, the dark contrast fills) keep the bootstrap's neutrals.
+- **The root site's copy is still the placeholder's.** The product landing's footer tagline says "O hub
+  da Reforma Tributária…", which SYSTEM.md §6 keeps out of the brand layer; the copy rewrite is its own
+  step.
+- **The sign-in aside draws `ABrandPattern`**, Battoni Dev's pattern, behind Balancia's white mark on
+  the root's login.
+
+Done in step 3 (rnc-4, 16/11/2026): `PLATFORM_NAME` = Balancia, the platform firm's slug `balancia`
+(`hub` stays reserved), its colours `#0e5a5c` / `#2fb7a3`, Manrope on every screen, the teal neutrals on
+the platform's screens (`data-platform`), `APlatformLogo` in `MFirmLogo`, `MNavbarBrand` and the root
+site, the favicon set, and the "powered by Balancia" signature in tenant footers and e-mails.

@@ -1,5 +1,5 @@
 ---
-version: 1.11.0
+version: 1.12.0
 origin: pendulum
 based-on: 1.6.0
 ---
@@ -111,6 +111,10 @@ Every "resend in 42s" uses it; do not count ticks in a component.
   the mark, not the firm the copy speaks for. Until a firm is known the names are empty.
 - **`?marca=principal` or the host firm's own slug is the main brand** (`publicBrand`).
   _Retired 14/11/2026 (rnc-4 F2c2):_ "`?marca=franco` is the main brand" — one tenant's slug in the build.
+- **`data-platform` marks Balancia's own screens** (Balancia rename, step 3): `useBrandTheme` toggles it on
+  `<html>` from the host firm's `is_platform`, and `themes/balancia.css` scopes the teal neutrals to it.
+  A view-as answers the viewed firm, so it never carries the attribute. `useFirmBrand().isPlatform` is the
+  same fact for the marks (`MFirmLogo`, `MNavbarBrand`, `ThePublicLayout`).
 - The palette's colours come from the firm's row, never the theme file: `VITE_ACTIVE_THEME=hub` is
   only the neutral ground of a tab's first page. A firm with no colours keeps the theme's.
 

@@ -28,7 +28,7 @@ const OPERATOR = {
   last_name: 'Battoni',
   name: 'Guilherme',
   permissions: ['home.read', 'users.read', 'permissions.read', 'platform.firms', 'platform.consent'],
-  platform: { is_operator: true, name: 'Hub da Reforma', view_as: null },
+  platform: { is_operator: true, name: 'Balancia', view_as: null },
   role: 'Operador',
   role_slug: 'operador',
   username: 'battoni',
@@ -38,12 +38,12 @@ const HUB_PUBLIC = {
   brand_accent: '#f2a900',
   brand_primary: '#1f4e79',
   is_platform: true,
-  logo_text: 'Hub da Reforma',
+  logo_text: 'Balancia',
   logo_url: null,
   modules: [],
-  name: 'Hub da Reforma',
-  platform: { name: 'Hub da Reforma' },
-  slug: 'hub',
+  name: 'Balancia',
+  platform: { name: 'Balancia' },
+  slug: 'balancia',
 };
 
 const ALVORADA_PUBLIC = {
@@ -54,7 +54,7 @@ const ALVORADA_PUBLIC = {
   logo_url: LOGO_URL,
   modules: ['briefing'],
   name: 'Alvorada Contabilidade',
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   proof: null,
   short_name: 'Alvorada',
   slug: 'alvorada',
@@ -106,7 +106,7 @@ async function horizontalOverflow(page: Page) {
 /** The operator at the root, every call mocked; `viewing` is the server session's view-as. */
 async function signInAsOperator(page: Page) {
   const state = { logoPosts: 0, viewing: false };
-  const hub = platformFirm(2, 'hub', 'Hub da Reforma', { is_platform: true, modules: [] });
+  const hub = platformFirm(2, 'balancia', 'Balancia', { is_platform: true, modules: [] });
   const alvorada = platformFirm(3, 'alvorada', 'Alvorada Contabilidade');
 
   await seedAuthSession(page);
@@ -228,7 +228,7 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
     await page.goto(hostUrl(baseURL, 'localhost', '/platform/firms'));
 
     // The platform firm is never entered: no action on its row.
-    await expect(page.locator('[data-testid="firm-row"][data-firm="hub"]').getByTestId('firm-view-as')).toHaveCount(0);
+    await expect(page.locator('[data-testid="firm-row"][data-firm="balancia"]').getByTestId('firm-view-as')).toHaveCount(0);
     await expect(page.getByTestId('view-as-banner')).toHaveCount(0);
 
     await page.locator('[data-testid="firm-row"][data-firm="alvorada"]').getByTestId('firm-view-as').click();
@@ -258,7 +258,7 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
 
     await expect(page).toHaveURL(/\/platform\/firms$/);
     await expect(page.getByTestId('view-as-banner')).toHaveCount(0);
-    await expect(page.getByTestId('navbar-firm-name').first()).toContainText('Hub da Reforma');
+    await expect(page.getByTestId('navbar-firm-name').first()).toContainText('Balancia');
     expect(state.viewing).toBe(false);
   });
 
@@ -286,7 +286,7 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
     await page.getByRole('button', { name: /Log out$/ }).click();
 
     await expect(page).toHaveURL(/\/(login|entrar)$/);
-    await expect(page.locator('body')).toContainText('Hub da Reforma');
+    await expect(page.locator('body')).toContainText('Balancia');
     await expect(page.locator('body')).not.toContainText('Alvorada');
   });
 });

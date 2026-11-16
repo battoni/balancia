@@ -2,6 +2,7 @@ import { flushPromises } from '@vue/test-utils';
 import { http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ALogo from '@/components/atoms/ALogo/ALogo.vue';
+import APlatformLogo from '@/components/atoms/APlatformLogo/APlatformLogo.vue';
 import { mountWithPlugins } from '@/test/mount';
 import { server } from '@/test/msw/server';
 
@@ -20,7 +21,7 @@ const ALVORADA = {
   name: 'Alvorada Contabilidade',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   slug: 'alvorada',
 };
 
@@ -32,7 +33,7 @@ async function mountLogo(attrs: Record<string, unknown> = {}) {
 
   await useFirmBrand().load();
 
-  const wrapper = mountWithPlugins(MFirmLogo, { attrs, global: { components: { ALogo } } });
+  const wrapper = mountWithPlugins(MFirmLogo, { attrs, global: { components: { ALogo, APlatformLogo } } });
 
   await flushPromises();
 
@@ -73,5 +74,20 @@ describe('MFirmLogo', () => {
     const image = (await mountLogo()).find('img[data-testid="logo-image"]');
 
     expect(image.attributes('src')).toBe('/storage/firms/3/logo.png');
+  });
+
+  // Balancia rename, step 3: the platform's own screens wear Balancia's mark, never the name as text.
+  it("shows Balancia's mark on the platform firm, white on the sign-in's teal band", async () => {
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { ...ALVORADA, is_platform: true, logo_text: 'Balancia', slug: 'balancia' } })
+      )
+    );
+
+    const wrapper = await mountLogo({ tone: 'inherit' });
+
+    expect(wrapper.find('[data-testid="platform-logo"]').exists()).toBe(true);
+    expect(wrapper.find('img[data-testid="platform-logo-white"]').attributes('src')).toContain('balancia-logo-white');
+    expect(wrapper.find('[data-testid="logo-image"]').exists()).toBe(false);
   });
 });

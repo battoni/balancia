@@ -14,3 +14,7 @@
 @endif
 
 {{ __('mail.beta_signup.cta') }}: {{ $signup->leadUrl() }}
+
+@if ($poweredBy)
+{{ __('mail.common.powered_by', ['platform' => $poweredBy]) }}
+@endif

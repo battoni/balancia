@@ -132,7 +132,7 @@ function userWithPermissions(array $permissionKeys): User
 function platformOperatorWithPermissions(array $permissionKeys): User
 {
     if (! Firm::where('is_platform', true)->exists()) {
-        Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'is_platform' => true]);
+        Firm::factory()->create(['slug' => 'balancia', 'name' => 'Balancia', 'is_platform' => true]);
     }
 
     $role = Role::firstOrCreate(['slug' => 'operador'], ['name' => 'Operador']);

@@ -6,8 +6,11 @@ import { useFirmBrand } from '@Composables';
  * name under them (`platform.name`, R9) — the same block in the rail and in the drawer. Both come from
  * the firm's answer (`useFirmBrand`: the tab's last one until the API replies); until a firm is known
  * the block stays empty rather than writing a name the build carries.
+ *
+ * On the platform firm's console the tile is Balancia's icon (`APlatformLogo`, brand/SYSTEM.md §5), and
+ * the product's line is left out: the firm IS the product, and "Balancia / Balancia" says it twice.
  */
-const { logoText, logoUrl, platformName } = useFirmBrand();
+const { isPlatform, logoText, logoUrl, platformName } = useFirmBrand();
 </script>
 
 <template>
@@ -16,7 +19,13 @@ const { logoText, logoUrl, platformName } = useFirmBrand();
     class="flex w-full min-w-0 flex-col items-center gap-2 text-center"
   >
     <span class="w-full max-w-[50px]">
+      <APlatformLogo
+        v-if="isPlatform"
+        variant="min"
+      />
+
       <ALogo
+        v-else
         variant="min"
         :name="logoText"
         :src="logoUrl"
@@ -31,7 +40,7 @@ const { logoText, logoUrl, platformName } = useFirmBrand();
     </span>
 
     <span
-      v-if="platformName"
+      v-if="platformName && !isPlatform"
       class="text-muted w-full truncate text-xs"
       data-testid="navbar-platform-name"
     >

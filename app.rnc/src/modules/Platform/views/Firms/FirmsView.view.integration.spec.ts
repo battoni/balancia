@@ -48,7 +48,7 @@ function renderFirms() {
       id: 1,
       last_name: 'Battoni',
       name: 'Guilherme',
-      platform: { is_operator: true, name: 'Hub da Reforma', view_as: null },
+      platform: { is_operator: true, name: 'Balancia', view_as: null },
       role: 'Operador',
       role_slug: 'operador',
       username: 'battoni',
@@ -112,7 +112,7 @@ describe('FirmsView', () => {
     renderFirms();
 
     await waitFor(() => expect(screen.getAllByTestId('firm-row')).toHaveLength(2));
-    expect(screen.getAllByTestId('firm-row').map((row) => row.dataset.firm)).toEqual(['hub', 'alvorada']);
+    expect(screen.getAllByTestId('firm-row').map((row) => row.dataset.firm)).toEqual(['balancia', 'alvorada']);
 
     const alvorada = rowOf('alvorada');
     const link = within(alvorada).getByTestId('firm-site-link') as HTMLAnchorElement;
@@ -128,8 +128,8 @@ describe('FirmsView', () => {
     ).toContain('Radar');
     expect(alvorada.textContent).toContain('40 leads');
     expect(within(alvorada).getByTestId('firm-created').textContent).toContain('13');
-    expect(within(rowOf('hub')).getByTestId('firm-platform').textContent).toContain('Platform');
-    expect(rowOf('hub').textContent).toContain('Core only');
+    expect(within(rowOf('balancia')).getByTestId('firm-platform').textContent).toContain('Platform');
+    expect(rowOf('balancia').textContent).toContain('Core only');
   });
 
   it('creates a firm: it joins the list while its password is still on screen', async () => {
@@ -239,7 +239,7 @@ describe('FirmsView', () => {
               permissions: ['platform.firms'],
               platform: {
                 is_operator: true,
-                name: 'Hub da Reforma',
+                name: 'Balancia',
                 view_as: { modules: [], name: 'Alvorada Contabilidade', slug: 'alvorada' },
               },
               role_slug: 'operador',
@@ -260,7 +260,7 @@ describe('FirmsView', () => {
 
       await waitFor(() => expect(screen.getAllByTestId('firm-row')).toHaveLength(2));
 
-      expect(within(rowOf('hub')).queryByTestId('firm-view-as')).toBeNull();
+      expect(within(rowOf('balancia')).queryByTestId('firm-view-as')).toBeNull();
       expect(within(rowOf('alvorada')).getByTestId('firm-view-as').textContent).toContain('Access as support');
     });
 

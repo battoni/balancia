@@ -237,7 +237,8 @@
       "hoursRange": "{days}, {from} to {to}",
       "dayRange": "{first} to {last}",
       "copyright": "© {year} {name}",
-      "privacy": "Privacy"
+      "privacy": "Privacy",
+      "poweredBy": "powered by {name}"
     },
     "weekdaysInSentence": {
       "d1": "Monday",

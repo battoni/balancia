@@ -57,10 +57,10 @@ describe('GET platform/firms', function () {
         // SQLite quotes `"leads"`, MySQL `` `leads` ``.
         $leadQueries = collect(DB::getQueryLog())->filter(fn (array $query) => preg_match('/["`]leads["`]/', $query['query']) === 1);
 
-        expect($firms->keys()->all())->toContain('franco', 'hub')
+        expect($firms->keys()->all())->toContain('franco', 'balancia')
             ->and($firms['franco']['lead_count'])->toBe(3)
-            ->and($firms['hub']['lead_count'])->toBe(1)
-            ->and($firms['hub']['is_platform'])->toBeTrue()
+            ->and($firms['balancia']['lead_count'])->toBe(1)
+            ->and($firms['balancia']['is_platform'])->toBeTrue()
             ->and($firms['franco']['modules'])->toContain('briefing')
             ->and($firms['franco']['site_url'])->toContain('franco.')
             ->and($firms['franco'])->toHaveKeys(['id', 'name', 'short_name', 'logo_text', 'brand_primary', 'brand_accent', 'created_at'])
@@ -98,7 +98,8 @@ describe('POST platform/firms', function () {
         expect(User::where('username', 'gestao.nova')->exists())->toBeFalse();
     })->with([
         'reserved' => ['www', 'firms.slugReserved'],
-        'platform' => ['hub', 'firms.slugReserved'],
+        'platform' => ['balancia', 'firms.slugReserved'],
+        'old platform slug' => ['hub', 'firms.slugReserved'],
         'malformed' => ['Ipê Contábil', 'firms.slugInvalid'],
         'taken' => ['franco', 'firms.slugTaken'],
     ]);

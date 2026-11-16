@@ -18,6 +18,7 @@ const FIRM = {
     { value: 'RNC', label: 'Rede Nacional de Contabilidade' },
   ],
   slug: 'franco',
+  platform: { name: 'Balancia' },
   logo_text: 'Franco Contabilidade',
   brand_primary: '#00375a',
   brand_accent: '#14c3ff',
@@ -122,6 +123,24 @@ test.describe('the landing', () => {
     await expect(footer).toContainText('Av. Corifeu de Azevedo Marques, 2333');
     await expect(footer.locator('a[href="tel:+551137325500"]')).toBeVisible();
     await expect(footer).toContainText('Segunda a quinta, 8h às 18h');
+  });
+
+  // A tenant's site is signed by the product, discreetly (brand/SYSTEM.md §5): 16px icon, muted words.
+  test('signs the footer "powered by Balancia", one colour, the icon at 16px', async ({ page }) => {
+    await page.goto('/');
+
+    const signature = page.getByTestId('site-footer').getByTestId('powered-by');
+
+    await expect(signature).toHaveText('powered by Balancia');
+    await expect(signature.locator('svg')).toHaveCSS('width', '16px');
+
+    const colours = await signature.evaluate((element) => [
+      getComputedStyle(element).color,
+      getComputedStyle(element.querySelector('svg')!).color,
+    ]);
+
+    expect(colours[0]).toBe(colours[1]);
+    await expect(page.getByTestId('platform-logo')).toHaveCount(0);
   });
 
   test('takes the visitor from the hero CTA to the diagnostic', async ({ page }) => {

@@ -29,6 +29,11 @@ import { useFirmBrand } from './useFirmBrand';
  * The document title is the product's name (`platform.name`, R9) wherever no public page is up: a
  * public page writes its own (`useSeo`).
  *
+ * Balancia's own screens (brand/SYSTEM.md) are the platform firm's: while the host firm is it
+ * (`is_platform` — the root site, the console, the root's login) `<html>` carries `data-platform`, and
+ * `themes/balancia.css` paints the teal neutrals under that attribute. A tenant — a view-as included,
+ * whose answer is the viewed firm — never carries it, and keeps the bootstrap's neutrals.
+ *
  * The firm's names fill the translations' `{firmShort}` / `{firmName}` (rnc-4 R14, `setFirmNames`): the
  * host firm's, on both layouts — a sub-brand changes the colours and the mark, not the firm the copy
  * speaks for.
@@ -44,6 +49,9 @@ const HAND_BACK_DELAY_MS = 1000;
 
 /** What `brandPalette` writes, and nothing else on the root is touched. */
 const PALETTE_PREFIX = '--color-primary-';
+
+/** Read by `themes/balancia.css`: present while the host firm is the platform firm. */
+const PLATFORM_ATTRIBUTE = 'data-platform';
 
 let firmPalette: StoredPalette | null = null;
 let mountedPublicLayouts = 0;
@@ -95,6 +103,11 @@ function paintCurrent() {
   root.dataset.brand = shown.slug;
 }
 
+/** `data-platform` on `<html>`: Balancia's own neutrals (`themes/balancia.css`), the platform firm's screens only. */
+function markPlatform(isPlatform: boolean) {
+  document.documentElement.toggleAttribute(PLATFORM_ATTRIBUTE, isPlatform);
+}
+
 function toPalette(firm: DeepReadonly<PublicFirm>, slug: string): StoredPalette | null {
   const hasColours = Boolean(firm.brand_primary && firm.brand_accent);
 
@@ -127,6 +140,7 @@ function useBrandTheme() {
     firmPalette = current ? toPalette(current, current.slug) : null;
 
     paintCurrent();
+    markPlatform(Boolean(current?.is_platform));
 
     if (!current) return;
 

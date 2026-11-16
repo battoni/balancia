@@ -35,8 +35,8 @@ it('answers the firm with its modules and brand, and the platform, for a firm’
 });
 
 it('answers firm null and is_operator true for the firm-less operator (A21)', function () {
-    config(['firms.default_slug' => 'hub']);
-    Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'is_platform' => true]);
+    config(['firms.default_slug' => 'balancia']);
+    Firm::factory()->create(['slug' => 'balancia', 'name' => 'Balancia', 'is_platform' => true]);
     $operator = User::factory()->create(['firm_id' => null, 'role_id' => Role::where('slug', 'operador')->value('id')]);
 
     $me = $this->actingAs($operator)->getJson('/api/auth/me')->assertOk()->json('data');

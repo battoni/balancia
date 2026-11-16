@@ -1,5 +1,5 @@
 ---
-version: 1.1.0
+version: 1.2.0
 origin: rnc
 ---
 
@@ -26,6 +26,10 @@ firm not found and the repricing letter.
 - **Draws nothing until a firm is known**, and nothing on "firm not found" (there is no firm), so no
   name the build carries ever shows.
 - **`variant`, `tone` and classes fall through** to `ALogo` (single root, `inheritAttrs` default).
+
+- **The platform firm wears Balancia's mark, not its name as text** (Balancia rename, step 3,
+  brand/SYSTEM.md §5): `APlatformLogo` while `isPlatform`. Never `ABrandMark`/`ABrandPattern`/
+  `ABrandSignature` — those are Battoni Dev's.
 
 ## Prop & Emit Contract
 

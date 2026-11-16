@@ -1,5 +1,12 @@
 # Changelog — MNavbarBrand
 
+## 1.2.0 — 2026-11-16
+
+### Added
+
+- Balancia's icon in the platform firm's tile (`APlatformLogo variant="min"`), and no product line under
+  the firm's name there: the firm is the product (Balancia rename, step 3).
+
 ## 1.1.0 — 2026-11-14
 
 ### Added

@@ -23,7 +23,7 @@ const FIRM = {
 
 const PRIVACY = {
   controller: { name: 'Alvorada Contábil', address: 'Rua das Palmeiras, 120, Centro, Campinas-SP', is_platform: false },
-  operator: { name: 'Hub da Reforma' },
+  operator: { name: 'Balancia' },
   collected: [
     'company',
     'cnpj',
@@ -69,7 +69,7 @@ test('the notice names the firm as controller, the platform as operator and wher
   const notice = page.getByTestId('privacy-notice');
 
   await expect(notice.getByTestId('privacy-controller')).toContainText('Alvorada Contábil');
-  await expect(notice.getByTestId('privacy-operator')).toContainText('Hub da Reforma');
+  await expect(notice.getByTestId('privacy-operator')).toContainText('Balancia');
   await expect(notice.getByTestId('privacy-collected').locator('li')).toHaveCount(9);
   await expect(notice.getByTestId('privacy-retention').locator('li')).toHaveCount(3);
   await expect(notice.getByTestId('privacy-sharing')).toBeVisible();

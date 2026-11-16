@@ -39,7 +39,7 @@ function renderBanner(viewAs: { name: string; slug: string } | null) {
 
   setActivePinia(pinia);
   useUserStore().setUserAndPermissions(
-    { ...OPERATOR, platform: { is_operator: true, name: 'Hub da Reforma', view_as: viewAs } } as never,
+    { ...OPERATOR, platform: { is_operator: true, name: 'Balancia', view_as: viewAs } } as never,
     ['platform.firms']
   );
 
@@ -58,13 +58,13 @@ beforeEach(() => {
     }),
     http.get('http://localhost/auth/me', () =>
       HttpResponse.json({
-        data: { ...OPERATOR, platform: { is_operator: true, name: 'Hub da Reforma', view_as: null } },
+        data: { ...OPERATOR, platform: { is_operator: true, name: 'Balancia', view_as: null } },
       })
     ),
     http.get('http://localhost/public/firm', () => {
       firmReads += 1;
 
-      return HttpResponse.json({ data: { logo_text: 'Hub da Reforma', name: 'Hub da Reforma', slug: 'hub' } });
+      return HttpResponse.json({ data: { logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' } });
     })
   );
 });

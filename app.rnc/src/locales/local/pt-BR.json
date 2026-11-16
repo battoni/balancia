@@ -237,7 +237,8 @@
       "hoursRange": "{days}, {from} às {to}",
       "dayRange": "{first} a {last}",
       "copyright": "© {year} {name}",
-      "privacy": "Privacidade"
+      "privacy": "Privacidade",
+      "poweredBy": "powered by {name}"
     },
     "weekdaysInSentence": {
       "d1": "segunda",
@@ -264,7 +265,7 @@
         "demo": "Veja um escritório de exemplo"
       },
       "seo": {
-        "title": "Hub da Reforma Tributária para escritórios de contabilidade",
+        "title": "Balancia Tributária para escritórios de contabilidade",
         "description": "Site com diagnóstico gratuito, agendamento, pipeline e métricas com a marca do seu escritório. A CBS começa a ser cobrada em 01/01/2027: entre no beta.",
         "descriptionStarted": "Site com diagnóstico gratuito, agendamento, pipeline e métricas com a marca do seu escritório. A CBS é cobrada desde 01/01/2027: entre no beta."
       },

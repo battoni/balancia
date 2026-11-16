@@ -129,11 +129,11 @@ describe('useUserStore', () => {
     store.setUserAndPermissions({
       ...mockUser,
       firm: { modules: ['briefing', 'portfolio'], name: 'Alvorada Contabilidade', slug: 'alvorada' },
-      platform: { is_operator: false, name: 'Hub da Reforma', view_as: null },
+      platform: { is_operator: false, name: 'Balancia', view_as: null },
     } as never);
 
     expect(store.firm?.slug).toBe('alvorada');
-    expect(store.platform?.name).toBe('Hub da Reforma');
+    expect(store.platform?.name).toBe('Balancia');
     expect(store.hasModule('briefing')).toBe(true);
     expect(store.hasModule('partners')).toBe(false);
   });

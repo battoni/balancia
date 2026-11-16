@@ -8,14 +8,14 @@ const HUB_FIXTURE: PlatformFirm = {
   id: 2,
   is_platform: true,
   lead_count: 0,
-  logo_text: 'Hub da Reforma',
+  logo_text: 'Balancia',
   logo_url: null,
   modules: [],
-  name: 'Hub da Reforma',
+  name: 'Balancia',
   proof: null,
   short_name: 'Hub',
   site_url: 'http://localhost:5173',
-  slug: 'hub',
+  slug: 'balancia',
   tagline: null,
 };
 

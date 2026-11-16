@@ -61,7 +61,7 @@ describe('a signed-in member of a firm', function () {
 
 describe('a signed-in person with no firm', function () {
     beforeEach(function () {
-        Firm::factory()->create(['slug' => 'hub', 'is_platform' => true]);
+        Firm::factory()->create(['slug' => 'balancia', 'is_platform' => true]);
         $this->operator = User::factory()->create([
             'firm_id' => null,
             'role_id' => Role::where('slug', 'operador')->value('id'),
@@ -76,5 +76,5 @@ describe('a signed-in person with no firm', function () {
         $this->actingAs($this->operator)->withHeader('X-Firm', $slug)->getJson('/api/leads')
             ->assertForbidden()
             ->assertJsonPath('error', 'firms.mismatch');
-    })->with(['franco', 'alvorada', 'hub']);
+    })->with(['franco', 'alvorada', 'balancia']);
 });

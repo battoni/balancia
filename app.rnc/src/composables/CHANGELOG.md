@@ -3,6 +3,14 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.12.0 — 2026-11-16
+
+### Added
+
+- `useFirmBrand().isPlatform` and `data-platform` on `<html>` from `useBrandTheme` while the host firm is
+  the platform firm — Balancia's own screens, where `themes/balancia.css` paints the teal neutrals
+  (Balancia rename, step 3).
+
 ## 1.11.0 — 2026-11-14
 
 ### Fixed

@@ -1,16 +1,36 @@
 /*
  * Balancia — the platform theme. SOURCE OF TRUTH for Balancia's colour and type.
  *
- * Written 16/11/2026 from brand/SURVEY.md, before the theme exists in app.rnc. Step 3 (rnc-4) copies
- * this file to app.rnc/src/styles/theme/ as the platform firm's theme; from then on the app's copy is
- * the source and brand/design-system/extract.py must read it instead (see brand/README.md).
+ * Written 16/11/2026 from brand/SURVEY.md in brand/design-system/, moved here by step 3 of the rename
+ * (rnc-4): this file is now the source, and brand/design-system/extract.py reads it to write
+ * tokens.json and index.html (brand/README.md). The brand/ copy is gone.
  *
  * Every value carries a `usage:` comment; extract.py turns them into tokens.json. Edit values here,
  * then run `python3 brand/design-system/extract.py`. Never edit tokens.json or index.html by hand.
  *
- * Applies to Balancia's own screens (root site, platform console, login). Firm tenants keep their
- * own brand ramp and the bootstrap's neutrals.
+ * Three blocks, three reaches:
+ * - `:root` — the brand words and the type, on EVERY screen: Manrope is the product's typeface, a
+ *   tenant's included (Space Grotesk was Battoni Dev's, from the bootstrap). The `--brand-*` words
+ *   are read only by Balancia's own marks.
+ * - `:root[data-platform]` — Balancia's ramp and its teal-tinted neutrals, on Balancia's own screens
+ *   only: the root site, the platform console, the root's login. `useBrandTheme` sets `data-platform`
+ *   on `<html>` while the host firm is the platform firm (`is_platform`). A firm tenant keeps its own
+ *   ramp (painted inline by `useBrandTheme`) and the bootstrap's neutrals.
+ * - `:root[data-platform][data-theme='dark']` — the same neutrals for the dark scheme.
+ *
+ * The ramp here equals what `brandPalette('#0e5a5c', '#2fb7a3')` paints inline for the platform firm,
+ * so the screen is right before the firm answers on a second page of the visit as well as after.
+ * Imported by `hub.css`, the neutral ground, whose print block outvotes these neutrals on paper.
  */
+
+/* Manrope, variable 200–800 (OFL, public/fonts/manrope/OFL.txt). One file: every weight the brand uses. */
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/manrope/Manrope-Variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   /* --- brand ------------------------------------------------------------------------------- */
@@ -18,6 +38,12 @@
   --brand-mint: #2fb7a3; /* usage: accent; the logo's bottom form; the mark on dark (7.48:1 on #0b1416); never text on light (2.49:1) */
   --brand-pale-mint: #bfeee5; /* usage: the logo's bottom form on dark grounds only */
 
+  /* --- type ------------------------------------------------------------------------------------ */
+  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif; /* usage: everything: UI, site, documents (weights 400/500/600/700/800) */
+  --font-mono: 'Sometype Mono', ui-monospace, monospace; /* usage: codes, CNPJ, numeric tables (inherited from the bootstrap) */
+}
+
+:root[data-platform] {
   /* --- primary ramp = brandPalette('#0e5a5c', '#2fb7a3'), checked by extract.py ------------------ */
   --color-primary-50: #e6f6f4; /* usage: tinted backgrounds, selected rows, screenshot frames */
   --color-primary-100: #c0e9e3; /* usage: hover fills on light, tags */
@@ -41,13 +67,9 @@
   --color-subtle: #6f8384; /* usage: placeholders, disabled text, large text only (4.00:1, never small body text) */
   --color-line: #d3dede; /* usage: borders and dividers */
   --color-line-strong: #c3d0d0; /* usage: input borders, emphasised dividers */
-
-  /* --- type ------------------------------------------------------------------------------------ */
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif; /* usage: everything: UI, site, documents (weights 400/500/600/700/800) */
-  --font-mono: 'Sometype Mono', ui-monospace, monospace; /* usage: codes, CNPJ, numeric tables (inherited from the bootstrap) */
 }
 
-[data-theme='dark'] {
+:root[data-platform][data-theme='dark'] {
   /* --- neutrals, dark (teal-tinted) -------------------------------------------------------------- */
   --color-canvas: #0b1416; /* usage: page background (the brand's dark ground) */
   --color-panel: #111d20; /* usage: cards, sidebars, inputs */

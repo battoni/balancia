@@ -30,17 +30,27 @@ describe('PlatformFirmSeeder', function () {
         $this->seed(PlatformFirmSeeder::class);
         $this->seed(PlatformFirmSeeder::class);
 
-        $hub = Firm::where('slug', 'hub')->sole();
+        $hub = Firm::where('slug', 'balancia')->sole();
         expect($hub->is_platform)->toBeTrue()
             ->and($hub->name)->toBe('Outro Hub')
             ->and(Firm::where('is_platform', true)->count())->toBe(1);
+    });
+
+    it("paints the platform firm in Balancia's teal and mint, as Balancia by default", function () {
+        $this->seed(PlatformFirmSeeder::class);
+
+        $platform = Firm::where('slug', 'balancia')->sole();
+        expect($platform->brand_primary)->toBe('#0e5a5c')
+            ->and($platform->brand_accent)->toBe('#2fb7a3')
+            ->and($platform->name)->toBe('Balancia')
+            ->and($platform->logo_text)->toBe('Balancia');
     });
 
     it("gives the platform firm the beta signup's consent as its version 2, once", function () {
         $this->seed(PlatformFirmSeeder::class);
         $this->seed(PlatformFirmSeeder::class);
 
-        $hub = Firm::where('slug', 'hub')->sole();
+        $hub = Firm::where('slug', 'balancia')->sole();
         $versions = FirmConsentVersion::withoutGlobalScopes()->where('firm_id', $hub->id)->orderBy('version')->get();
 
         expect($versions->pluck('version')->all())->toBe([1, 2])
@@ -53,7 +63,7 @@ describe('PlatformFirmSeeder', function () {
 
     it("never stacks the beta consent over the operator's own words on a re-seed", function () {
         $this->seed(PlatformFirmSeeder::class);
-        $hub = Firm::where('slug', 'hub')->sole();
+        $hub = Firm::where('slug', 'balancia')->sole();
         app(ConsentTextService::class)->createVersion($hub->id, 'Autorizo {escritorio} a falar comigo.', null);
 
         $this->seed(PlatformFirmSeeder::class);
@@ -64,7 +74,7 @@ describe('PlatformFirmSeeder', function () {
 
     it("keeps the operator's edits on a re-seed and only enforces is_platform (verify P1-C1)", function () {
         $this->seed(PlatformFirmSeeder::class);
-        Firm::where('slug', 'hub')->sole()->forceFill([
+        Firm::where('slug', 'balancia')->sole()->forceFill([
             'brand_primary' => '#123456',
             'modules' => ['chat'],
             'phone' => '11 4000-0000',
@@ -74,7 +84,7 @@ describe('PlatformFirmSeeder', function () {
 
         $this->seed(PlatformFirmSeeder::class);
 
-        $hub = Firm::where('slug', 'hub')->sole();
+        $hub = Firm::where('slug', 'balancia')->sole();
         expect($hub->brand_primary)->toBe('#123456')
             ->and($hub->modules)->toBe(['chat'])
             ->and($hub->phone)->toBe('11 4000-0000')
@@ -87,13 +97,13 @@ describe('PlatformFirmSeeder', function () {
 
         app()->call([app(PlatformFirmSeeder::class), 'run']);
 
-        expect(Firm::where('slug', 'hub')->exists())->toBeTrue();
+        expect(Firm::where('slug', 'balancia')->exists())->toBeTrue();
     });
 
     it('is part of the default seed, and Franco is not the platform', function () {
         $this->seed(DatabaseSeeder::class);
 
-        expect(Firm::where('slug', 'hub')->value('is_platform'))->toBeTrue()
+        expect(Firm::where('slug', 'balancia')->value('is_platform'))->toBeTrue()
             ->and(Firm::where('slug', 'franco')->value('is_platform'))->toBeFalse();
     });
 });

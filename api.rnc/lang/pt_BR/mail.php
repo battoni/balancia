@@ -4,6 +4,7 @@ return [
     'common' => [
         'code_label' => 'Seu código',
         'footer_reason' => 'Você recebeu isto porque alguém usou este endereço para criar uma conta.',
+        'powered_by' => 'powered by :platform',
     ],
 
     'verification' => [

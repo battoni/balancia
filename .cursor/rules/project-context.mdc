@@ -47,8 +47,8 @@ The platform's product brand is **Balancia** (decided 16/11/2026; it replaces th
 "Hub da Reforma"). Each firm keeps its own brand, so Franco's navy and cyan are a tenant theme, not
 Balancia's. Before you create anything for Balancia's own surfaces (root site, platform console,
 login, pitch), read `brand/SYSTEM.md`. The rendered copy is `brand/design-system/index.html`.
-Precedence: the theme in code (`brand/design-system/balancia.css` until it moves into
-`app.rnc/src/styles/theme/`), then `brand/SYSTEM.md`, then the rest of `brand/`, where
+Precedence: the theme in code (`app.rnc/src/styles/theme/themes/balancia.css`, read by
+`brand/design-system/extract.py`), then `brand/SYSTEM.md`, then the rest of `brand/`, where
 `brand/SURVEY.md` holds the decisions.
 
 ## Toolchain

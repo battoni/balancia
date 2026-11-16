@@ -120,7 +120,7 @@ describe('the local seed (A23)', function () {
             ->and($alvorada->mailbox)->not->toBe($franco->mailbox)
             ->and($alvorada->modules)->not->toContain('brands')
             ->and($alvorada->modules)->not->toContain('channel')
-            ->and($hub->slug)->toBe('hub')
+            ->and($hub->slug)->toBe('balancia')
             ->and($hub->modules)->toBe([])
             ->and($manager->firm_id)->toBe($hub->id)
             ->and($manager->role->slug)->toBe('gestao')

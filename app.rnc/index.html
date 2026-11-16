@@ -30,33 +30,26 @@
       })();
     </script>
 
-    <!-- The browser chrome follows the page, per scheme. The values mirror `--color-canvas` in
-         `styles/theme/themes/battoni-dev.css`: a bar painted for the wrong scheme is the one part
-         of the app the theme cannot reach, and on a phone it is half of what somebody sees
+    <!-- The browser chrome follows the page, per scheme, in Balancia's colours (brand/SYSTEM.md):
+         teal #0e5a5c on light, the brand's dark ground #0b1416 (`--color-canvas` of
+         `styles/theme/themes/balancia.css`) on dark. A bar painted for the wrong scheme is the one
+         part of the app the theme cannot reach, and on a phone it is half of what somebody sees
          (from lifeshifter). -->
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0a0a09">
-    <meta name="msapplication-TileColor" content="#0a0a09">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0e5a5c">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1416">
+    <meta name="msapplication-TileColor" content="#0b1416">
 
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <!-- Balancia's icon (brand/logo/): the SVG follows the browser's scheme by itself, the ICO is
+         the fallback, the PNGs are for the home screen. Absolute paths: a relative one breaks on a
+         deep route, where the SPA fallback answers the image request with this HTML. The tile's
+         colour (above) is the dark canvas, repeated in favicon/manifest.json and browserconfig.xml
+         because none of the three can read a CSS token. Change all three with the theme. -->
+    <link rel="icon" href="/favicon/favicon.ico" sizes="32x32">
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg">
+    <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/icon-192.png">
     <link rel="manifest" href="/favicon/manifest.json">
-    <!-- Absolute, like every icon above: a relative path breaks on a deep route, where the SPA
-         fallback answers the image request with this HTML. The tile's colour (above) is the dark
-         `--color-canvas`, repeated in favicon/manifest.json and browserconfig.xml because none of
-         the three can read a CSS token. Change all three with the theme. -->
-    <meta name="msapplication-TileImage" content="/favicon/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage" content="/favicon/ms-icon-150x150.png">
 
     <meta
       name="viewport"

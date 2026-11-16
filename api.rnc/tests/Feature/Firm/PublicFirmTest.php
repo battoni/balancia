@@ -39,7 +39,7 @@ describe('GET /api/public/firm', function () {
                     ['weekdays' => [5], 'from' => '08:00', 'to' => '17:00'],
                 ],
                 'credentials' => 'ISO 9001:2015 · PQEC Sescon-SP · Rede Nacional de Contabilidade',
-                'platform' => ['name' => 'Hub da Reforma'],
+                'platform' => ['name' => 'Balancia'],
                 'modules' => ['portfolio', 'fiscal', 'radar', 'partners', 'contracts', 'chat', 'assistant', 'briefing', 'brands', 'channel'],
             ]]);
     });
@@ -55,8 +55,8 @@ describe('GET /api/public/firm', function () {
 
         $this->getJson('/api/public/firm')->assertOk()->assertJsonPath('data.modules', ['portfolio', 'briefing']);
 
-        Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'is_platform' => true, 'modules' => []]);
-        config(['firms.default_slug' => 'hub']);
+        Firm::factory()->create(['slug' => 'balancia', 'name' => 'Balancia', 'is_platform' => true, 'modules' => []]);
+        config(['firms.default_slug' => 'balancia']);
 
         $this->getJson('/api/public/firm')->assertOk()
             ->assertJsonPath('data.is_platform', true)

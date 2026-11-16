@@ -3,6 +3,14 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.5.0 — 2026-11-16
+
+### Added
+
+- "powered by Balancia" under a tenant's message (brand/SYSTEM.md §5): Balancia's icon at 16px
+  (`resources/images/mail/powered-by-icon.png`, 32px drawn at 16, embedded) and the words in the footer's
+  grey, one colour; the same line ends every plain-text alternative. Not on the platform's own messages.
+
 ## 1.4.0 — 2026-11-14
 - `beta-signup` and its text view: the platform team's "Nova inscrição no beta" (rnc-4 F6a, R29) — firm, city/UF, contact, clients band, optional message, a button to the lead; `mail.beta_signup.*` in pt_BR and en; previewed at `/mail-preview/beta-signup`. Tested by `tests/Feature/Lead/BetaSignupTest`.
 

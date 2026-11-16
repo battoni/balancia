@@ -47,7 +47,7 @@ describe('GET /api/public/firm — the firm brand (A8)', function () {
             ->assertJsonPathIgnoringKeyOrder('data.proof', ALVORADA_PROOF)
             ->assertJsonPath('data.is_platform', false)
             ->assertJsonPath('data.logo_url', null)
-            ->assertJsonPath('data.platform', ['name' => 'Hub da Reforma']);
+            ->assertJsonPath('data.platform', ['name' => 'Balancia']);
     });
 
     it('names the product from PLATFORM_NAME, nowhere else', function () {
@@ -67,10 +67,10 @@ describe('GET /api/public/firm — the firm brand (A8)', function () {
     });
 
     it('says is_platform for the platform firm at the root', function () {
-        config(['firms.default_slug' => 'hub']);
-        Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'short_name' => 'Hub da Reforma', 'is_platform' => true]);
+        config(['firms.default_slug' => 'balancia']);
+        Firm::factory()->create(['slug' => 'balancia', 'name' => 'Balancia', 'short_name' => 'Balancia', 'is_platform' => true]);
 
-        $this->getJson('/api/public/firm')->assertOk()->assertJsonPath('data.is_platform', true)->assertJsonPath('data.slug', 'hub');
+        $this->getJson('/api/public/firm')->assertOk()->assertJsonPath('data.is_platform', true)->assertJsonPath('data.slug', 'balancia');
     });
 
     it("keeps a sub-brand's own look and hides the firm's logo under it", function () {
@@ -92,7 +92,7 @@ describe('GET /api/public/firm — the firm brand (A8)', function () {
             ->assertJsonPath('data.short_name', 'Alvorada Nova')
             ->assertJsonPath('data.tagline', null)
             ->assertJsonPath('data.logo_url', null)
-            ->assertJsonPath('data.platform.name', 'Hub da Reforma');
+            ->assertJsonPath('data.platform.name', 'Balancia');
     });
 });
 

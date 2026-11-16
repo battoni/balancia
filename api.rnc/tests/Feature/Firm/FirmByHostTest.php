@@ -34,7 +34,7 @@ class HostScopedNote extends Model
 
 function hostPlatformFirm(): Firm
 {
-    return Firm::factory()->create(['slug' => 'hub', 'name' => 'Hub da Reforma', 'is_platform' => true]);
+    return Firm::factory()->create(['slug' => 'balancia', 'name' => 'Balancia', 'is_platform' => true]);
 }
 
 function hostOperator(): User
@@ -100,7 +100,7 @@ describe('A2 — a subdomain that is not a firm', function () {
     it('answers 404 to the platform slug sent as a header: the platform firm lives only at the root (AM9)', function () {
         hostPlatformFirm();
 
-        $this->withHeader('X-Firm', 'hub')->getJson('/api/public/firm')
+        $this->withHeader('X-Firm', 'balancia')->getJson('/api/public/firm')
             ->assertNotFound()
             ->assertJsonPath('error', 'firms.notFound');
     });
@@ -112,13 +112,13 @@ describe('A2 — a subdomain that is not a firm', function () {
     });
 
     it('serves the platform firm at the root when it is the default (D6)', function () {
-        config(['firms.default_slug' => 'hub']);
+        config(['firms.default_slug' => 'balancia']);
         hostPlatformFirm();
 
         $this->getJson('/api/public/firm')
             ->assertOk()
-            ->assertJsonPath('data.slug', 'hub')
-            ->assertJsonPath('data.name', 'Hub da Reforma');
+            ->assertJsonPath('data.slug', 'balancia')
+            ->assertJsonPath('data.name', 'Balancia');
     });
 
     it('still serves a real firm the header names', function () {
@@ -148,7 +148,7 @@ describe('AM1 — a signed-in person with no firm', function () {
 
         $this->actingAs(hostOperator())->getJson('/api/public/firm')
             ->assertOk()
-            ->assertJsonPath('data.slug', 'hub');
+            ->assertJsonPath('data.slug', 'balancia');
     });
 
     it("lists only the platform firm's rows and stores the platform firm on a create", function () {

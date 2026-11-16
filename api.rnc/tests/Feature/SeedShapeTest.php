@@ -22,7 +22,7 @@ describe('database seed', function () {
         $this->seed();
 
         // Ordered by id, not `id === 1`: MySQL does not roll an auto-increment back between tests (rnc-4 F7b).
-        expect(Firm::orderBy('id')->pluck('slug')->all())->toBe(['franco', 'hub']);
+        expect(Firm::orderBy('id')->pluck('slug')->all())->toBe(['franco', 'balancia']);
     });
 
     it('creates Reinaldo, the team and four specialists in Franco, and the operator in no firm', function () {

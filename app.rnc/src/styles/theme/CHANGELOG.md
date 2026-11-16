@@ -3,6 +3,20 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 2.8.0 — 2026-11-16
+
+### Added
+
+- `themes/balancia.css`, Balancia's theme (brand/, moved here by step 3 of the rename; the brand/ copy is
+  gone and `brand/design-system/extract.py` reads this one). Imported by `hub.css`: Manrope (self-hosted,
+  `public/fonts/manrope/`, OFL) is `--font-sans` on every screen; the primary ramp and the teal-tinted
+  neutrals apply under `:root[data-platform]` only — the platform firm's screens. `hub.css`'s print block
+  covers the platform selectors, so paper stays light.
+
+### Changed
+
+- Space Grotesk is no longer the sans: it was Battoni Dev's face, from the bootstrap.
+
 ## 2.7.0 — 2026-11-14
 
 ### Added

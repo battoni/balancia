@@ -17,16 +17,19 @@ use Illuminate\Support\Facades\Storage;
  * firm's mailbox (D11): one sending domain for every firm. Under a sub-brand (rnc-3 R3) the name and
  * colours are the brand's, the mailbox stays the firm's and no logo is shown — the brand has none.
  *
+ * `poweredBy` is the product's name on a tenant firm's message, for the footer's discreet "powered by"
+ * signature (brand/SYSTEM.md §5); null on the platform's own messages, which are already Balancia's.
+ *
  * *Retired 14/11/2026 (rnc-4 F2a):* `config('rnc.brand')` — one brand for every e-mail, Franco's.
  */
 final readonly class MailBrand
 {
     private const LOGO_DISK = 'public';
 
-    /** The platform's own look when no firm is at hand (the new-firm defaults, plan Defaults). */
-    private const PLATFORM_INK = '#1f4e79';
+    /** Balancia's own look when no firm is at hand (brand/SYSTEM.md: teal and mint). */
+    private const PLATFORM_INK = '#0e5a5c';
 
-    private const PLATFORM_ACCENT = '#f2a900';
+    private const PLATFORM_ACCENT = '#2fb7a3';
 
     public function __construct(
         public string $name,
@@ -36,6 +39,7 @@ final readonly class MailBrand
         public ?string $logoUrl,
         public ?string $mailbox,
         public string $siteUrl,
+        public ?string $poweredBy = null,
     ) {}
 
     public static function fromFirm(Firm $firm, ?FirmBrand $brand = null): self
@@ -50,6 +54,7 @@ final readonly class MailBrand
             logoUrl: $logo ? Storage::disk(self::LOGO_DISK)->url($logo) : null,
             mailbox: $firm->mailbox,
             siteUrl: self::siteUrlOf($firm),
+            poweredBy: $firm->is_platform ? null : (string) config('platform.name'),
         );
     }
 

@@ -1,9 +1,10 @@
-# Deploy runbook — Hub da Reforma (rnc-4, F7)
+# Deploy runbook — Balancia (rnc-4, F7)
 
 Readiness only: nothing here has been deployed. This is what a server needs so the platform runs
-every firm from one deploy — `<root>` (the platform firm, slug `hub`, the product site and the
+every firm from one deploy — `<root>` (the platform firm, slug `balancia`, the product site and the
 operator's console) and `<slug>.<root>` (one accounting firm each: its public site and its back
-office). `<root>` stands for the production domain (`PLATFORM_ROOT_DOMAIN`); `*.<root>` for every
+office). `<root>` stands for the production domain (`PLATFORM_ROOT_DOMAIN`; the target is
+`balancia.com.br`, not registered yet); `*.<root>` for every
 firm. `tests/Feature/EnvInventoryTest.php` fails when an env key the API config reads, or a `VITE_*`
 key of `app.rnc/.env.example`, is missing from this file.
 
@@ -26,7 +27,7 @@ key of `app.rnc/.env.example`, is missing from this file.
 - TLS: one certificate for `<root>` **and** `*.<root>`. A wildcard needs the ACME **DNS-01**
   challenge (HTTP-01 cannot issue it): e.g. `certbot certonly --dns-<provider> -d <root> -d '*.<root>'`,
   renewed by the provider plugin's timer. A wildcard covers one level only: `a.b.<root>` is not a firm.
-- The reserved slugs (`config/platform.php` → `reserved_slugs`: www, api, app, admin, hub, mail, …)
+- The reserved slugs (`config/platform.php` → `reserved_slugs`: www, api, app, admin, balancia, hub, mail, …)
   are never a firm's address; a DNS record for one of them that points elsewhere does not collide.
 
 ## Web server (one vhost, every host)
@@ -179,7 +180,7 @@ First:
 1. `composer install --no-dev --optimize-autoloader`; `.env` from the inventory below;
    `php artisan key:generate`.
 2. `php artisan migrate --force` then the reference seeders only:
-   `php artisan db:seed --force` — in production it creates the firms Franco and `hub`, the roles,
+   `php artisan db:seed --force` — in production it creates the firms Franco and `balancia`, the roles,
    the super-admin and the sector pages; every demo seeder (the demo firm, the team, `gestao.hub`, the
    specialists' invented hours, the invented leads, partners, clients, brands and channel rows) returns
    without writing anywhere but `local` and `testing` — `staging` included (`DemoEnvironment`). A re-seed
@@ -250,9 +251,9 @@ default unless the row says otherwise.
 | `APP_LOCALE`, `APP_FALLBACK_LOCALE`, `APP_FAKER_LOCALE` | `en`, `en`, `en_US` (the SPA owns pt-BR) |
 | `APP_MAINTENANCE_DRIVER`, `APP_MAINTENANCE_STORE` | `file`, unset |
 | `FRONTEND_URL` | **Set** — `https://<root>`; a firm's site in mail is `<slug>.` + this host (`MailBrand`) |
-| `PLATFORM_NAME` | `Hub da Reforma` |
-| `PLATFORM_ROOT_DOMAIN` | **Set** — `<root>` |
-| `DEFAULT_FIRM_SLUG` | `hub` (the root's firm) |
+| `PLATFORM_NAME` | `Balancia` |
+| `PLATFORM_ROOT_DOMAIN` | **Set** — `<root>` (`balancia.com.br` once registered) |
+| `DEFAULT_FIRM_SLUG` | `balancia` (the root's firm) |
 | `TRUSTED_PROXIES` | **Set** when a proxy or load balancer is in front (section above) |
 | `ASSISTANT_DRIVER` | `curated` (any other value stops the boot) |
 | `SUPPORT_NAMES` | the sign-in screen's support names, comma-separated |

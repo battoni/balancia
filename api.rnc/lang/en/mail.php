@@ -6,6 +6,7 @@ return [
         // Says why this arrived. An e-mail that does not explain itself reads as spam even
         // when the person asked for it.
         'footer_reason' => 'You received this because someone used this address to create an account.',
+        'powered_by' => 'powered by :platform',
     ],
 
     'verification' => [

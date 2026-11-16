@@ -19,6 +19,9 @@ import { FIRM_BRAND_STORAGE_KEY } from './constants';
  * does not know, and `TheRouteGuard` swaps every path for "Escritório não encontrado". Any other
  * failure leaves it false — an outage is not a missing firm — and the next `load()` asks again.
  *
+ * `isPlatform` is true while the host firm is the platform firm: Balancia's own screens, which wear
+ * Balancia's mark instead of a firm's (`MFirmLogo`, `MNavbarBrand`; brand/SYSTEM.md).
+ *
  * `logoUrl` is the firm's uploaded logo (rnc-4 R27) as a path on the page's own origin
  * (`toStorageAssetPath`: `/storage` is proxied per host). `reload()` asks again within the page load —
  * entering or leaving a view-as changes the firm the root's session answers for (R26) — and drops the
@@ -77,6 +80,7 @@ function storeFirm(current: PublicFirm | null) {
 
 /** The firm of the address, its brand and the product's name, read once per page load. */
 function useFirmBrand() {
+  const isPlatform = computed(() => firm.value?.is_platform === true);
   const logoText = computed(() => firm.value?.logo_text ?? '');
   const logoUrl = computed(() => toStorageAssetPath(firm.value?.logo_url));
   const platformName = computed(() => firm.value?.platform?.name ?? '');
@@ -132,6 +136,7 @@ function useFirmBrand() {
     firm: readonly(firm),
     forget,
     isFirmMissing: readonly(isFirmMissing),
+    isPlatform,
     load,
     logoText,
     logoUrl,

@@ -14,20 +14,20 @@ const PLATFORM_FIRM = {
   brand_primary: '#1f4e79',
   business_hours: [{ weekdays: [1, 2, 3, 4, 5], from: '09:00', to: '18:00' }],
   is_platform: true,
-  logo_text: 'Hub da Reforma',
+  logo_text: 'Balancia',
   mailbox: null,
   modules: [],
-  name: 'Hub da Reforma',
+  name: 'Balancia',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   proof: null,
-  short_name: 'Hub da Reforma',
-  slug: 'hub',
+  short_name: 'Balancia',
+  slug: 'balancia',
 };
 
 const CONSENT = {
-  text: 'Autorizo a equipe do Hub da Reforma a entrar em contato comigo e com o meu escritório sobre o programa beta.',
+  text: 'Autorizo a equipe do Balancia a entrar em contato comigo e com o meu escritório sobre o programa beta.',
   version: 2,
 };
 
@@ -184,8 +184,10 @@ test.describe('the product landing on the root', () => {
 
     await expect(page.getByTestId('product-landing')).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Seus clientes vão perguntar da Reforma.');
-    await expect(page.getByTestId('product-name')).toHaveText('Hub da Reforma');
-    await expect(page.getByRole('banner')).toContainText('Hub da Reforma');
+    await expect(page.getByTestId('product-name')).toHaveText('Balancia');
+    // Balancia's own site wears Balancia's mark (APlatformLogo), never the name typed as text.
+    await expect(page.getByRole('banner').getByAltText('Balancia').filter({ visible: true }).first()).toBeVisible();
+    await expect(page.getByTestId('powered-by')).toHaveCount(0);
     await expect(page.getByTestId('header-cta')).toHaveText('Quero participar do beta');
     await expect(page.getByTestId('countdown').locator('[data-part]')).toHaveCount(4);
     await expect(page.getByTestId('product-fact')).toHaveCount(3);
@@ -196,7 +198,7 @@ test.describe('the product landing on the root', () => {
     await expect(page.getByTestId('product-beta')).toContainText(
       'Preço promocional para os escritórios do beta — fale com a gente'
     );
-    await expect(page).toHaveTitle('Hub da Reforma Tributária para escritórios de contabilidade · Hub da Reforma');
+    await expect(page).toHaveTitle('Balancia Tributária para escritórios de contabilidade · Balancia');
     await expect(page.locator('a[href*="diagnostico"]')).toHaveCount(0);
     await expect(page.getByTestId('hero-cta')).toHaveCount(0);
   });
@@ -243,7 +245,7 @@ test.describe('the product landing on the root', () => {
       await page.goto(rootUrl(baseURL));
       await expect(page.locator('html')).toHaveAttribute('data-theme', scheme);
       await expect(page.getByTestId('beta-consent-text')).toBeVisible();
-      await expect(page.getByRole('banner').getByText('Hub da Reforma').first()).toBeVisible();
+      await expect(page.getByRole('banner').getByAltText('Balancia').filter({ visible: true }).first()).toBeVisible();
       await page.addStyleTag({
         content: '*, *::before, *::after { transition: none !important; animation: none !important; }',
       });

@@ -36,7 +36,7 @@ const STUBS = {
 };
 
 function renderWith(modules: string[]) {
-  firm.value = { modules, name: 'Hub da Reforma', slug: 'hub' };
+  firm.value = { modules, name: 'Balancia', slug: 'balancia' };
 
   return renderWithPlugins(DiagnosticView, { global: { components: { Button }, stubs: STUBS } });
 }

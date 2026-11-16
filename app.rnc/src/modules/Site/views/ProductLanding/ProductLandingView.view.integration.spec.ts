@@ -63,7 +63,7 @@ describe('ProductLandingView', () => {
   it("names the product from the API and speaks to accounting firms, with the CBS's date and the countdown", async () => {
     renderProductLanding();
 
-    await waitFor(() => expect(screen.getByTestId('product-name').textContent).toContain('Hub da Reforma'));
+    await waitFor(() => expect(screen.getByTestId('product-name').textContent).toContain('Balancia'));
     expect(screen.getByRole('heading', { level: 1 }).textContent).toContain('accounting firm');
     expect(screen.getByTestId('product-urgency').textContent).toContain('01/01/2027');
     expect(screen.getByTestId('countdown')).toBeTruthy();

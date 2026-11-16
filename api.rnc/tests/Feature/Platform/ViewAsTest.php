@@ -336,7 +336,7 @@ describe('never inherited', function () {
     it('is ignored for a guest', function () {
         $this->withSession([ViewAsService::SESSION_KEY => $this->openRow->id]);
 
-        $this->getJson('/api/public/firm')->assertOk()->assertJsonPath('data.slug', 'hub');
+        $this->getJson('/api/public/firm')->assertOk()->assertJsonPath('data.slug', 'balancia');
     });
 });
 

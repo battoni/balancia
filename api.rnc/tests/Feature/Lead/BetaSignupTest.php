@@ -45,9 +45,9 @@ function betaLeads()
 
 beforeEach(function () {
     $this->seed([FirmSeeder::class, RoleSeeder::class, PlatformFirmSeeder::class]);
-    $this->hub = Firm::where('slug', 'hub')->firstOrFail();
+    $this->hub = Firm::where('slug', 'balancia')->firstOrFail();
     $this->franco = Firm::where('slug', 'franco')->firstOrFail();
-    config(['firms.default_slug' => 'hub']);
+    config(['firms.default_slug' => 'balancia']);
 });
 
 describe('POST /api/public/beta-signups at the root (A31)', function () {
@@ -185,7 +185,7 @@ describe('beta signups only on the platform firm (A31)', function () {
     });
 
     it('is a 404 with the platform slug in X-Firm (AM9)', function () {
-        $this->withHeader('X-Firm', 'hub')
+        $this->withHeader('X-Firm', 'balancia')
             ->postJson('/api/public/beta-signups', betaSignupBody())
             ->assertNotFound();
 

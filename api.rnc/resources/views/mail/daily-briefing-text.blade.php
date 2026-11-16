@@ -36,3 +36,7 @@
 @endif
 
 {{ __('mail.briefing.cta') }}: {{ $briefing->link() }}
+
+@if ($poweredBy)
+{{ __('mail.common.powered_by', ['platform' => $poweredBy]) }}
+@endif

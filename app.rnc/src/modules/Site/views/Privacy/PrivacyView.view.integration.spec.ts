@@ -56,7 +56,7 @@ describe('PrivacyView', () => {
 
     expect(controller.textContent).toContain('Alvorada Contábil');
     expect(controller.textContent).toContain('Rua das Palmeiras, 120, Centro, Campinas-SP');
-    expect(screen.getByTestId('privacy-operator').textContent).toContain('Hub da Reforma');
+    expect(screen.getByTestId('privacy-operator').textContent).toContain('Balancia');
 
     const requests = screen.getByTestId('privacy-requests');
 
@@ -89,7 +89,7 @@ describe('PrivacyView', () => {
     answerPrivacy({ data: PLATFORM_PRIVACY_FIXTURE });
     renderPrivacy();
 
-    expect((await screen.findByTestId('privacy-controller')).textContent).toContain('Hub da Reforma');
+    expect((await screen.findByTestId('privacy-controller')).textContent).toContain('Balancia');
     expect(screen.queryByTestId('privacy-operator')).toBeNull();
     expect(screen.queryByTestId('privacy-sharing')).toBeNull();
   });

@@ -92,6 +92,15 @@
                                 {{ __('mail.common.footer_reason') }}<br>
                             @endif
                             <a href="{{ $frontendUrl }}" style="color:{{ $ink }};text-decoration:underline;">{{ $frontendUrl }}</a>
+                            {{-- A tenant's message is signed by the product, discreetly: icon at 16px and the footer's own grey, one colour (brand/SYSTEM.md §5). --}}
+                            @if ($poweredBy)
+                                <br><br>
+                                <img
+                                    src="{{ isset($message) ? $message->embed($poweredByIcon) : 'data:image/png;base64,'.base64_encode((string) file_get_contents($poweredByIcon)) }}"
+                                    width="16" height="16" alt="" style="display:inline-block;width:16px;height:16px;vertical-align:-3px;border:0;"
+                                >
+                                {{ __('mail.common.powered_by', ['platform' => $poweredBy]) }}
+                            @endif
                         </td>
                     </tr>
                 </table>

@@ -223,10 +223,10 @@ describe('a manager, managing its team (A36)', function () {
 
 describe('the firm-less platform operator', function () {
     it('still gives the operador role (the refusal is for a firm member only)', function () {
-        config(['firms.default_slug' => 'hub']);
+        config(['firms.default_slug' => 'balancia']);
 
         $this->actingAs($this->operator)->postJson('/api/auth/users', firmUserPayload('operador'))->assertCreated();
 
-        expect(User::where('username', 'nova.pessoa')->value('firm_id'))->toBe(Firm::where('slug', 'hub')->value('id'));
+        expect(User::where('username', 'nova.pessoa')->value('firm_id'))->toBe(Firm::where('slug', 'balancia')->value('id'));
     });
 });

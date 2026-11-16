@@ -81,6 +81,9 @@ class AppServiceProvider extends ServiceProvider
      */
     private const NUMERIC_ROUTE_PARAMETERS = ['id'];
 
+    /** Balancia's icon, one colour (the footer's #71717a), 32px drawn at 16 — the "powered by" signature of a tenant's e-mail. */
+    private const POWERED_BY_ICON = 'images/mail/powered-by-icon.png';
+
     /**
      * Register any application services.
      */
@@ -133,6 +136,8 @@ class AppServiceProvider extends ServiceProvider
                 'brandName' => $brand->name,
                 'frontendUrl' => $brand->siteUrl,
                 'ink' => $brand->ink,
+                'poweredBy' => $brand->poweredBy,
+                'poweredByIcon' => resource_path(self::POWERED_BY_ICON),
             ]);
         });
 

@@ -105,8 +105,8 @@ describe('the password login', function () {
 
 describe('the platform operator (no firm)', function () {
     beforeEach(function () {
-        Firm::factory()->create(['slug' => 'hub', 'is_platform' => true]);
-        config(['firms.default_slug' => 'hub']);
+        Firm::factory()->create(['slug' => 'balancia', 'is_platform' => true]);
+        config(['firms.default_slug' => 'balancia']);
     });
 
     it('signs in at the root', function () {
@@ -203,8 +203,8 @@ describe('the QA login-as (AM8)', function () {
     });
 
     it('lets the operator in only at the root', function () {
-        Firm::factory()->create(['slug' => 'hub', 'is_platform' => true]);
-        config(['firms.default_slug' => 'hub']);
+        Firm::factory()->create(['slug' => 'balancia', 'is_platform' => true]);
+        config(['firms.default_slug' => 'balancia']);
         $operator = loginFirmOperator();
 
         get('http://franco.localhost/api/qa/login-as/operador.plataforma')->assertNotFound();

@@ -146,6 +146,7 @@ describe('refusals (A22)', function () {
     })->with([
         'reserved www' => ['www', 'firms.slugReserved'],
         'reserved hub' => ['hub', 'firms.slugReserved'],
+        'reserved balancia' => ['balancia', 'firms.slugReserved'],
         'malformed Acme!' => ['Acme!', 'firms.slugInvalid'],
         'malformed leading dash' => ['-acme', 'firms.slugInvalid'],
         'taken franco' => ['franco', 'firms.slugTaken'],

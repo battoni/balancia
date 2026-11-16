@@ -2,6 +2,19 @@
 
 All notable changes to this unit are documented here. Versioned with SemVer.
 
+## 1.16.0 — 2026-11-16
+
+### Changed
+
+- Balancia rename, step 3: `PLATFORM_NAME` defaults to Balancia; the platform firm's slug is `balancia`
+  (`hub` stays reserved, the old address) and its colours `#0e5a5c` / `#2fb7a3`; `MailBrand::platform()`
+  paints them.
+
+### Added
+
+- `MailBrand::$poweredBy`: the product's name on a tenant firm's message, null on the platform's; the
+  layout signs the footer with it (`MailPoweredByTest`).
+
 ## 1.15.0 — 2026-11-14
 
 ### Fixed

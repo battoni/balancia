@@ -1,5 +1,5 @@
 ---
-version: 2.7.0
+version: 2.8.0
 origin: pendulum
 based-on: 2.5.1
 ---
@@ -451,6 +451,21 @@ For a theme that changes the role mapping itself, or shares nothing with an exis
 **No component files change** — they only use role tokens and state palettes.
 
 ---
+
+## Balancia — the platform's own theme (`themes/balancia.css`)
+
+- **Source of truth for Balancia's colour and type** (brand/README.md). Every value carries a `usage:`
+  comment that `brand/design-system/extract.py` turns into `tokens.json`; after an edit run
+  `python3 brand/design-system/extract.py`, and `--check` must stay green (stale tokens, a contrast claim
+  that no longer measures true, or a ramp that drifted from `brandPalette` all fail it).
+- **Three reaches.** `:root` (Manrope, the `--brand-*` words) is every screen's; `:root[data-platform]`
+  (ramp and teal neutrals) and its dark twin are Balancia's own screens only — `useBrandTheme` sets
+  `data-platform` while the host firm is the platform firm. A tenant keeps its ramp and the bootstrap's
+  neutrals.
+- **The selectors outvote the theme by specificity**, not by order: `:root[data-platform]` (0,2,0) beats
+  `[data-theme='dark']`, and the dark platform block (0,3,0) beats both. A new override of a neutral on
+  the platform needs the same specificity. `hub.css`'s print block lists the platform selectors for this
+  reason.
 
 ## Known Gaps
 

@@ -22,7 +22,7 @@ const ALVORADA = {
   name: 'Alvorada Contabilidade',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   proof: null,
   short_name: 'Alvorada',
   slug: 'alvorada',

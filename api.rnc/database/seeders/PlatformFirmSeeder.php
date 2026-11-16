@@ -18,7 +18,7 @@ use Illuminate\Database\Seeder;
  */
 class PlatformFirmSeeder extends Seeder
 {
-    public const PLATFORM_SLUG = 'hub';
+    public const PLATFORM_SLUG = 'balancia';
 
     /**
      * What the root's only form — the beta signup (R29) — asks consent for (rnc-4 F6b, W66): contact
@@ -29,9 +29,9 @@ class PlatformFirmSeeder extends Seeder
 
     private const FIRST_CONSENT_VERSION = 1;
 
-    private const PRIMARY = '#1f4e79';
+    private const PRIMARY = '#0e5a5c';
 
-    private const ACCENT = '#f2a900';
+    private const ACCENT = '#2fb7a3';
 
     private const SHORT_NAME_LENGTH = 40;
 

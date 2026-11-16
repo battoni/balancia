@@ -71,7 +71,7 @@ describe('HomeView', () => {
   it('sends the firm-less operator on to the platform console and shows nothing', () => {
     const { queryAllByTestId } = renderAs(['home.read', 'users.read', 'platform.firms'], {
       firm: null,
-      platform: { is_operator: true, name: 'Hub da Reforma', view_as: null },
+      platform: { is_operator: true, name: 'Balancia', view_as: null },
     });
 
     expect(replace).toHaveBeenCalledWith({ name: 'platform-firms-en' });
@@ -84,7 +84,7 @@ describe('HomeView', () => {
       firm: null,
       platform: {
         is_operator: true,
-        name: 'Hub da Reforma',
+        name: 'Balancia',
         view_as: { modules: [], name: 'Alvorada Contabilidade', slug: 'alvorada' },
       },
     });
@@ -95,7 +95,7 @@ describe('HomeView', () => {
   it('keeps a person with a firm in the back office, whatever the platform says', () => {
     renderAs(['home.read', 'metrics.read'], {
       firm: { modules: [], name: 'Alvorada Contabilidade', slug: 'alvorada' },
-      platform: { is_operator: false, name: 'Hub da Reforma', view_as: null },
+      platform: { is_operator: false, name: 'Balancia', view_as: null },
     });
 
     expect(replace).not.toHaveBeenCalled();

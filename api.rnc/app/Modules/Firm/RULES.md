@@ -1,5 +1,5 @@
 ---
-version: 1.15.0
+version: 1.16.0
 origin: rnc
 ---
 # RULES — Firm Module
@@ -150,7 +150,7 @@ firms records of the Channel module, with no tenant.
 
 - **`FirmProvisioner`** is the one way a firm is made — `php artisan firm:create <slug> --name=
   --manager= [--email=] [--specialist]` today, the platform console (F4a) next. One transaction: the
-  firm (default `#1f4e79` / `#f2a900`, weekdays 09–18, name as logo text and short name, the e-mail as
+  firm (default `#1f4e79` / `#f2a900` — a new firm's, not Balancia's, weekdays 09–18, name as logo text and short name, the e-mail as
   mailbox), core + `briefing` through `FirmModulesService::set` (the actor is the console's operator,
   else the new manager), then as the firm (`runAs`): the six default sector pages
   (`SectorPageService::startFirm`), consent v1 (`ConsentTextService::startFirm`), the `gestao` manager

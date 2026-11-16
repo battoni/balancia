@@ -11,7 +11,7 @@ use Database\Seeders\PlatformFirmSeeder;
  * the firm's contact for a data request. An allow-list: no id, no timestamps, nothing of another firm.
  */
 beforeEach(function () {
-    config(['firms.default_slug' => PlatformFirmSeeder::PLATFORM_SLUG, 'platform.name' => 'Hub da Reforma']);
+    config(['firms.default_slug' => PlatformFirmSeeder::PLATFORM_SLUG, 'platform.name' => 'Balancia']);
     $this->seed([FirmSeeder::class, PlatformFirmSeeder::class]);
 });
 
@@ -33,7 +33,7 @@ describe('GET /api/public/privacy', function () {
             'address' => 'Rua das Acácias, 120, Campinas-SP',
             'is_platform' => false,
         ])
-            ->and($data['operator'])->toBe(['name' => 'Hub da Reforma'])
+            ->and($data['operator'])->toBe(['name' => 'Balancia'])
             ->and($data['requests'])->toBe(['email' => 'privacidade@alvorada.exemplo', 'phone' => '19 3333-4444'])
             ->and($data['collected'])->toContain('contact_name', 'email', 'phone', 'cnpj', 'company', 'diagnostic_answers', 'consent_records')
             ->and(array_column($data['retention'], 'data'))->toBe(['lead_data', 'consent_records', 'site_visits'])

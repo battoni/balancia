@@ -206,7 +206,7 @@ async function mockApp(page: Page, slug: keyof typeof FIRMS, user?: typeof mockU
           mailbox: null,
           phone: null,
           phone_href: null,
-          platform: { name: 'Hub da Reforma' },
+          platform: { name: 'Balancia' },
           proof: null,
           short_name: null,
           slug,
@@ -266,6 +266,6 @@ test("the back office writes the firm's logo text and the product's name, and ti
   await page.goto('/painel');
 
   await expect(page.getByTestId('navbar-firm-name')).toHaveText('Alvorada Contabilidade');
-  await expect(page.getByTestId('navbar-platform-name')).toHaveText('Hub da Reforma');
-  await expect(page).toHaveTitle('Hub da Reforma');
+  await expect(page.getByTestId('navbar-platform-name')).toHaveText('Balancia');
+  await expect(page).toHaveTitle('Balancia');
 });

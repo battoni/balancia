@@ -1,5 +1,5 @@
 ---
-version: 1.1.0
+version: 1.2.0
 origin: rnc
 ---
 
@@ -25,6 +25,9 @@ name (`platform.name`, R9) under them.
   "Sair").
 - `data-testid="navbar-firm-name"` and `navbar-platform-name` are what the specs and
   `e2e/brand/two-palettes.spec.ts` read.
+
+- **The platform firm's tile is Balancia's icon** (`APlatformLogo`, Balancia rename step 3), and the
+  `platform.name` line is left out there — "Balancia / Balancia" would name the product twice.
 
 ## Do Not
 

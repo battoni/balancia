@@ -3,6 +3,14 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.2.0 — 2026-11-16
+
+### Added
+
+- Balancia's mark on the platform firm's screens (Balancia rename, step 3): `APlatformLogo` while
+  `useFirmBrand().isPlatform`, `variant` and `tone` falling through (`tone="inherit"` is the white file on
+  the sign-in's teal band). Tenants unchanged.
+
 ## 1.1.0 — 2026-11-14
 
 ### Added

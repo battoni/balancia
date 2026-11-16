@@ -2,6 +2,7 @@ import { flushPromises } from '@vue/test-utils';
 import { delay, http, HttpResponse } from 'msw';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import ALogo from '@/components/atoms/ALogo/ALogo.vue';
+import APlatformLogo from '@/components/atoms/APlatformLogo/APlatformLogo.vue';
 import { mountWithPlugins } from '@/test/mount';
 import { server } from '@/test/msw/server';
 
@@ -19,7 +20,7 @@ const ALVORADA = {
   name: 'Alvorada Contabilidade',
   phone: null,
   phone_href: null,
-  platform: { name: 'Hub da Reforma' },
+  platform: { name: 'Balancia' },
   slug: 'alvorada',
 };
 
@@ -31,7 +32,7 @@ async function mountBrand() {
 
   await useFirmBrand().load();
 
-  const wrapper = mountWithPlugins(MNavbarBrand, { global: { components: { ALogo } } });
+  const wrapper = mountWithPlugins(MNavbarBrand, { global: { components: { ALogo, APlatformLogo } } });
 
   await flushPromises();
 
@@ -49,7 +50,7 @@ describe('MNavbarBrand', () => {
 
     expect(wrapper.find('[role="img"]').attributes('aria-label')).toBe('Alvorada Contabilidade');
     expect(wrapper.find('[data-testid="navbar-firm-name"]').text()).toBe('Alvorada Contabilidade');
-    expect(wrapper.find('[data-testid="navbar-platform-name"]').text()).toBe('Hub da Reforma');
+    expect(wrapper.find('[data-testid="navbar-platform-name"]').text()).toBe('Balancia');
   });
 
   it('writes no other firm while the answer is on its way', async () => {
@@ -63,7 +64,7 @@ describe('MNavbarBrand', () => {
     vi.resetModules();
 
     const { default: MNavbarBrand } = await import('./MNavbarBrand.vue');
-    const wrapper = mountWithPlugins(MNavbarBrand, { global: { components: { ALogo } } });
+    const wrapper = mountWithPlugins(MNavbarBrand, { global: { components: { ALogo, APlatformLogo } } });
 
     expect(wrapper.text()).not.toContain('Franco');
     expect(wrapper.find('[role="img"]').exists()).toBe(false);
@@ -82,5 +83,20 @@ describe('MNavbarBrand', () => {
 
     expect(image.attributes('src')).toBe('/storage/firms/3/logo.png');
     expect(image.attributes('alt')).toBe('Alvorada Contabilidade');
+  });
+
+  // Balancia rename, step 3: the console's tile is Balancia's icon, and the product is not named twice.
+  it("shows Balancia's icon in the platform firm's tile, without repeating the product's name", async () => {
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { ...ALVORADA, is_platform: true, logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' } })
+      )
+    );
+
+    const wrapper = await mountBrand();
+
+    expect(wrapper.find('img[data-testid="platform-logo-light"]').attributes('src')).toContain('balancia-icon');
+    expect(wrapper.find('[data-testid="navbar-firm-name"]').text()).toBe('Balancia');
+    expect(wrapper.find('[data-testid="navbar-platform-name"]').exists()).toBe(false);
   });
 });

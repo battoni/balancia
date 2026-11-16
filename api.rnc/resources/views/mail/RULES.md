@@ -1,5 +1,5 @@
 ---
-version: 1.4.0
+version: 1.5.0
 origin: pendulum
 based-on: 1.0.0
 ---
@@ -13,6 +13,12 @@ based-on: 1.0.0
 Every e-mail the API sends. `layout.blade.php` is the chrome; each message extends it and
 fills `@section('body')`.
 
+
+- **A tenant's message is signed "powered by Balancia"** (`$poweredBy`, from `MailBrand`): the icon is a
+  PNG file embedded with `$message->embed()` (Gmail drops SVG and data URIs), recoloured to the footer's
+  `#71717a` so icon and words are one colour. The preview, which has no `$message`, inlines it as a data
+  URI. Re-render it with `rsvg-convert` from `brand/logo/balancia-icon-mono.svg` if the footer's grey
+  changes.
 ## Intentional Decisions
 
 - **Tables and inline styles, and this is not a style choice.** An e-mail client is not a

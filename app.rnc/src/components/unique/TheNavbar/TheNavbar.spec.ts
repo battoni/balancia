@@ -579,7 +579,7 @@ describe('TheNavbar — logout', () => {
 
     server.use(
       http.get('http://localhost/public/firm', () =>
-        HttpResponse.json({ data: { logo_text: 'Hub da Reforma', name: 'Hub da Reforma', slug: 'hub' } })
+        HttpResponse.json({ data: { logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' } })
       )
     );
     forgetFirm.mockImplementationOnce(forget);
@@ -592,7 +592,7 @@ describe('TheNavbar — logout', () => {
 
     await wrapper.findComponent(desktopStub).vm.$emit('logout');
 
-    await vi.waitFor(() => expect(firm.value?.slug).toBe('hub'));
+    await vi.waitFor(() => expect(firm.value?.slug).toBe('balancia'));
   });
 
   it('keeps the stores when the logout request fails', async () => {
