@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" data-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Battoni Dev] [Balancia] Design system</title>
+<link rel="icon" href="assets/logo/balancia-icon.svg">
+<style>
+@font-face{font-family:Manrope;src:url(assets/fonts/Manrope-Variable.ttf);font-weight:200 800}
+:root{--brand-teal:#0e5a5c;--brand-mint:#2fb7a3;--brand-pale-mint:#bfeee5;--color-primary-50:#e6f6f4;--color-primary-100:#c0e9e3;--color-primary-200:#8dd7cc;--color-primary-300:#2fb7a3;--color-primary-400:#35948c;--color-primary-500:#0e5a5c;--color-primary-600:#0c4c4e;--color-primary-700:#0a3f40;--color-primary-800:#083233;--color-primary-900:#062425;--color-primary-950:#041617;--color-canvas:#ffffff;--color-panel:#f2f6f6;--color-panel-muted:#e2eaea;--color-heading:#0f1f20;--color-body:#1b2b2c;--color-muted:#506264;--color-subtle:#6f8384;--color-line:#d3dede;--color-line-strong:#c3d0d0;--font-sans:'Manrope', ui-sans-serif, system-ui, sans-serif;--font-mono:'Sometype Mono', ui-monospace, monospace;--motion-instant:90ms;--motion-quick:180ms;--motion-calm:320ms;--motion-settle:520ms;--motion-ease-settle:cubic-bezier(0.32, 0.72, 0, 1);--motion-ease-drift:cubic-bezier(0.12, 0.6, 0.25, 1);--motion-stagger:55ms;}
+[data-theme='dark']{--color-canvas:#0b1416;--color-panel:#111d20;--color-panel-muted:#17262a;--color-heading:#e8f6f3;--color-body:#d3e3e1;--color-muted:#8ea3a2;--color-subtle:#728887;--color-line:#22363a;--color-line-strong:#2e464a;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-canvas);color:var(--color-body);font:14px/1.55 var(--font-sans);
+  transition:background var(--motion-quick) ease-out,color var(--motion-quick) ease-out}
+main{margin:0 auto;padding:40px 48px 80px;max-width:1280px}
+h1,h2,h3{color:var(--color-heading);margin:0} h2{font-size:24px;margin:56px 0 6px} h3{font-size:16px;margin:0 0 8px}
+p.lede{color:var(--color-muted);margin:0 0 20px}
+header{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:28px 0 8px}
+.logo-light{display:block} .logo-dark{display:none}
+[data-theme='dark'] .logo-light{display:none} [data-theme='dark'] .logo-dark{display:block}
+button.toggle{font:600 13px var(--font-sans);border:1px solid var(--color-line-strong);background:var(--color-panel);
+  color:var(--color-heading);border-radius:8px;padding:8px 14px;cursor:pointer;transition:background var(--motion-quick) ease-out}
+button.toggle:hover{background:var(--color-panel-muted)}
+.grid{display:grid;gap:14px} .g4{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))} .g2{grid-template-columns:1fr 1fr}
+.card{background:var(--color-panel);border:1px solid var(--color-line);border-radius:12px;padding:16px}
+.sw{height:64px;border-radius:8px;border:1px solid var(--color-line);margin-bottom:10px}
+.tok{font:12px var(--font-mono);color:var(--color-muted)} .use{font-size:12px;color:var(--color-muted)}
+.ratio{font:600 12px var(--font-mono);color:var(--color-heading)}
+.ramp{display:flex;border-radius:10px;overflow:hidden;border:1px solid var(--color-line)}
+.ramp div{flex:1;height:72px;display:flex;align-items:flex-end;padding:6px;font:11px var(--font-mono)}
+.stage{display:flex;align-items:center;justify-content:center;border-radius:12px;padding:36px;min-height:180px}
+.stage.l{background:#ffffff;border:1px solid var(--color-line)} .stage.d{background:#0b1416}
+.clear{outline:2px dashed #2fb7a3;outline-offset:18px}
+.row{display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.yes,.no{border-radius:10px;padding:12px 14px;font-size:13px}
+.yes{background:var(--color-primary-50);color:#0f1f20;border-left:4px solid var(--color-primary-500)}
+.no{background:var(--color-panel-muted);color:var(--color-muted);border-left:4px solid var(--color-line-strong);text-decoration:line-through}
+[data-theme='dark'] .yes{background:var(--color-primary-900);color:var(--color-heading);border-left-color:var(--color-primary-300)}
+.demo{height:44px;width:44px;border-radius:10px;background:var(--color-primary-500)}
+.demo.a{animation:rise var(--motion-calm) cubic-bezier(0.32,0.72,0,1) infinite alternate}
+@keyframes rise{from{transform:translateY(8px);opacity:.4}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+ul.check li{margin:6px 0}
+.shot{background:var(--color-primary-50);border-radius:12px;padding:28px}
+.shot div{background:#fff;border-radius:12px;border:1px solid #d3dede;height:120px;box-shadow:0 1px 2px rgb(10 10 9 / .06)}
+</style></head><body><main>
+<header>
+  <div><img class="logo-light" src="assets/logo/balancia-logo.svg" alt="Balancia" height="56">
+       <img class="logo-dark" src="assets/logo/balancia-logo-dark.svg" alt="Balancia" height="56"></div>
+  <button class="toggle" onclick="var h=document.documentElement;h.dataset.theme=h.dataset.theme==='dark'?'light':'dark'">Light / dark</button>
+</header>
+<p class="lede">Design system v1 · 16/11/2026 · generated by <code>brand/design-system/extract.py</code> from <code>balancia.css</code>. The rules are in <code>brand/SYSTEM.md</code>.</p>
+
+<h2>Colour</h2><p class="lede">Contrast measured against the canvas of the current scheme. Toggle the scheme to see the other.</p>
+<div class="ramp"><div style="background:#e6f6f4;color:#0f1f20">50</div><div style="background:#c0e9e3;color:#0f1f20">100</div><div style="background:#8dd7cc;color:#0f1f20">200</div><div style="background:#2fb7a3;color:#0f1f20">300</div><div style="background:#35948c;color:#ffffff">400</div><div style="background:#0e5a5c;color:#ffffff">500</div><div style="background:#0c4c4e;color:#ffffff">600</div><div style="background:#0a3f40;color:#ffffff">700</div><div style="background:#083233;color:#ffffff">800</div><div style="background:#062425;color:#ffffff">900</div><div style="background:#041617;color:#ffffff">950</div></div><br>
+<div class="grid g4"><div class="card"><div class="sw" style="background:var(--brand-teal)"></div><div class="tok">--brand-teal</div><div class="ratio" data-c="--brand-teal"></div><div class="use">primary brand colour; the logo's top form; text and fills on light</div></div><div class="card"><div class="sw" style="background:var(--brand-mint)"></div><div class="tok">--brand-mint</div><div class="ratio" data-c="--brand-mint"></div><div class="use">accent; the logo's bottom form; the mark on dark; never text on light</div></div><div class="card"><div class="sw" style="background:var(--color-canvas)"></div><div class="tok">--color-canvas</div><div class="ratio" data-c="--color-canvas"></div><div class="use">page background</div></div><div class="card"><div class="sw" style="background:var(--color-panel)"></div><div class="tok">--color-panel</div><div class="ratio" data-c="--color-panel"></div><div class="use">cards, sidebars, inputs</div></div><div class="card"><div class="sw" style="background:var(--color-panel-muted)"></div><div class="tok">--color-panel-muted</div><div class="ratio" data-c="--color-panel-muted"></div><div class="use">nested panels, table headers</div></div><div class="card"><div class="sw" style="background:var(--color-heading)"></div><div class="tok">--color-heading</div><div class="ratio" data-c="--color-heading"></div><div class="use">headings</div></div><div class="card"><div class="sw" style="background:var(--color-body)"></div><div class="tok">--color-body</div><div class="ratio" data-c="--color-body"></div><div class="use">body text</div></div><div class="card"><div class="sw" style="background:var(--color-muted)"></div><div class="tok">--color-muted</div><div class="ratio" data-c="--color-muted"></div><div class="use">secondary text</div></div><div class="card"><div class="sw" style="background:var(--color-subtle)"></div><div class="tok">--color-subtle</div><div class="ratio" data-c="--color-subtle"></div><div class="use">placeholders, disabled text, large text only</div></div><div class="card"><div class="sw" style="background:var(--color-line)"></div><div class="tok">--color-line</div><div class="ratio" data-c="--color-line"></div><div class="use">borders and dividers</div></div><div class="card"><div class="sw" style="background:var(--color-line-strong)"></div><div class="tok">--color-line-strong</div><div class="ratio" data-c="--color-line-strong"></div><div class="use">input borders, emphasised dividers</div></div></div>
+<div class="grid g4" style="margin-top:14px"><div class="card"><div class="sw" style="background:#22c55e"></div><div class="tok">--color-success-500 #22c55e</div></div><div class="card"><div class="sw" style="background:#3b82f6"></div><div class="tok">--color-info-500 #3b82f6</div></div><div class="card"><div class="sw" style="background:#f59e0b"></div><div class="tok">--color-warn-500 #f59e0b</div></div><div class="card"><div class="sw" style="background:#ef4444"></div><div class="tok">--color-danger-500 #ef4444</div></div></div>
+
+<h2>Type</h2><p class="lede">Manrope everywhere. 12px is the floor.</p>
+<div class="card"><div style="font-size:48px;font-weight:800;line-height:1.1;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">display · 48px / 800</span></div><div style="font-size:32px;font-weight:700;line-height:1.2;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">h1 · 32px / 700</span></div><div style="font-size:24px;font-weight:700;line-height:1.25;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">h2 · 24px / 700</span></div><div style="font-size:18px;font-weight:600;line-height:1.35;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">h3 · 18px / 600</span></div><div style="font-size:14px;font-weight:400;line-height:1.55;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">body · 14px / 400</span></div><div style="font-size:13px;font-weight:500;line-height:1.4;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">label · 13px / 500</span></div><div style="font-size:12px;font-weight:500;line-height:1.4;color:var(--color-heading);margin:10px 0">Escritório que cresce <span class="tok">caption · 12px / 500</span></div><div style="font-size:28px;font-weight:700;line-height:1;color:var(--color-heading);margin:10px 0">R$ 18.300 <span class="tok">figure · inherit / 700</span></div></div>
+
+<h2>Radius, relief, motion</h2><p class="lede">Inherited from the bootstrap; Balancia does not override them.</p>
+<div class="grid g4"><div class="card"><div style="height:56px;background:var(--color-primary-50);border:1px solid var(--color-primary-200);border-radius:3px"></div><div class="tok">--radius-xs 3px</div></div><div class="card"><div style="height:56px;background:var(--color-primary-50);border:1px solid var(--color-primary-200);border-radius:5px"></div><div class="tok">--radius-sm 5px</div></div><div class="card"><div style="height:56px;background:var(--color-primary-50);border:1px solid var(--color-primary-200);border-radius:8px"></div><div class="tok">--radius-md 8px</div></div><div class="card"><div style="height:56px;background:var(--color-primary-50);border:1px solid var(--color-primary-200);border-radius:12px"></div><div class="tok">--radius-lg 12px</div></div><div class="card"><div style="height:56px;background:var(--color-primary-50);border:1px solid var(--color-primary-200);border-radius:16px"></div><div class="tok">--radius-xl 16px</div></div></div><br>
+<div class="grid g4"><div class="card"><div class="tok">--motion-instant</div><div class="ratio">90ms</div></div><div class="card"><div class="tok">--motion-quick</div><div class="ratio">180ms</div></div><div class="card"><div class="tok">--motion-calm</div><div class="ratio">320ms</div></div><div class="card"><div class="tok">--motion-settle</div><div class="ratio">520ms</div></div><div class="card"><div class="tok">--motion-ease-settle</div><div class="ratio">cubic-bezier(0.32, 0.72, 0, 1)</div></div><div class="card"><div class="tok">--motion-ease-drift</div><div class="ratio">cubic-bezier(0.12, 0.6, 0.25, 1)</div></div><div class="card"><div class="tok">--motion-stagger</div><div class="ratio">55ms</div></div></div>
+
+<h2>The mark</h2><p class="lede">Full lockup and icon, on light and on dark. The dashed line is the clear space (0.25 × icon height). Minimum: lockup 20px tall, icon 16px.</p>
+<div class="grid g2">
+  <div class="stage l"><img class="clear" src="assets/logo/balancia-logo.svg" height="72" alt=""></div>
+  <div class="stage d"><img class="clear" src="assets/logo/balancia-logo-dark.svg" height="72" alt=""></div>
+  <div class="stage l"><div class="row"><img src="assets/logo/balancia-icon.svg" width="96" alt=""><img src="assets/logo/balancia-icon.svg" width="32" alt=""><img src="assets/logo/balancia-icon.svg" width="16" alt=""><img src="assets/logo/balancia-logo.svg" height="20" alt=""></div></div>
+  <div class="stage d"><div class="row"><img src="assets/logo/balancia-icon-dark.svg" width="96" alt=""><img src="assets/logo/balancia-icon-dark.svg" width="32" alt=""><img src="assets/logo/balancia-icon-dark.svg" width="16" alt=""><img src="assets/logo/balancia-logo-dark.svg" height="20" alt=""></div></div>
+</div>
+
+<h2>Voice</h2><p class="lede">"Você", direct and calm. Lead with the number. No humour, no emoji in the product.</p>
+<div class="grid" style="gap:10px"><div class="pair"><div class="yes">Não conseguimos salvar o reajuste. Seus dados estão intactos; tente de novo em instantes.</div><div class="no">Erro 500: falha ao processar a requisição.</div></div><div class="pair"><div class="yes">Carta pronta: 42 clientes, R$ 18.300 a mais por ano.</div><div class="no">Prontinho! 🎉 Sua carta foi gerada com sucesso!</div></div><div class="pair"><div class="yes">3 contatos novos esta semana. Marina, da Padaria Alvorada, marcou reunião para quinta.</div><div class="no">Bora vender mais! Seu funil está bombando 🚀</div></div></div>
+
+<h2>Imagery</h2><p class="lede">Real screenshots on a soft teal tint, 12px radius, no tilt, no glow. Photos only of real customers.</p>
+<div class="grid g2"><div class="shot"><div></div></div><div class="card"><h3>Never</h3>Stock photos of accountants · 3D-tilted mockups · Reforma, flag or government imagery · glowing gradients</div></div>
+
+<h2>Icons and motion</h2><p class="lede">Font Awesome 7 Regular; Solid only for the active state. 150–200ms ease-out. With reduced motion, nothing moves and everything still works.</p>
+<div class="row"><div class="demo a"></div><div class="use">quick 180ms · calm 320ms · settle curve cubic-bezier(0.32, 0.72, 0, 1)</div></div>
+
+<h2>Delivery checklist</h2>
+<div class="card"><ul class="check"><li>Every text pair measured: 4.5:1 (3:1 for icons and large text), in light and in dark</li><li>Only tokens: no loose hex, no framework default palette</li><li>Manrope, 12px or larger; figures in tabular numbers</li><li>The logo is a file from assets/logo, at 16px or larger, with its clear space, on its matching ground</li><li>Voice: você, number first, no humour, no emoji, glossary words (escritório, contato, reajuste de honorários, diagnóstico)</li><li>Images: real screenshots or real customers only</li><li>Works with prefers-reduced-motion: nothing moves, nothing breaks</li><li>Nothing says Reforma as brand, nothing says grátis, nothing looks like government</li></ul></div>
+</main><script>
+function lum(h){h=h.trim().replace('#','');return [0,2,4].map(i=>{let c=parseInt(h.substr(i,2),16)/255;return c<=0.03928?c/12.92:((c+0.055)/1.055)**2.4}).reduce((a,c,i)=>a+c*[0.2126,0.7152,0.0722][i],0)}
+function cr(a,b){let x=lum(a),y=lum(b);if(x<y)[x,y]=[y,x];return ((x+0.05)/(y+0.05)).toFixed(2)}
+function paint(){const s=getComputedStyle(document.documentElement),bg=s.getPropertyValue('--color-canvas');
+document.querySelectorAll('[data-c]').forEach(e=>{e.textContent=cr(s.getPropertyValue(e.dataset.c),bg)+':1 on canvas'})}
+paint();new MutationObserver(paint).observe(document.documentElement,{attributes:true});
+</script></body></html>

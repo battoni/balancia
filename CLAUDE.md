@@ -37,6 +37,16 @@ Local stack: `make serve-api` (http://localhost:8000), `make serve-app` (http://
 | `.claude/hooks/` | `pre-edit-rules.sh` injects the `RULES.md` chain before an Edit/Write in `app.rnc/src/`; `pre-bash-guard.sh` blocks force pushes, `rm -rf /` or `~`, `DROP TABLE` and writes to a raw disk, and by the hook's `cwd` keeps the main checkout on `main` (no branch move, commit, merge, cherry-pick, revert or `gh pr checkout` there) and each worktree on its own branch; `post-edit.sh` runs Pint on the edited api.rnc PHP file and ESLint on the edited app.rnc Vue/TS file. Tests: `cortex/hooks/test_claude_hooks.py` |
 | `.cursor/rules/` | Cursor mirrors in `.mdc` format — every rule and command, and the skills `celer-testing`, `cortex-backport`, `cortex-sync` and `docs-portal` (the other skills have no Cursor counterpart) — plus `celer-folder-*` and the always-loaded `project-context.mdc`. Bodies stay identical to `.claude`: `make sync-mirror-check` |
 
+## Design system
+
+The platform's product brand is **Balancia** (decided 16/11/2026; it replaces the placeholder
+"Hub da Reforma"). Each firm keeps its own brand, so Franco's navy and cyan are a tenant theme, not
+Balancia's. Before you create anything for Balancia's own surfaces (root site, platform console,
+login, pitch), read `brand/SYSTEM.md`. The rendered copy is `brand/design-system/index.html`.
+Precedence: the theme in code (`brand/design-system/balancia.css` until it moves into
+`app.rnc/src/styles/theme/`), then `brand/SYSTEM.md`, then the rest of `brand/`, where
+`brand/SURVEY.md` holds the decisions.
+
 ## Toolchain
 
 - **Node 24** for app.rnc (`source ~/.nvm/nvm.sh && nvm use 24`; the shell default is 20). On Node 20 the Vitest suite dies with `ERR_REQUIRE_ESM` (seen in lifeshifter), which reads like a broken test, not a wrong runtime.
