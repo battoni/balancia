@@ -48,9 +48,11 @@ demo is gone after the next deploy. A production deploy does not copy this — s
   `certbot --nginx --expand -d balancia.battoni.dev -d www.balancia.battoni.dev -d franco.balancia.battoni.dev -d alvorada.balancia.battoni.dev -d <slug>.balancia.battoni.dev`.
 - **`fastcgi_param SCRIPT_NAME /index.php`** in the `/api/` location. `fastcgi_params` sets it to
   the request path, and Symfony would take `/api/…` as the base URL.
-- **Mail** goes through Resend from `nao-responda@mail.balancia.battoni.dev` once `resend_key`
-  exists and the domain is verified; until then `MAIL_MAILER=log`. Re-run `make_env.py` after
-  adding the key, then `php artisan optimize` as `www-data`.
+- **Mail** goes through Resend from `nao-responda@mail.battoni.dev`, the domain Battoni Dev already
+  verified (a staging demo needs no sending domain of its own — owner, 17/11/2026). The key is
+  send-only, so Resend will not list its domains; a test send from a domain it does not cover is
+  refused with a 403 before anything goes out. Without `resend_key`, `MAIL_MAILER=log`. After
+  changing the key: re-run `make_env.py`, then `php artisan optimize` as `www-data`.
 
 ## Setting it up again
 
