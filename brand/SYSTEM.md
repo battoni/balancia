@@ -62,6 +62,7 @@ These are inherited from the bootstrap.
 
 - **Full lockup** (`balancia-logo*.svg`): headers, login, site, slides. Use it whenever there is width.
 - **Icon alone** (`balancia-icon*.svg`): favicon, square avatars, the "powered by" signature, tight spaces.
+- **WhatsApp and other circular avatars** (`logo/social/balancia-whatsapp-*.png`, 640×640): the icon at 56% of the square, centred, so the circle crop keeps clear space around it. `-teal` is the default; `-light` and `-dark` for a light or dark profile. Regenerate from the `.svg` beside each (`rsvg-convert -w 640`).
 - **Clear space:** 0.25 × icon height on every side.
 - **Minimum size:** lockup 20px tall, icon 16px.
 - **Match the background:** `-dark` on dark, the default on light, `-white` on teal or on a photo with a scrim, `-mono` for one-colour print.
