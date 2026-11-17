@@ -112,6 +112,19 @@ def git_out(cwd: Path, *args: str, strip: bool = True) -> str:
     return result.stdout.strip() if strip else result.stdout
 
 
+def project_name(main: Path) -> str:
+    """The project's name: `PROJECT` in the main checkout's `.cortex-sync.conf`, else its folder name.
+
+    The folder can outlive a rename (rnc became balancia while the checkout stayed in `rnc/`), and
+    the name picks the `api.<project>` folder, the database prefix and the port block."""
+    try:
+        conf = (main / '.cortex-sync.conf').read_text()
+    except OSError:
+        return main.name
+    match = re.search(r'^PROJECT=([A-Za-z0-9._-]+)\s*$', conf, re.MULTILINE)
+    return match.group(1) if match else main.name
+
+
 def main_checkout(path: Path) -> Path:
     """The main checkout of the repo `path` sits in, from a worktree or a subfolder alike."""
     common = git_out(path, 'rev-parse', '--path-format=absolute', '--git-common-dir')
@@ -181,7 +194,7 @@ def allocate_ports(wt: Path) -> dict:
     """Base, slot, Vite and e2e ports for the worktree at `wt` (its own record's slot is kept)."""
     wt = wt.resolve()
     main = main_checkout(wt)
-    project = main.name
+    project = project_name(main)
     wt_id = wt.name
     base = claim_block(project, port_file())
 
@@ -228,7 +241,7 @@ def e2e_port(cwd: Path) -> int:
     main = main_checkout(cwd)
     here = Path(git_out(cwd, 'rev-parse', '--show-toplevel')).resolve()
     if here == main:
-        return claim_block(main.name, port_file()) + E2E_OFFSET
+        return claim_block(project_name(main), port_file()) + E2E_OFFSET
     e2e = ((read_record(here) or {}).get('ports') or {}).get('e2e')
     if isinstance(e2e, int):
         return e2e
@@ -404,7 +417,7 @@ def ref_exists(repo: Path, ref: str) -> bool:
 
 def label_holder(main: Path, lbl: str, skip: Path | None = None) -> str | None:
     """The worktree whose record (or, without one, whose folder name) already has this label."""
-    project = main.name
+    project = project_name(main)
     for path in worktree_paths(main):
         if path == main or path == skip:
             continue
@@ -510,7 +523,7 @@ def new_worktree(cwd: Path, wt_id: str, branch: str | None = None, slug: str | N
     if slug is not None and not SLUG_RE.fullmatch(slug):
         raise WtError(f'"{slug}" is not a kebab-case slug')
     main = main_checkout(cwd)
-    project = main.name
+    project = project_name(main)
     lbl = label(wt_id, project)
     wt = main / '.claude' / 'worktrees' / wt_id
     if wt.exists():
@@ -690,7 +703,7 @@ def copy_database(env: dict[str, str], source: str, target: str) -> bool:
 
 def up_worktree(cwd: Path) -> dict:
     main, wt = worktree_root(cwd)
-    project = main.name
+    project = project_name(main)
     record = read_record(wt) or {}
     lbl = record.get('label') or label(wt.name, project)
     database = record.get('database') or f'{project}_{lbl}'
@@ -764,7 +777,7 @@ def vite_servers() -> int:
 
 def run_app(cwd: Path) -> int:
     main, wt = worktree_root(cwd)
-    project = main.name
+    project = project_name(main)
     ports = (read_record(wt) or {}).get('ports') or {}
     app = wt / f'app.{project}'
     if not isinstance(ports.get('vite'), int) or not (app / '.env').is_file():
@@ -880,7 +893,7 @@ class Teardown:
 
     def __init__(self, main: Path, wt: Path) -> None:
         self.main, self.wt = main, wt
-        self.project = main.name
+        self.project = project_name(main)
         record = read_record(wt) or {}
         self.id = record.get('id') or wt.name
         self.label = record.get('label') or label(wt.name, self.project)
