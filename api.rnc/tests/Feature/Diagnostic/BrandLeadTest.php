@@ -4,7 +4,6 @@ use App\Modules\Booking\Mail\BookingConfirmed;
 use App\Modules\Booking\Models\Specialist;
 use App\Modules\Firm\Models\Firm;
 use App\Modules\Firm\Models\FirmBrand;
-use App\Modules\Lead\Helpers\ConsentTerms;
 use App\Modules\Lead\Models\Lead;
 use App\Modules\Lead\Models\LeadConsent;
 use Carbon\CarbonImmutable;
@@ -25,11 +24,15 @@ use Illuminate\Support\Facades\Mail;
  */
 const BRAND_LEAD_VISITOR = '0b7d4c9e-2f1a-4e3b-8c5d-6a7b8c9d0e1f';
 
+/** Franco's v1 for the main brand (rnc-4 F2a, C5): its name in the placeholder. */
+const FRANCO_MAIN_CONSENT = 'Autorizo a Franco Contabilidade a me apresentar a especialistas da Rede de Especialistas Franco quando o diagnóstico indicar.';
+
 const PRIME_CONSENT = 'Autorizo a Franco Prime Contabilidade a me apresentar a especialistas da Rede de Especialistas Franco quando o diagnóstico indicar.';
 
 function startBrandDiagnostic(?string $brand, string $visitor = BRAND_LEAD_VISITOR): string
 {
-    $request = $brand === null ? test() : test()->withHeader('X-Brand', $brand);
+    // `withHeader` stays on the test case: the main brand's start must drop it, not inherit the last one.
+    $request = $brand === null ? test()->withoutHeader('X-Brand') : test()->withHeader('X-Brand', $brand);
 
     return $request->postJson('/api/public/diagnostics', ['visitor' => $visitor, 'path' => 'quiz', 'source' => 'direto'])
         ->assertCreated()
@@ -95,11 +98,29 @@ describe('a lead started under a brand (A3)', function () {
         expect(brandLeadOf($token)->brand_id)->toBe($this->prime->id);
     });
 
-    it('keeps its brand when the same visitor starts again under another one', function () {
-        $token = startBrandDiagnostic('prime');
+    /*
+     * rnc-4 C24 (Chrome QA 4.11/4.12): the visitor's open Prime `visitante` was started again under the
+     * main brand, so a page titled "Franco Contabilidade" showed Prime's consent and finished a lead labelled
+     * "Franco Prime". A start under another brand is a lead of THAT brand; the Prime one is left as it was,
+     * and going back to Prime starts it again.
+     */
+    it('starts a lead of the new brand when the same visitor starts again under another one', function () {
+        $prime = startBrandDiagnostic('prime');
+        $main = startBrandDiagnostic(null);
 
-        expect(startBrandDiagnostic('express'))->toBe($token)
-            ->and(brandLeadOf($token)->brand_id)->toBe($this->prime->id);
+        expect($main)->not->toBe($prime)
+            ->and(brandLeadOf($main)->brand_id)->toBeNull()
+            ->and(brandLeadOf($prime)->brand_id)->toBe($this->prime->id)
+            ->and(startBrandDiagnostic('prime'))->toBe($prime)
+            ->and(startBrandDiagnostic(null))->toBe($main);
+    });
+
+    it("answers the main brand's consent to a visitor who had started under Prime", function () {
+        startBrandDiagnostic('prime');
+
+        $this->withoutHeader('X-Brand')->postJson('/api/public/diagnostics', ['visitor' => BRAND_LEAD_VISITOR, 'path' => 'quiz', 'source' => 'direto'])
+            ->assertCreated()
+            ->assertJsonPath('data.consent.text', FRANCO_MAIN_CONSENT);
     });
 
     it('shows and stores a consent that names Prime', function () {
@@ -115,14 +136,14 @@ describe('a lead started under a brand (A3)', function () {
     it("keeps Franco's own consent words for the main brand", function () {
         $token = startBrandDiagnostic(null);
 
-        $this->patchJson("/api/public/diagnostics/{$token}", brandContact())->assertOk()->assertJsonPath('data.consent.text', ConsentTerms::TEXT);
+        $this->patchJson("/api/public/diagnostics/{$token}", brandContact())->assertOk()->assertJsonPath('data.consent.text', FRANCO_MAIN_CONSENT);
     });
 });
 
 describe("the confirmation e-mail of a brand's lead (A3)", function () {
     beforeEach(fn () => $this->seed([LocalUsersSeeder::class, SpecialistSeeder::class]));
 
-    it("is from Franco Prime Contabilidade at Franco's mailbox, and signed by it", function () {
+    it("is from Franco Prime Contabilidade, replies to Franco's mailbox, and is signed by it", function () {
         bookBrandLead($this->prime->id);
 
         Mail::assertQueued(BookingConfirmed::class, function (BookingConfirmed $mail) {
@@ -130,7 +151,9 @@ describe("the confirmation e-mail of a brand's lead (A3)", function () {
 
             $mail->assertSeeInHtml('Franco Prime Contabilidade')->assertSeeInText('Franco Prime Contabilidade');
 
-            return $from?->address === $this->franco->mailbox && $from->name === 'Franco Prime Contabilidade';
+            // From the platform's verified address under the brand's name; replies go to the firm (rnc-4 D11).
+            return $from?->address === config('mail.from.address') && $from->name === 'Franco Prime Contabilidade'
+                && $mail->envelope()->replyTo[0]->address === $this->franco->mailbox;
         });
     });
 
@@ -138,6 +161,7 @@ describe("the confirmation e-mail of a brand's lead (A3)", function () {
         bookBrandLead(null);
 
         Mail::assertQueued(BookingConfirmed::class, fn (BookingConfirmed $mail) => $mail->envelope()->from?->name === 'Franco Contabilidade'
-            && $mail->envelope()->from->address === $this->franco->mailbox);
+            && $mail->envelope()->from->address === config('mail.from.address')
+            && $mail->envelope()->replyTo[0]->address === $this->franco->mailbox);
     });
 });

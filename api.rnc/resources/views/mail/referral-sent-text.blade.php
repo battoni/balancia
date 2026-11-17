@@ -28,3 +28,7 @@
 
 {{ __('mail.meeting.sign_off') }}
 {{ __('mail.meeting.team', ['firm' => $referral->firmName]) }}
+
+@if ($poweredBy)
+{{ __('mail.common.powered_by', ['platform' => $poweredBy]) }}
+@endif

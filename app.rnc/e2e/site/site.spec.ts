@@ -9,7 +9,16 @@ import { expect, seedLanguage, test } from '../fixtures/auth';
 
 const FIRM = {
   name: 'Franco Contabilidade',
+  short_name: 'Franco',
+  // rnc-4 F2c2 (C10): the proof strip is the firm's own row, as FirmSeeder writes it.
+  proof: [
+    { value: '35 anos', label: 'em São Paulo' },
+    { value: '500+', label: 'clientes atendidos' },
+    { value: 'ISO 9001', label: 'qualidade certificada' },
+    { value: 'RNC', label: 'Rede Nacional de Contabilidade' },
+  ],
   slug: 'franco',
+  platform: { name: 'Balancia' },
   logo_text: 'Franco Contabilidade',
   brand_primary: '#00375a',
   brand_accent: '#14c3ff',
@@ -46,7 +55,10 @@ function sectorPage(slug: string) {
       { date: '01/01/2027', text: 'A CBS passa a ser cobrada integralmente e PIS/Cofins deixam de existir.', source },
       { date: '2033', text: 'ICMS e ISS extintos, IBS e CBS integrais.', source: { label: 'LC 214/2025', url: null } },
     ],
-    seo: { title: `Reforma Tributária em ${sector.label}: o que muda`, description: `As datas da Reforma para ${sector.article}.` },
+    seo: {
+      title: `Reforma Tributária em ${sector.label}: o que muda`,
+      description: `As datas da Reforma para ${sector.article}.`,
+    },
   };
 }
 
@@ -57,7 +69,11 @@ function sectorSummary(slug: string) {
 }
 
 async function mockSiteApi(page: Page) {
-  const json = (data: unknown, status = 200) => ({ status, contentType: 'application/json', body: JSON.stringify(data) });
+  const json = (data: unknown, status = 200) => ({
+    status,
+    contentType: 'application/json',
+    body: JSON.stringify(data),
+  });
 
   await page.route('**/public/firm', (route) => route.fulfill(json({ data: FIRM })));
   await page.route('**/public/sectors', (route) =>
@@ -67,9 +83,13 @@ async function mockSiteApi(page: Page) {
     const slug = new URL(route.request().url()).pathname.split('/').pop()!;
     const isKnown = SECTORS.some((sector) => sector.slug === slug);
 
-    return route.fulfill(isKnown ? json({ data: sectorPage(slug) }) : json({ error: 'content.sectorPage.notFound' }, 404));
+    return route.fulfill(
+      isKnown ? json({ data: sectorPage(slug) }) : json({ error: 'content.sectorPage.notFound' }, 404)
+    );
   });
-  await page.route('**/public/events', (route) => route.fulfill({ status: 201, contentType: 'application/json', body: '[]' }));
+  await page.route('**/public/events', (route) =>
+    route.fulfill({ status: 201, contentType: 'application/json', body: '[]' })
+  );
 }
 
 async function horizontalOverflow(page: Page) {
@@ -105,6 +125,24 @@ test.describe('the landing', () => {
     await expect(footer).toContainText('Segunda a quinta, 8h às 18h');
   });
 
+  // A tenant's site is signed by the product, discreetly (brand/SYSTEM.md §5): 16px icon, muted words.
+  test('signs the footer "powered by Balancia", one colour, the icon at 16px', async ({ page }) => {
+    await page.goto('/');
+
+    const signature = page.getByTestId('site-footer').getByTestId('powered-by');
+
+    await expect(signature).toHaveText('powered by Balancia');
+    await expect(signature.locator('svg')).toHaveCSS('width', '16px');
+
+    const colours = await signature.evaluate((element) => [
+      getComputedStyle(element).color,
+      getComputedStyle(element.querySelector('svg')!).color,
+    ]);
+
+    expect(colours[0]).toBe(colours[1]);
+    await expect(page.getByTestId('platform-logo')).toHaveCount(0);
+  });
+
   test('takes the visitor from the hero CTA to the diagnostic', async ({ page }) => {
     await page.goto('/');
 
@@ -133,7 +171,10 @@ test.describe('the sector pages', () => {
       await expect(page.getByTestId('sector-fact').first()).toContainText('2026');
       await expect(page.getByTestId('sector-cta')).toBeVisible();
       await expect(page).toHaveTitle(`Reforma Tributária em ${sector.label}: o que muda · Franco Contabilidade`);
-      await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', `Reforma Tributária em ${sector.label}: o que muda`);
+      await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
+        'content',
+        `Reforma Tributária em ${sector.label}: o que muda`
+      );
     });
   }
 

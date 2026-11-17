@@ -3,8 +3,10 @@
 namespace App\Http\Middleware;
 
 use App\Helpers\ApiResponse;
+use App\Modules\Firm\Helpers\FirmModules;
 use App\Modules\Firm\Repositories\BrandRepository;
 use App\Modules\Firm\Services\CurrentBrand;
+use App\Modules\Firm\Services\CurrentFirm;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
  * typo. An unknown or inactive slug is 404 `brands.notFound`, which the SPA reads to drop the
  * stored brand — except under `brand:fallback` (`POST public/events`, AM21), where a stale tab's
  * beacon is recorded on the main brand instead of being lost.
+ *
+ * A firm with the `brands` module off has no sub-brand (rnc-4 R17): every slug is unknown.
  */
 class ResolveCurrentBrand
 {
@@ -35,17 +39,24 @@ class ResolveCurrentBrand
     public function __construct(
         private CurrentBrand $currentBrand,
         private BrandRepository $brandRepository,
+        private CurrentFirm $currentFirm,
     ) {}
 
     public function handle(Request $request, Closure $next, ?string $mode = null): Response
     {
         $slug = trim((string) $request->header(self::HEADER));
 
+        // A request without the header is the main brand, never the brand a former request of this
+        // container set: `scoped` is not flushed between requests in one test (or a long-lived worker).
+        $this->currentBrand->set(null);
+
         if ($slug === '') {
             return $next($request);
         }
 
-        $brand = strlen($slug) > self::SLUG_MAX_LENGTH ? null : $this->brandRepository->findActiveBrandBySlug($slug);
+        $brand = strlen($slug) > self::SLUG_MAX_LENGTH || ! $this->currentFirm->hasModule(FirmModules::BRANDS)
+            ? null
+            : $this->brandRepository->findActiveBrandBySlug($slug);
 
         if (! $brand && $mode !== self::FALLBACK) {
             return ApiResponse::notFound(message: 'brands.notFound');

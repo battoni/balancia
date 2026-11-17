@@ -1,5 +1,5 @@
 ---
-version: 2.6.0
+version: 2.8.0
 origin: pendulum
 based-on: 2.5.1
 ---
@@ -10,6 +10,17 @@ A **multi-theme**, **light/dark** token system. One active brand theme is chosen
 build time; the user toggles light/dark at runtime. Components consume **role tokens**
 (structure) and **state palettes** (meaning) — never raw brand ramps — so they retheme
 and flip schemes with zero per-component edits.
+
+**In rnc the brand ramp is painted at runtime, per firm** (rnc-4 R10, D10): `useBrandTheme`
+(`composables/brand/`, mounted by `App.vue`) writes the host firm's `--color-primary-*` inline on
+`<html>`, from its row, on both layouts. The active theme is `hub` — a neutral slate ramp on
+`franco.css`'s shape — and is only what a tab's first page shows before the firm answers; every
+other token (roles, states, relief, type, print) still comes from the file. `franco.css` stays as
+the reverse (`VITE_ACTIVE_THEME=franco`). The contrast specs therefore measure the RUNTIME palette:
+the suite's default `public/firm` answer is Franco's, and `e2e/brand/two-palettes.spec.ts` measures
+Franco's and Alvorada's in both schemes. `brandPalette`'s 400 is the dark scheme's link
+(`celer-button-link-primary`), so it is lightened until it reads on the dark canvas and panel: the
+mix it used to be measured 4.29:1 on Franco's row once the back office painted it.
 
 ---
 
@@ -440,6 +451,24 @@ For a theme that changes the role mapping itself, or shares nothing with an exis
 **No component files change** — they only use role tokens and state palettes.
 
 ---
+
+## Balancia — the platform's own theme (`themes/balancia.css`)
+
+- **Source of truth for Balancia's colour and type** (brand/README.md). Every value carries a `usage:`
+  comment that `brand/design-system/extract.py` turns into `tokens.json`; after an edit run
+  `python3 brand/design-system/extract.py`, and `--check` must stay green (stale tokens, a contrast claim
+  that no longer measures true, or a ramp that drifted from `brandPalette` all fail it).
+- **Three reaches.** `:root` (Manrope, the `--brand-*` words) is every screen's; `:root[data-platform]`
+  (ramp and teal neutrals) and its dark twin are Balancia's own screens only — `useBrandTheme` sets
+  `data-platform` while the host firm is the platform firm. A tenant keeps its ramp and the bootstrap's
+  neutrals.
+- **PrimeVue's `surface` ramp is teal on the platform too**: `--color-surface-*` under `:root[data-platform]`, each step at
+  the bootstrap's relative luminance (within 1%), so every pair the preset was measured against keeps its ratio. A new
+  surface step keeps that rule; re-derive with the same luminance match, never by eye.
+- **The selectors outvote the theme by specificity**, not by order: `:root[data-platform]` (0,2,0) beats
+  `[data-theme='dark']`, and the dark platform block (0,3,0) beats both. A new override of a neutral on
+  the platform needs the same specificity. `hub.css`'s print block lists the platform selectors for this
+  reason.
 
 ## Known Gaps
 

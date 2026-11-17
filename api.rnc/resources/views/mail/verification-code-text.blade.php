@@ -14,3 +14,7 @@
 {{ __('mail.verification.ignore') }}
 
 {{ $frontendUrl }}
+
+@if ($poweredBy)
+{{ __('mail.common.powered_by', ['platform' => $poweredBy]) }}
+@endif

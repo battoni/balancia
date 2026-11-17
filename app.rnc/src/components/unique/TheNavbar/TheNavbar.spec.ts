@@ -1,15 +1,28 @@
 import { computed } from 'vue';
 import { flushPromises } from '@vue/test-utils';
+import { http, HttpResponse } from 'msw';
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createMemoryHistory, createRouter } from 'vue-router';
 import type * as AuthModule from '@AuthModule';
 import type { Router } from 'vue-router';
 import { mountWithPlugins } from '@/test/mount';
+import { server } from '@/test/msw/server';
 import { NAV_EXPANDED_GROUPS_STORAGE_KEY } from '@Constants';
 import useUiStore from '@Stores';
 
-const { logoutService, resetAllStores } = vi.hoisted(() => ({ logoutService: vi.fn(), resetAllStores: vi.fn() }));
+const { forgetFirm, logoutService, resetAllStores } = vi.hoisted(() => ({
+  forgetFirm: vi.fn(),
+  logoutService: vi.fn(),
+  resetAllStores: vi.fn(),
+}));
+
+// Chrome QA 5.21: the firm a view-as showed must not stay on the root's login after signing out.
+vi.mock('@Composables', async (importActual) => {
+  const actual = await importActual<Record<string, unknown> & { useFirmBrand: () => object }>();
+
+  return { ...actual, useFirmBrand: () => ({ ...actual.useFirmBrand(), forget: forgetFirm }) };
+});
 
 // The barrel is already aliased to a test stub; this only swaps the reset for a spy so the
 // "does the session actually end" contract can be asserted rather than assumed.
@@ -148,7 +161,7 @@ function buildRouter() {
       blankRoute('projects-en', '/projects'),
       blankRoute('project-en', '/projects/:id'),
       blankRoute('team-home-en', '/team'),
-      blankRoute('ceo-home-en', '/ceo'),
+      blankRoute('management-home-en', '/management'),
       blankRoute('operator-home-en', '/operator'),
       blankRoute('users-en', '/users'),
       blankRoute('roles-and-permissions-en', '/roles'),
@@ -303,16 +316,18 @@ describe('TheNavbar — permissions and roles', () => {
     expect(wrapper.findComponent(desktopStub).props('settingsWithRoutes')).toEqual([]);
   });
 
-  it('gates the admin settings behind their permission', async () => {
+  /*
+   * Chrome QA 5.2: the users and roles screens are the operator's group's (`navItems.local`, on the operator's role);
+   * the footer kept its own copy, so the operator saw both twice and a firm manager — who holds `users.read` for
+   * its team (rnc-4 F5a) — saw "Usuários" there. The footer is the local layer's and personalization's alone.
+   */
+  it('keeps the admin screens out of the footer, even for an account holding their keys', async () => {
     const { userStore, wrapper } = mountNavbar();
 
-    userStore.setUserAndPermissions(PLAIN_USER as never, ['users.read']);
+    userStore.setUserAndPermissions(SUPERADMIN as never, ['users.read', 'permissions.read']);
     await wrapper.vm.$nextTick();
 
-    const labels = labelsOf(wrapper.findComponent(desktopStub).props('settingsWithRoutes'));
-
-    expect(labels).toContain('navigation.users');
-    expect(labels).not.toContain('navigation.roles');
+    expect(wrapper.findComponent(desktopStub).props('settingsWithRoutes')).toEqual([]);
   });
 
   it('resolves the localized path for every item but home', async () => {
@@ -528,6 +543,56 @@ describe('TheNavbar — logout', () => {
     await flushPromises();
 
     expect(resetAllStores).toHaveBeenCalledOnce();
+  });
+
+  // Chrome QA 5.21: signed out of a view-as of Alvorada, the root's login showed Alvorada's brand.
+  it("forgets the host firm's kept brand when the session ends, and only then", async () => {
+    forgetFirm.mockClear();
+
+    const { wrapper } = mountNavbar();
+
+    logoutService.mockRejectedValueOnce(new Error('network'));
+    await wrapper.findComponent(desktopStub).vm.$emit('logout');
+    await flushPromises();
+
+    expect(forgetFirm).not.toHaveBeenCalled();
+
+    await wrapper.findComponent(desktopStub).vm.$emit('logout');
+    await flushPromises();
+
+    expect(forgetFirm).toHaveBeenCalledOnce();
+  });
+
+  /*
+   * Chrome QA 5.21, second round: the rail's "Sair" after a view-as of Alvorada at the root. The login push
+   * goes first, and the app's route guard aborts every request in flight on it — the brand read
+   * `forget()` had just sent went with it, and the root's login kept Alvorada's names. Real `forget()`,
+   * real provider, a router that aborts like the app's.
+   */
+  it("ends on the host's own brand although the login navigation aborts what is in flight", async () => {
+    const actual = await vi.importActual<{
+      useFirmBrand: () => { firm: { value: { slug: string } | null }; forget: () => Promise<unknown> };
+      useGlobalAbortController: () => { cancelAllRequests: () => void; createNewController: () => void };
+    }>('@Composables');
+    const { firm, forget } = actual.useFirmBrand();
+    const { cancelAllRequests, createNewController } = actual.useGlobalAbortController();
+
+    server.use(
+      http.get('http://localhost/public/firm', () =>
+        HttpResponse.json({ data: { logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' } })
+      )
+    );
+    forgetFirm.mockImplementationOnce(forget);
+    router.beforeEach(() => {
+      cancelAllRequests();
+      createNewController();
+    });
+
+    const { wrapper } = mountNavbar();
+
+    await wrapper.findComponent(desktopStub).vm.$emit('logout');
+
+    await vi.waitFor(() => expect(firm.value?.slug).toBe('balancia'));
   });
 
   it('keeps the stores when the logout request fails', async () => {
