@@ -120,6 +120,28 @@ class Sandbox(unittest.TestCase):
         return path
 
 
+class ProjectNameTest(Sandbox):
+    """The name comes from `.cortex-sync.conf` when the folder kept an old one (rnc → balancia)."""
+
+    def test_project_from_the_sync_conf_wins_over_the_folder(self) -> None:
+        repo = self.make_repo('rnc')
+        (repo / '.cortex-sync.conf').write_text('PROJECT=balancia\nAPP=app.balancia\n')
+        self.assertEqual(worktree.project_name(repo), 'balancia')
+
+    def test_folder_name_without_a_sync_conf_or_a_project_line(self) -> None:
+        repo = self.make_repo('rnc')
+        self.assertEqual(worktree.project_name(repo), 'rnc')
+        (repo / '.cortex-sync.conf').write_text('APP=app.rnc\n')
+        self.assertEqual(worktree.project_name(repo), 'rnc')
+
+    def test_the_port_block_is_claimed_under_the_project_name(self) -> None:
+        repo = self.make_repo('rnc')
+        (repo / '.cortex-sync.conf').write_text('PROJECT=balancia\n')
+        worktree.e2e_port(repo)
+        blocks = json.loads(self.port_file.read_text())['blocks']
+        self.assertEqual(list(blocks), ['balancia'])
+
+
 class LabelTest(unittest.TestCase):
     def test_a4_feature_id_and_other_names(self) -> None:
         self.assertEqual(worktree.label('boanerges-7', 'boanerges'), 'b7')
