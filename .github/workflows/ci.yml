@@ -317,7 +317,7 @@ jobs:
   # advisory is published against code nobody changed, so gating on it would turn every open PR
   # red on the morning it appears, for a fix that belongs in a dependency PR of its own. The job
   # still fails visibly (red X in the run) so the advisory is seen; `continue-on-error` keeps
-  # the run green, and deploy-api.yml never looks at this workflow at all.
+  # the run green, and no deploy looks at this workflow at all.
   audit:
     name: api.balancia — composer audit (informational)
     runs-on: ubuntu-latest

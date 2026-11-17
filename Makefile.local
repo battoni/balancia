@@ -23,3 +23,6 @@ fresh-seed: ## api.balancia — rebuild the local SQLite database (database/data
 test-mysql: ## api.balancia — full Pest on MySQL 8 (DB_PASSWORD from env; DB_DATABASE defaults to balancia_test)
 	cd api.balancia && DB_CONNECTION=mysql DB_URL= DB_HOST=$${DB_HOST:-127.0.0.1} DB_PORT=$${DB_PORT:-3306} \
 		DB_DATABASE=$${DB_DATABASE:-balancia_test} DB_USERNAME=$${DB_USERNAME:-root} vendor/bin/pest --compact
+
+deploy-demo: ## demo — publish origin/main to https://balancia.battoni.dev (builds the SPA here; REBUILDS the demo DB; docs/deploy/demo/README.md)
+	bash scripts/deploy-demo.sh

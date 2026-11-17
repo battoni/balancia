@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-# Publish api.balancia on the droplet. Run as root, from the API directory.
+# The server half of `make deploy-demo` (scripts/deploy-demo.sh), which has already moved the
+# tree to the commit being published. Run as root on the demo server, from anywhere.
 #
 # Adapted from api.lifeshifter/deploy.sh, which earned every step here the hard way on
 # 2026-09-02, each omission looking like a different bug:
@@ -19,102 +20,69 @@
 # ─────────────────────────────────────────────────────────────────────────────────────────
 # THIS SCRIPT DROPS THE DATABASE ON EVERY DEPLOY, AND THAT IS THE POINT HERE.
 #
-# `arcus-api-architecture` §3 forbids ALTER migrations: a table's `create_*` is its only
-# description and it is edited until it is right. That rule only holds if the server actually
-# re-reads the creates. A plain `migrate --force` runs PENDING migrations only, so editing a
-# create that already ran leaves the column missing in production — the code reads `null` and
-# the screen lies, with no error anywhere. Which is the exact failure the rule exists to stop.
+# The demo holds invented data only, and the schema is still folded into the `create_*`
+# migrations (arcus §3, runbook "The folded migrations end at the first deploy" — the owner kept
+# folding for the demo, 17/11/2026). A plain `migrate --force` runs PENDING migrations only, so a
+# column added to a create that already ran would be missing here, the code would read `null`
+# and the screen would lie with no error anywhere. So the demo rebuilds.
 #
-# So the bootstrap rebuilds. It keeps no data: everything here is seeded, and the seeders are
-# the source of the reference rows.
-#
-# **A project derived from balancia MUST NOT copy this line.** The moment a product has real
-# users, `migrate:fresh` is a data-loss incident with a green check mark next to it. That is
-# why this file is LOCAL in the sync manifest and never travels — see the note there.
+# **A production deploy MUST NOT copy this.** With real firms, `migrate:fresh` is a data-loss
+# incident with a green check mark next to it — that deploy follows the runbook instead.
+# This file is LOCAL in the sync manifest and never travels.
 # ─────────────────────────────────────────────────────────────────────────────────────────
 set -euo pipefail
 
-# Every path below is relative — `public/storage`, `vendor storage bootstrap/cache`,
-# `composer install`, `php artisan`. So the script anchors itself to its own directory
-# rather than trusting the caller's, which is what makes it safe to invoke as
-# `bash api.balancia/deploy.sh` from the repository root, or by hand from anywhere.
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
-BRANCH="${DEPLOY_BRANCH:-main}"
 WEB_USER="${DEPLOY_WEB_USER:-www-data}"
 FPM_SERVICE="${DEPLOY_FPM_SERVICE:-php8.4-fpm}"
-# The exact commit to publish. The workflow passes the one its Pest job approved: the tip of
-# the branch at deploy time can be a LATER commit whose own run is still queued behind this
-# one, and publishing it would put untested code on the server. Unset (a deploy by hand),
-# the script publishes the branch tip, as it always did.
-TARGET_SHA="${DEPLOY_SHA:-}"
-
-echo "==> Fetching ${BRANCH}"
-git fetch --quiet origin "${BRANCH}"
-
-if [ -z "${TARGET_SHA}" ]; then
-    git reset --hard "origin/${BRANCH}"
-else
-    # Only a commit that is on the branch: a SHA from anywhere else is refused, not published.
-    if ! git merge-base --is-ancestor "${TARGET_SHA}" "origin/${BRANCH}"; then
-        echo "✗ ${TARGET_SHA} is not on origin/${BRANCH} — refusing to publish it." >&2
-        exit 1
-    fi
-
-    git reset --hard "${TARGET_SHA}"
-fi
+WORKER="${DEPLOY_WORKER:-balancia-worker}"
+HEALTH_URL="${DEPLOY_HEALTH_URL:-https://balancia.battoni.dev/api/health}"
 
 echo "==> Installing PHP dependencies"
-COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction --no-progress
-
-echo "==> Discarding the cached config"
-# Before the seeders run, and it is not housekeeping. The seeders read
-# `config('seeding.*')` (`config/seeding.php`), and from the SECOND deploy onwards a cached
-# config file always exists, because the run before this one ended with `config:cache`.
-# That file is the PREVIOUS release's config built from the PREVIOUS `.env`: a
-# `SUPERADMIN_PASSWORD` rotated since then would not reach the superadmin, and a config file
-# this pull added would be missing from it altogether — on a deploy whose every line printed
-# success. Clearing makes the seeders read this tree's config and the current `.env`.
-# Rebuilt at the bottom, after the tree is in place.
-sudo -u "${WEB_USER}" php artisan config:clear
-
-echo "==> Rebuilding the database from the create migrations"
-# `--force` is what lets this run outside an interactive terminal; without it the command
-# refuses in production and the deploy stops. See the header for why this is `fresh`.
-sudo -u "${WEB_USER}" php artisan migrate:fresh --seed --force
-
-echo "==> Linking public storage"
-# Asked only when missing: `storage:link` treats an existing link as an error, and an error
-# printed on every healthy deploy teaches you to ignore errors.
-#
-# Created as root, NOT as ${WEB_USER}: the link is born inside public/, which belongs to root,
-# so the web user cannot write there. On a fresh droplet the failure aborts the whole deploy
-# AFTER `composer install` and BEFORE the chown and the cache rebuild, which leaves the server
-# half-published — that is how it failed on api.impressao on 2026-09-04.
-if [ ! -e public/storage ]; then
-    php artisan storage:link
-    chown -h "${WEB_USER}":"${WEB_USER}" public/storage
-fi
+COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader --no-interaction --no-progress --quiet
 
 echo "==> Handing the tree back to ${WEB_USER}"
+# Before anything runs artisan as the web user: composer just rewrote vendor/ as root.
 chown -R "${WEB_USER}":"${WEB_USER}" vendor storage bootstrap/cache
 chmod -R ug+rwX storage bootstrap/cache
 
-echo "==> Rebuilding caches"
-sudo -u "${WEB_USER}" php artisan config:cache
-sudo -u "${WEB_USER}" php artisan route:cache
-sudo -u "${WEB_USER}" php artisan view:cache
+echo "==> Discarding the cached config"
+# The seeders read `config('seeding.*')`, and the previous deploy ended with a config cache built
+# from the previous tree and `.env`: a rotated SUPERADMIN_PASSWORD would not reach the
+# super-admin, and a config file this pull added would be missing. Rebuilt at the bottom.
+sudo -u "${WEB_USER}" php artisan optimize:clear --quiet
 
-echo "==> Reloading ${FPM_SERVICE}"
+echo "==> Rebuilding the database: reference rows, then the demo"
+# `--force` lets these run outside a terminal; production refuses without it.
+sudo -u "${WEB_USER}" php artisan migrate:fresh --seed --force --quiet
+# The demo seeders write only under `local`/`testing` (DemoEnvironment). The app itself runs as
+# `production` — the QA login-as and the mail previews stay off — and only this one command sees
+# `local`: a real environment variable wins over `.env`, and the config is not cached yet.
+# The NF-e seeder alone takes about a minute here.
+sudo -u "${WEB_USER}" env APP_ENV=local php artisan db:seed --force --quiet
+
+echo "==> Linking public storage"
+# Only when missing: `storage:link` treats an existing link as an error. Created as root because
+# public/ belongs to root (api.impressao, 2026-09-04).
+if [ ! -e public/storage ]; then
+    php artisan storage:link --quiet
+    chown -h "${WEB_USER}":"${WEB_USER}" public/storage
+fi
+
+echo "==> Rebuilding caches"
+chown -R "${WEB_USER}":"${WEB_USER}" storage bootstrap/cache
+sudo -u "${WEB_USER}" php artisan optimize --quiet
+
+echo "==> Restarting the queue worker and reloading ${FPM_SERVICE}"
+# queue:restart asks the worker to exit after its current job; supervisor starts it again on
+# the new code. Without it the worker runs the old classes until its --max-time.
+sudo -u "${WEB_USER}" php artisan queue:restart --quiet
+supervisorctl status "${WORKER}" >/dev/null || supervisorctl start "${WORKER}"
 systemctl reload "${FPM_SERVICE}"
 
 echo "==> Health check"
-# Through the public hostname, NOT 127.0.0.1: this droplet serves several projects, so an
-# address with no Host header lands on the default vhost and answers 404 about somebody
-# else's site.
-#
-# Laravel's health route renders a Blade view, so a 200 here also proves the view cache is
-# writable — the exact thing whose absence took an API fully down.
-HEALTH_URL="${DEPLOY_HEALTH_URL:-https://api.balancia.battoni.dev/up}"
+# Through the public hostname, NOT 127.0.0.1: this droplet serves several projects, and an
+# address with no Host header lands on somebody else's default vhost.
 curl --fail --silent --show-error --location --max-time 20 -o /dev/null "${HEALTH_URL}"
-echo "==> Deployed $(git rev-parse --short HEAD)"
+echo "==> API at $(git rev-parse --short HEAD)"

@@ -1,6 +1,6 @@
 # Deploy runbook — Balancia (rnc-4, F7)
 
-Readiness only: nothing here has been deployed. This is what a server needs so the platform runs
+Nothing here has reached production yet. The demo server follows this runbook with its own differences: `demo/README.md` (https://balancia.battoni.dev, 17/11/2026). This is what a server needs so the platform runs
 every firm from one deploy — `<root>` (the platform firm, slug `balancia`, the product site and the
 operator's console) and `<slug>.<root>` (one accounting firm each: its public site and its back
 office). `<root>` stands for the production domain (`PLATFORM_ROOT_DOMAIN`; the target is
@@ -52,6 +52,8 @@ server {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME /srv/balancia/api.balancia/public/index.php;
         fastcgi_param DOCUMENT_ROOT   /srv/balancia/api.balancia/public;
+        # fastcgi_params sets SCRIPT_NAME to the request path; Symfony would read /api/… as the base URL
+        fastcgi_param SCRIPT_NAME     /index.php;
         fastcgi_pass  unix:/run/php/php8.4-fpm.sock;
     }
 
