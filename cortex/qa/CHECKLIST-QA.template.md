@@ -12,7 +12,7 @@ already fixed and must stay fixed, and what a report has to contain.** Each of t
 
 ## 0. Scope — read before starting
 
-**Cut the scope at the fork point, not by instinct.** The project was bootstrapped from rnc,
+**Cut the scope at the fork point, not by instinct.** The project was bootstrapped from balancia,
 which has its own QA. Name the commit where the project begins (the bootstrap commit, or the
 transform right after it) and scope from it:
 
@@ -31,8 +31,8 @@ A table the tester can disagree with, row by row:
 
 | Area | Status |
 | --- | --- |
-| _e.g. Login flows_ | **Cut.** Inherited whole from rnc. Only the screen's appearance is ours — section 2. |
-| _e.g. Users CRUD_ | **Cut.** rnc's. The N changes that are ours are in section 4.1. |
+| _e.g. Login flows_ | **Cut.** Inherited whole from balancia. Only the screen's appearance is ours — section 2. |
+| _e.g. Users CRUD_ | **Cut.** balancia's. The N changes that are ours are in section 4.1. |
 
 **In scope, whole:** _list the modules, the brand, the theme, the navigation changes._
 

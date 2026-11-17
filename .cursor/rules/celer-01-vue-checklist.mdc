@@ -1,6 +1,6 @@
 ---
-description: MANDATORY checklist – run before/after every Vue/TS edit in app.rnc
-globs: app.rnc/**/*.vue, app.rnc/**/*.ts
+description: MANDATORY checklist – run before/after every Vue/TS edit in app.balancia
+globs: app.balancia/**/*.vue, app.balancia/**/*.ts
 alwaysApply: false
 ---
 # Vue/TS Mandatory Checklist

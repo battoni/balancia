@@ -1,6 +1,6 @@
 # Review Design Conventions
 
-> Reviews app.rnc changes for design system violations. Run from the rnc monorepo root.
+> Reviews app.balancia changes for design system violations. Run from the balancia monorepo root.
 
 **This command runs in plan mode. Do not edit any file until the plan is approved.**
 
@@ -31,9 +31,9 @@ same spec with longer examples — optional reading, never a source a finding de
 
 Run the appropriate command based on the answer in Step 1:
 
-- **Uncommitted:** `git diff HEAD -- app.rnc/` and `git diff --cached -- app.rnc/`
-- **Against development:** `git diff development...HEAD -- app.rnc/`
-- **Against main:** `git diff main...HEAD -- app.rnc/`
+- **Uncommitted:** `git diff HEAD -- app.balancia/` and `git diff --cached -- app.balancia/`
+- **Against development:** `git diff development...HEAD -- app.balancia/`
+- **Against main:** `git diff main...HEAD -- app.balancia/`
 
 For each changed `.vue` file in the diff, read the full file — not just the diff lines. Design violations often require surrounding context to spot.
 
@@ -75,13 +75,13 @@ Check every added or modified line in every changed `.vue` file against these ca
 Output violations grouped by file. Be specific — name the rule, the line, and the exact fix:
 
 ```markdown
-### app.rnc/src/modules/Auth/components/molecules/MSignUpUser/MSignUpUser.vue
+### app.balancia/src/modules/Auth/components/molecules/MSignUpUser/MSignUpUser.vue
 
 - Line 86: [typography — label] `text-gray-700 font-medium` → `text-muted` (no font-medium on standard labels)
 - Line 102: [colors] `bg-red-100 text-red-700` → `bg-danger-100 text-danger-700`
 - Line 140: [radius] `rounded-[6px]` → `rounded-md`
 
-### app.rnc/src/modules/User/components/molecules/MAddEditUserForm/MAddEditUserForm.vue
+### app.balancia/src/modules/User/components/molecules/MAddEditUserForm/MAddEditUserForm.vue
 
 - Line 22: [buttons] `<Button class="bg-danger-500 ...">` → `<Button severity="danger" ...>`
 ```

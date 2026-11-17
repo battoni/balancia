@@ -13,15 +13,15 @@ Load the right rules before planning or working on a feature.
 
 ## Step 1 — Ask which projects
 
-Ask the user: "Which project(s) are you working on — api.rnc, app.rnc, codelumen, vitrum, liquen, or cortex?"
+Ask the user: "Which project(s) are you working on — api.balancia, app.balancia, codelumen, vitrum, liquen, or cortex?"
 
 ## Step 2 — Load rules
 
 **Always** — read `.claude/rules/shared-conventions.md` (it applies to every sub-project).
 
-**api.rnc** — read `.claude/rules/arcus-api-architecture.md`
+**api.balancia** — read `.claude/rules/arcus-api-architecture.md`
 
-**app.rnc** — read all nine files (the canonical set is `celer-01` through `celer-09`):
+**app.balancia** — read all nine files (the canonical set is `celer-01` through `celer-09`):
 
 - `.claude/rules/celer-01-vue-checklist.md`
 - `.claude/rules/celer-02-vue-imports.md`
@@ -39,7 +39,7 @@ Ask the user: "Which project(s) are you working on — api.rnc, app.rnc, codelum
 
 Reply with a single line confirming what was loaded. For example:
 
-> Loaded shared + api.rnc + app.rnc rules. Ready — what are we building?
+> Loaded shared + api.balancia + app.balancia rules. Ready — what are we building?
 
 Or if a project has no rules yet:
 

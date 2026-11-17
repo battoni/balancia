@@ -9,9 +9,9 @@ This page is generated from `.claude/commands/battoni-improve.md` — run it wit
 
 # Improve (turn an AI mistake into a rule → PR)
 
-> A developer hit a moment where the AI did something wrong. Capture it, **diagnose where the fix belongs**, draft the change, and open a PR so every rnc-derived project benefits — the rules system learns from real mistakes. Interactive; **opens a PR only after you approve the draft** (never pushes silently).
+> A developer hit a moment where the AI did something wrong. Capture it, **diagnose where the fix belongs**, draft the change, and open a PR so every balancia-derived project benefits — the rules system learns from real mistakes. Interactive; **opens a PR only after you approve the draft** (never pushes silently).
 >
-> **Usage:** `/battoni-improve [short description]`. Run from the rnc monorepo root.
+> **Usage:** `/battoni-improve [short description]`. Run from the balancia monorepo root.
 
 ---
 
@@ -19,7 +19,7 @@ This page is generated from `.claude/commands/battoni-improve.md` — run it wit
 
 Use the description if one was passed; ask for whatever's missing (one tight round of questions):
 
-1. **Which sub-project(s)?** `app.rnc` · `api.rnc` · `cortex` · root (one or more — rules are per-stack).
+1. **Which sub-project(s)?** `app.balancia` · `api.balancia` · `cortex` · root (one or more — rules are per-stack).
 2. **What did the AI do wrong?** The concrete mistake — and the **file / area** if known.
 3. **What should it have done?** The correct behavior.
 4. **What should it NOT do?** The anti-pattern to ban.
@@ -41,8 +41,8 @@ Search the existing rules for the closest home (**closest folder wins**), and na
 
 | The fix is about… | Target |
 | --- | --- |
-| A broad app.rnc (Vue/TS) convention | `.claude/rules/celer-*` |
-| A broad api.rnc (Laravel) convention | `.claude/rules/arcus-api-architecture.md` |
+| A broad app.balancia (Vue/TS) convention | `.claude/rules/celer-*` |
+| A broad api.balancia (Laravel) convention | `.claude/rules/arcus-api-architecture.md` |
 | A monorepo-wide convention | `.claude/rules/shared-conventions.md` |
 | A specific unit / component / module | that folder's `RULES.md` (the versioned unit) |
 | A project-wide always-true fact | `CLAUDE.md` |
@@ -75,7 +75,7 @@ Show: the **failure type**, the **target file**, and the **exact draft change** 
 PR body template:
 ```markdown
 ## AI improvement
-**Sub-projects:** <app.rnc/api.rnc/cortex/root>
+**Sub-projects:** <app.balancia/api.balancia/cortex/root>
 **Failure type:** missing rule · wrong/unclear rule · rule not followed (injection gap)
 
 **What the AI did wrong:** …

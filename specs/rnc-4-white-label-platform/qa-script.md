@@ -1,18 +1,18 @@
 # rnc-4 — Roteiro de QA no Chrome (white-label platform)
 
-Escrito a partir de `spec.md` (A1–A49, C1–C23), `plan.md` → `## QA` e AM8, `state.md` e do i18n (`app.rnc/src/locales/local/pt-BR.json`, `app.rnc/src/locales/pt-BR.json`). Corrija passo errado AQUI. Só registros inventados dos seeders.
+Escrito a partir de `spec.md` (A1–A49, C1–C23), `plan.md` → `## QA` e AM8, `state.md` e do i18n (`app.balancia/src/locales/local/pt-BR.json`, `app.balancia/src/locales/pt-BR.json`). Corrija passo errado AQUI. Só registros inventados dos seeders.
 
 ## Preflight
 
 - Ambiente: API `make serve-api` (http://localhost:8000; neste worktree pode estar na 8001, e então o SPA sobe com `VITE_API_PROXY_TARGET=http://localhost:8001 npm run dev`), SPA `make serve-app` (http://localhost:5173). Pare a pilha do checkout principal antes. Node 24 no app.
 - Hosts: raiz/plataforma `http://localhost:5173`; Franco `http://franco.localhost:5173`; demo `http://alvorada.localhost:5173`; `http://ipe.localhost:5173` só existe depois da rodada 5. Nunca `127.0.0.1`; nunca a porta 8000 no navegador.
-- Banco: `make fresh-seed` UMA vez antes da rodada 1 (recria `api.rnc/database/database.sqlite`). Rodada 5 cria `ipe` ao vivo; nenhuma outra rodada depende de linha que outra mudou, salvo o que está dito na abertura da rodada.
-- Login do motorista (AM8, C2): abrir `http://<host-da-firma>:5173/api/qa/login-as/<usuário>?to=/<rota>` NO HOST DA FIRMA (passa pelo proxy do Vite; o host dá a firma). Antes de CADA rodada: limpar os cookies de `localhost` (e dos subdomínios) e nunca reaproveitar a sessão da rodada anterior. ANTES de abrir o link, no mesmo host: `localStorage.setItem('app.rnc:session-hint','1')` (via javascript_tool numa página desse host) — o app só confere a sessão com essa marca, que o login real grava e o atalho de QA pula (rnc-1 qa.local.md). O "Sair" do app APAGA `app.rnc:session-hint`: marcar de novo antes de CADA link de login, não só no começo da rodada. Senha errada no login real mostra "Usuário ou senha incorretos". Resposta esperada: redireciona para `<host>:5173/<rota>` já logado. Sem ferramenta para limpar cookies: abrir aba nova e, antes do login da rodada, chamar `fetch('/api/auth/logout',{method:'POST',headers:{Accept:'application/json'}})` no host da rodada anterior.
+- Banco: `make fresh-seed` UMA vez antes da rodada 1 (recria `api.balancia/database/database.sqlite`). Rodada 5 cria `ipe` ao vivo; nenhuma outra rodada depende de linha que outra mudou, salvo o que está dito na abertura da rodada.
+- Login do motorista (AM8, C2): abrir `http://<host-da-firma>:5173/api/qa/login-as/<usuário>?to=/<rota>` NO HOST DA FIRMA (passa pelo proxy do Vite; o host dá a firma). Antes de CADA rodada: limpar os cookies de `localhost` (e dos subdomínios) e nunca reaproveitar a sessão da rodada anterior. ANTES de abrir o link, no mesmo host: `localStorage.setItem('app.balancia:session-hint','1')` (via javascript_tool numa página desse host) — o app só confere a sessão com essa marca, que o login real grava e o atalho de QA pula (rnc-1 qa.local.md). O "Sair" do app APAGA `app.balancia:session-hint`: marcar de novo antes de CADA link de login, não só no começo da rodada. Senha errada no login real mostra "Usuário ou senha incorretos". Resposta esperada: redireciona para `<host>:5173/<rota>` já logado. Sem ferramenta para limpar cookies: abrir aba nova e, antes do login da rodada, chamar `fetch('/api/auth/logout',{method:'POST',headers:{Accept:'application/json'}})` no host da rodada anterior.
 - Usuários (senha `seeding.password`, mas o motorista entra pelo `login-as`): `battoni` (operador, só raiz) · `gestao.hub` (gestor da plataforma) · `helena.alvorada` (gestora demo) · `equipe.alvorada` (equipe demo), `bruno.alvorada` (especialista) · `reinaldo` (gestao, Franco) · `patricia` (equipe, Franco) · `parceiro.1` (Franco), `parceiro.alvorada.1`.
 - Larguras: 390 e 1440 nas páginas públicas; 1440 no back office. Trocar com `resize_window`; a barra de rolagem lateral se mede com `document.documentElement.scrollWidth <= window.innerWidth`.
 - Checagens de TODA rodada (marcar no fim de cada uma): (a) nenhum texto "Franco", "Reinaldo", "Willy" ou "APW" visível em páginas de alvorada, ipe e da raiz (usar `get_page_text`; na rodada 4 são esperados só no host Franco); (b) nenhum erro no console (`read_console_messages`); (c) nenhuma rolagem lateral.
-- Segurança: só dados locais inventados; e-mails vão para `api.rnc/storage/logs/laravel.log` (`MAIL_MAILER=log`); não fechar janelas do Chrome ao terminar.
-- `Chrome: skip (<spec>)` = o Playwright em `app.rnc/e2e/` já prova aquele A# naquela largura (com API simulada); o motorista pula o passo.
+- Segurança: só dados locais inventados; e-mails vão para `api.balancia/storage/logs/laravel.log` (`MAIL_MAILER=log`); não fechar janelas do Chrome ao terminar.
+- `Chrome: skip (<spec>)` = o Playwright em `app.balancia/e2e/` já prova aquele A# naquela largura (com API simulada); o motorista pula o passo.
 
 ### Consultas necessárias (o juiz roda depois do sim, não quem escreve o roteiro)
 
@@ -218,8 +218,8 @@ Dados: `fresh-seed` (alvorada com `partners` ligado no início; o passo 6.7 o de
 | # | Onde clicar | O que digitar / escolher | O que deve aparecer | O que é "errado" |
 | --- | --- | --- | --- | --- |
 | 6.1 | `http://alvorada.localhost:5173/api/qa/login-as/patricia?to=/equipe/pipeline` | nada | Recusado (patricia é do Franco): sem sessão; a tela de login ou erro; `GET /api/auth/me` → 401. [A3] | Entra |
-| 6.2 | Em `http://alvorada.localhost:5173/login`, tentar o login normal de `patricia` com a senha dela | `patricia` + senha (= `SEEDER_PWD` do `api.rnc/.env`) | Erro "Usuário ou senha incorretos". `Chrome: skip (Pest: tests/Feature/Auth/LoginFirmTest.php — A3)`: o motorista não tem a senha do seed; um humano faz o passo com a senha do `.env`. [A3] | Entra |
-| 6.3 | Login `patricia` em `franco.localhost:5173/login` (mesmo usuário) | `patricia` + senha (= `SEEDER_PWD` do `api.rnc/.env`) | Entra (200). `Chrome: skip (Pest: tests/Feature/Auth/LoginFirmTest.php — A3)` pelo mesmo motivo; um humano faz o passo. [A3] | Recusa |
+| 6.2 | Em `http://alvorada.localhost:5173/login`, tentar o login normal de `patricia` com a senha dela | `patricia` + senha (= `SEEDER_PWD` do `api.balancia/.env`) | Erro "Usuário ou senha incorretos". `Chrome: skip (Pest: tests/Feature/Auth/LoginFirmTest.php — A3)`: o motorista não tem a senha do seed; um humano faz o passo com a senha do `.env`. [A3] | Entra |
+| 6.3 | Login `patricia` em `franco.localhost:5173/login` (mesmo usuário) | `patricia` + senha (= `SEEDER_PWD` do `api.balancia/.env`) | Entra (200). `Chrome: skip (Pest: tests/Feature/Auth/LoginFirmTest.php — A3)` pelo mesmo motivo; um humano faz o passo. [A3] | Recusa |
 | 6.4 | Com a sessão da patricia aberta, na aba abrir o console e `fetch('/api/leads', {headers: {'X-Firm': 'alvorada'}})` em `franco.localhost:5173` | nada | Resposta 403 com `firms.mismatch`. [A4] | 200 com leads da alvorada |
 | 6.5 | Ainda com a sessão do Franco, abrir `http://alvorada.localhost:5173/equipe/pipeline` | nada | Sessão do Franco não vale em alvorada (cookie por host): tela de login. [A4, A7] | Pipeline de alvorada abre |
 | 6.6 | `http://localhost:5173/api/qa/login-as/battoni?to=/plataforma/escritorios`, depois `fetch('/api/leads')` no console | nada | `GET leads` fora do suporte não lê leads de Franco nem de alvorada; o operador vê só os leads da própria plataforma (o pipeline beta, por design, AM1). [A4, A26] | Lista leads de Franco ou alvorada |
@@ -266,7 +266,7 @@ Campo → onde precisa aparecer:
 | 7.13 | Em `equipe.alvorada`, `fetch('/api/leads/<id>/anonymise', {method:'POST'})` | nada | 403. [A48] | 200 |
 | 7.14 | Anônimo + `reinaldo` (Franco) tentando o id da alvorada: `franco.localhost:5173/api/qa/login-as/reinaldo?to=/equipe/leads/<id da alvorada>` | nada | Ficha não encontrada (404, outro firm). [A48, A1] | A ficha de alvorada abre |
 
-Conferir depois (rodada 7): NÃO VERIFICADO os endpoints exatos de exportar/anonimizar: ler em `api.rnc/routes/api.php` antes de rodar; `leads` do 2º com nome/e-mail/telefone/CNPJ nulos e `anonymised_at` preenchido; `consent_records` do lead ainda existem com texto; a segunda chamada de "Anonimizar" responde igual e não cria linha extra (C19).
+Conferir depois (rodada 7): NÃO VERIFICADO os endpoints exatos de exportar/anonimizar: ler em `api.balancia/routes/api.php` antes de rodar; `leads` do 2º com nome/e-mail/telefone/CNPJ nulos e `anonymised_at` preenchido; `consent_records` do lead ainda existem com texto; a segunda chamada de "Anonimizar" responde igual e não cria linha extra (C19).
 
 ---
 

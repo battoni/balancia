@@ -24,4 +24,4 @@ test('findUnmapped: reports a table with no owner and an endpoint or view outsid
 });
 
 // The end-to-end cases — every table, endpoint and view of the real code mapped, and a section on the
-// reference pages for each module — need the project's code; docs.rnc's copy of this file shows them.
+// reference pages for each module — need the project's code; docs.balancia's copy of this file shows them.

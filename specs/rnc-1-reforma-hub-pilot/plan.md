@@ -4,10 +4,10 @@ Approved: 07/11/2026 (Claude, owner away — `/battoni-run` mode, W# logged in `
 
 Every phase: Pest tests red first for the API, then Vitest for the SPA, then code; then
 `make pre-commit` green; then commit `rnc-1: F<n> <what>`. API code follows
-`.claude/rules/arcus-api-architecture.md` (modules under `api.rnc/app/Modules/<Name>/` with
+`.claude/rules/arcus-api-architecture.md` (modules under `api.balancia/app/Modules/<Name>/` with
 Controllers · Requests · DTOs · Services · Repositories · Resources · Models · RULES.md ·
 CHANGELOG.md); SPA code follows `.claude/rules/celer-0*.md` (modules under
-`app.rnc/src/modules/<Name>/`, PrimeVue + the theme in `src/styles/theme/`). Strings pt-BR in
+`app.balancia/src/modules/<Name>/`, PrimeVue + the theme in `src/styles/theme/`). Strings pt-BR in
 `locales`, with the `en` keys the e2e suite needs. Behaviour reference: the demo
 (`/Users/battoni/Work/battoni.dev/dev/demos/franco-reforma-hub/src/` — `engine.js` rules,
 `seed.js` content, `views/*.js` screens); port, don't paste.
@@ -26,7 +26,7 @@ CHANGELOG.md); SPA code follows `.claude/rules/celer-0*.md` (modules under
 - SPA: a `franco` theme (navy `#00375a`, cyan `#14c3ff`) set as `VITE_ACTIVE_THEME`; `PublicLayout`
   (header with "Franco Contabilidade", footer with the public contact) and the back-office layout
   with a role-filtered rail (Equipe · Reinaldo · Operador), empty home per role.
-- Local env: create MySQL database `rnc`, `api.rnc/.env` and `app.rnc/.env` (API on
+- Local env: create MySQL database `balancia`, `api.balancia/.env` and `app.balancia/.env` (API on
   `http://127.0.0.1:8000` via `php artisan serve`, SPA on `http://localhost:5173`, Sanctum
   stateful domain `localhost:5173`, CORS), `Makefile.local` targets `serve-api`, `serve-app`,
   `fresh-seed`. Update `CLAUDE.md` + `.cursor/rules/project-context.mdc` to this product.

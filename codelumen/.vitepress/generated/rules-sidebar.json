@@ -1,46 +1,46 @@
 {
-  "api.rnc": [
+  "api.balancia": [
     {
       "text": "API Architecture",
-      "link": "/rules/api.rnc/api-architecture"
+      "link": "/rules/api.balancia/api-architecture"
     }
   ],
-  "app.rnc": [
+  "app.balancia": [
     {
       "text": "Vue Checklist",
-      "link": "/rules/app.rnc/01-vue-checklist"
+      "link": "/rules/app.balancia/01-vue-checklist"
     },
     {
       "text": "Vue Imports",
-      "link": "/rules/app.rnc/02-vue-imports"
+      "link": "/rules/app.balancia/02-vue-imports"
     },
     {
       "text": "Vue Script",
-      "link": "/rules/app.rnc/03-vue-script"
+      "link": "/rules/app.balancia/03-vue-script"
     },
     {
       "text": "Vue Template",
-      "link": "/rules/app.rnc/04-vue-template"
+      "link": "/rules/app.balancia/04-vue-template"
     },
     {
       "text": "Module Conventions",
-      "link": "/rules/app.rnc/05-module-conventions"
+      "link": "/rules/app.balancia/05-module-conventions"
     },
     {
       "text": "Design System",
-      "link": "/rules/app.rnc/06-design-system"
+      "link": "/rules/app.balancia/06-design-system"
     },
     {
       "text": "View Patterns",
-      "link": "/rules/app.rnc/07-view-patterns"
+      "link": "/rules/app.balancia/07-view-patterns"
     },
     {
       "text": "Rules Auto Injection",
-      "link": "/rules/app.rnc/08-rules-auto-injection"
+      "link": "/rules/app.balancia/08-rules-auto-injection"
     },
     {
       "text": "Brand Mark Contract",
-      "link": "/rules/app.rnc/09-brand-mark-contract"
+      "link": "/rules/app.balancia/09-brand-mark-contract"
     }
   ],
   "shared": [

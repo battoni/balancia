@@ -48,7 +48,7 @@ phase should end under ~150k of context. One that writes a new component, its vi
 tests together will pass 200k (F4 of boanerges-1 reached 206k, the only phase above it): split it
 into the component with its own tests, then the view. Name the convention rules
 that matter in each phase concretely (`MAddEdit{Entity}Form` in `MMainDialog`, granular list
-updates, `canX` computeds, the api.rnc request flow, migrations as `arcus-api-architecture` §3 says for this project — folded into `create_*`
+updates, `canX` computeds, the api.balancia request flow, migrations as `arcus-api-architecture` §3 says for this project — folded into `create_*`
 before launch, `add_*_to_*` on a published table after).
 
 ## Step 2 — Clean-context review

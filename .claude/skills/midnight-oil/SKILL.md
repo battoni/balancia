@@ -3,7 +3,7 @@ name: midnight-oil
 description: "Run a multi-phase implementation plan autonomously and unattended (overnight), building → reviewing → testing in Chrome → committing phase by phase, and surviving a mid-run API/connection crash so the loop never silently stalls. Load when asked to 'build these phases autonomously', run an overnight/unattended build, burn the midnight oil, or keep a phased build going crash-resiliently without a human babysitting it. Pairs with the project phase loop (`cortex/plans/phases/README.md`) and /battoni-pre-commit, /battoni-commit, /battoni-publish-pr."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 ---
 
 # Midnight Oil — Autonomous, Crash-Resilient Phased Build Loop
@@ -63,7 +63,7 @@ Run this for the current phase, then advance to the next, repeating until the st
    the phase's acceptance criteria? Does it still serve the master plan's intent? Note drift.
 4. **Test in Chrome** — drive the running app in the browser (the real, running frontend) for
    anything user-facing, **plus** the normal automated tests where applicable
-   (`api.rnc` Pest, `app.rnc` unit and e2e, or whatever the repo's `make pre-commit` runs where
+   (`api.balancia` Pest, `app.balancia` unit and e2e, or whatever the repo's `make pre-commit` runs where
    it has neither). "Green in the terminal" is not
    "works in the app" — do both.
 5. **If any issue: fix → review again (step 3) → test in Chrome again (step 4).** Loop until the

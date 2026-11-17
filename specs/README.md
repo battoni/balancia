@@ -1,6 +1,6 @@
 # specs/
 
-One folder per feature, `<id>-<slug>/` (e.g. `rnc-12-sidebar-menu/`): `intent.md`, `facts.md`,
+One folder per feature, `<id>-<slug>/` (e.g. `balancia-12-sidebar-menu/`): `intent.md`, `facts.md`,
 `spec.md`, `plan.md`, `state.md`, `proposal.html`. The flow, the file formats and the ID rule are in
 [`.claude/feature-flow.md`](../.claude/feature-flow.md).
 

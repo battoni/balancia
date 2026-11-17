@@ -2,8 +2,8 @@
 # Runs the appropriate formatter after Claude edits a file — the ONE file it just edited.
 # Claude Code sends the PostToolUse payload as JSON on stdin; tool_input.file_path is absolute,
 # so it is made relative to the repo root before it is matched.
-#   api.rnc/**/*.php          → Pint on that file
-#   app.rnc/src/**/*.{vue,ts} → ESLint --fix on that file (never `npm run lint`, which is `eslint .`)
+#   api.balancia/**/*.php          → Pint on that file
+#   app.balancia/src/**/*.{vue,ts} → ESLint --fix on that file (never `npm run lint`, which is `eslint .`)
 # Fail-open: a payload it cannot read, or a formatter that fails, never blocks the session.
 # CLAUDE_HOOK_DRY_RUN=1 prints the command instead of running it. Tests: cortex/hooks/test_claude_hooks.py
 
@@ -37,11 +37,11 @@ run() {
 }
 
 case "$REL" in
-  api.rnc/*.php)
-    run api.rnc vendor/bin/pint --format agent "${REL#api.rnc/}"
+  api.balancia/*.php)
+    run api.balancia vendor/bin/pint --format agent "${REL#api.balancia/}"
     ;;
-  app.rnc/src/*.vue | app.rnc/src/*.ts)
-    run app.rnc npx --no-install eslint --fix "${REL#app.rnc/}"
+  app.balancia/src/*.vue | app.balancia/src/*.ts)
+    run app.balancia npx --no-install eslint --fix "${REL#app.balancia/}"
     ;;
 esac
 

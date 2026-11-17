@@ -10,7 +10,7 @@ alwaysApply: false
 >
 > **Usage:** `/battoni-grill-me HARD add a bulk-archive action to the Users table`
 > (difficulty = `SIMPLE` | `MEDIUM` | `HARD`; difficulty and/or description may be omitted — you'll ask for them.)
-> Run from the rnc monorepo root.
+> Run from the balancia monorepo root.
 >
 > **Which track:** this command serves the **small track** (a bug or one rule that changes; see
 > `.claude/feature-flow.md`). The plan it produces must list the tests that prove it, and the PR
@@ -32,11 +32,11 @@ From the arguments, read the **difficulty** (`SIMPLE`/`MEDIUM`/`HARD`) and the *
 
 ## Step 2 — Load context (before grilling)
 
-- **Rules:** if they aren't loaded yet, load them — run `/battoni-start-session` for the sub-project(s) the task touches (`app.rnc` / `api.rnc`), or read `.claude/rules/celer-*` / `.claude/rules/arcus-api-architecture.md`.
+- **Rules:** if they aren't loaded yet, load them — run `/battoni-start-session` for the sub-project(s) the task touches (`app.balancia` / `api.balancia`), or read `.claude/rules/celer-*` / `.claude/rules/arcus-api-architecture.md`.
 - **Local rules:** identify the module/units the task touches and read the **folder `RULES.md` chain** there, plus any rule you judge relevant. If you can't yet tell which units it touches, that's your **first** question.
 - **Know the gotchas** so your questions are sharp:
-  - **app.rnc:** components under `src/modules/*`, `src/components/*`, `src/layouts/*` are **auto-imported** (no import line); import from the module **barrel** (`@AuthModule`), never a sub-path; create/edit forms are extracted molecules (`MAddEdit{Entity}Form`) opened in `MMainDialog` (never raw `<Dialog>`); lists update **granularly** from the API response (no full refetch); destructive row actions use `useConfirm()` + `<ConfirmPopup>`; permissions are `canX` computeds from `userStore.hasPermission('resource.action')`; role color tokens flip light↔dark (never raw palettes).
-  - **api.rnc:** the request flow is Route → Request → Controller → DTO → Service → Repository → `ApiResponse` + Resource; repository methods are semantic and entity-prefixed; mutating endpoints return the affected resource for granular frontend updates.
+  - **app.balancia:** components under `src/modules/*`, `src/components/*`, `src/layouts/*` are **auto-imported** (no import line); import from the module **barrel** (`@AuthModule`), never a sub-path; create/edit forms are extracted molecules (`MAddEdit{Entity}Form`) opened in `MMainDialog` (never raw `<Dialog>`); lists update **granularly** from the API response (no full refetch); destructive row actions use `useConfirm()` + `<ConfirmPopup>`; permissions are `canX` computeds from `userStore.hasPermission('resource.action')`; role color tokens flip light↔dark (never raw palettes).
+  - **api.balancia:** the request flow is Route → Request → Controller → DTO → Service → Repository → `ApiResponse` + Resource; repository methods are semantic and entity-prefixed; mutating endpoints return the affected resource for granular frontend updates.
 
 ## Step 2.5 — If this is a FIX: reproduce it first (root cause, not band-aid)
 
@@ -80,10 +80,10 @@ Present a plan with these sections:
 1. **Goal & scope** — what you're building, the definition of done, and what's explicitly **out of scope**.
 2. **Approach** — the chosen design. For `HARD`, briefly say why it beats the alternatives you weighed.
 3. **Affected units** — sub-project(s), modules, and each file/component, marked **new** or **changed**; call out any `RULES.md` (+ sibling `CHANGELOG.md`) to **add or update**.
-4. **Implementation steps** — ordered bottom-up. api.rnc: enums/migrations/models → DTOs → repositories → services → requests/controllers/resources. app.rnc: enums/types → services → stores → composables → atoms → molecules → organisms → views/routes.
-5. **Convention checklist** — the **specific** `celer-*` / `arcus-*` / folder-`RULES.md` rules this work must honour (concrete, never generic): e.g. form extracted to `MAddEdit{Entity}Form` in `MMainDialog` with `:key`; granular ref add/replace/remove from the API response; `canX` permission computeds from `userStore.hasPermission`; api.rnc request-flow layering; role color tokens.
+4. **Implementation steps** — ordered bottom-up. api.balancia: enums/migrations/models → DTOs → repositories → services → requests/controllers/resources. app.balancia: enums/types → services → stores → composables → atoms → molecules → organisms → views/routes.
+5. **Convention checklist** — the **specific** `celer-*` / `arcus-*` / folder-`RULES.md` rules this work must honour (concrete, never generic): e.g. form extracted to `MAddEdit{Entity}Form` in `MMainDialog` with `:key`; granular ref add/replace/remove from the API response; `canX` permission computeds from `userStore.hasPermission`; api.balancia request-flow layering; role color tokens.
 6. **Edge cases & acceptance checklist** — loading / empty / error / permission states, plus each acceptance criterion as a `- [ ]` checkbox.
-7. **Validation (after implementation)** — how to prove each acceptance item is met, then run `/battoni-pre-commit` — the mechanical gate (whatever the repo's `make pre-commit` chains; with an app and an API: cursor-mirror parity, lint/format/locales, full test suite) plus the convention reviews where the repo has them: `/battoni-review-vue-conventions` + `/battoni-review-design-conventions` for app.rnc, `/battoni-review-arcus-code` for api.rnc. Where units are versioned (a `RULES.md` with a sibling `CHANGELOG.md`), bump the version + `CHANGELOG.md` for every touched one (see the `cortex-sync` skill); a repo without versioned units has nothing to bump.
+7. **Validation (after implementation)** — how to prove each acceptance item is met, then run `/battoni-pre-commit` — the mechanical gate (whatever the repo's `make pre-commit` chains; with an app and an API: cursor-mirror parity, lint/format/locales, full test suite) plus the convention reviews where the repo has them: `/battoni-review-vue-conventions` + `/battoni-review-design-conventions` for app.balancia, `/battoni-review-arcus-code` for api.balancia. Where units are versioned (a `RULES.md` with a sibling `CHANGELOG.md`), bump the version + `CHANGELOG.md` for every touched one (see the `cortex-sync` skill); a repo without versioned units has nothing to bump.
 
 8. **Decisions closed** — in the feature track these are `D#` lines in `spec.md` (`/battoni-spec`). Otherwise, when the project keeps a product memory (`cortex/plans/*product-memory*.md`, shape in `cortex/playbooks/planning/PRODUCT-MEMORY.md`), list every decision this grill closed as the next `D<n>` entries for its Decisions Log: the decision in one line, who decided and when, what it means for the build, and which `⚠️ OPEN #n` it closes. The grill writes nothing itself; the entries are recorded when the plan is approved, so a later phase spec cites `D<n>` instead of re-arguing it.
 

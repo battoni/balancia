@@ -32,8 +32,8 @@ const COMMANDS_OUT = join(CODELUMEN, 'commands');
 const COMMANDS_SIDEBAR_OUT = join(CODELUMEN, '.vitepress', 'generated', 'commands-sidebar.json');
 
 const PROJECT_LABELS = {
-  api.rnc: 'Arcus',
-  app.rnc: 'app.rnc',
+  api.balancia: 'Arcus',
+  app.balancia: 'app.balancia',
   shared: 'Shared',
 };
 

@@ -1,11 +1,11 @@
 ---
 outline: deep
-title: app.rnc
+title: app.balancia
 ---
 
-# app.rnc — Vue 3 SPA
+# app.balancia — Vue 3 SPA
 
-app.rnc is the **frontend bootstrap** — the starting point for new web applications.
+app.balancia is the **frontend bootstrap** — the starting point for new web applications.
 
 ## Stack
 
@@ -25,18 +25,18 @@ app.rnc is the **frontend bootstrap** — the starting point for new web applica
 
 | Page | Covers |
 | --- | --- |
-| [Vue Checklist](/rules/app.rnc/01-vue-checklist) | The mandatory pre-flight checklist |
-| [Vue Imports](/rules/app.rnc/02-vue-imports) | Import ordering + module-alias rules |
-| [Vue Script](/rules/app.rnc/03-vue-script) | Script structure, reactivity order, patterns |
-| [Vue Template](/rules/app.rnc/04-vue-template) | Template formatting, attribute order |
-| [Module Conventions](/rules/app.rnc/05-module-conventions) | enums / constants / types / services split |
-| [Design System](/rules/app.rnc/06-design-system) | Typography, spacing, radius, buttons |
-| [View Patterns](/rules/app.rnc/07-view-patterns) | List/detail view structure, dialogs |
-| [Rules Auto Injection](/rules/app.rnc/08-rules-auto-injection) | How `RULES.md` injection works |
+| [Vue Checklist](/rules/app.balancia/01-vue-checklist) | The mandatory pre-flight checklist |
+| [Vue Imports](/rules/app.balancia/02-vue-imports) | Import ordering + module-alias rules |
+| [Vue Script](/rules/app.balancia/03-vue-script) | Script structure, reactivity order, patterns |
+| [Vue Template](/rules/app.balancia/04-vue-template) | Template formatting, attribute order |
+| [Module Conventions](/rules/app.balancia/05-module-conventions) | enums / constants / types / services split |
+| [Design System](/rules/app.balancia/06-design-system) | Typography, spacing, radius, buttons |
+| [View Patterns](/rules/app.balancia/07-view-patterns) | List/detail view structure, dialogs |
+| [Rules Auto Injection](/rules/app.balancia/08-rules-auto-injection) | How `RULES.md` injection works |
 
 See also the [Design System](/design-system) reference and the [Recipes & Snippets](/intro-recipes-snippets).
 
-## Skills that load for app.rnc
+## Skills that load for app.balancia
 
 - `celer-advanced-patterns` — new modules, composables, complex forms
 - `celer-testing` — test authoring

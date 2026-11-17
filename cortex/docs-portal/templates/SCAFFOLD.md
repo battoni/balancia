@@ -77,7 +77,7 @@ grep -rl '{{SLUG}}' . --include='*' | xargs sed -i '' "s/{{SLUG}}/$slug/g"
    tables then needs its `<EndpointTable module>` / `<EntityDiagram module>` on the
    reference pages.
 3. Each `scripts/extract-*.mjs` — fix the sibling path(s) and adapt the parsing to your
-   stack's conventions if they differ from Laravel/app.rnc.
+   stack's conventions if they differ from Laravel/app.balancia.
 4. `config.mts` — edit `nav`; `sidebar.ts` — edit the sidebar to your real pages (dev group
    `collapsed: true`). The PDF export prints every sidebar page outside `/reference/`, in
    sidebar order, so there is no second list to keep.

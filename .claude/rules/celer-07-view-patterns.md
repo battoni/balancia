@@ -1,14 +1,14 @@
 ---
-description: app.rnc view layout patterns — TheLayout, dialogs, form molecules, list CRUD
+description: app.balancia view layout patterns — TheLayout, dialogs, form molecules, list CRUD
 paths:
-  - "app.rnc/**/*.vue"
-  - "app.rnc/**/*.ts"
+  - "app.balancia/**/*.vue"
+  - "app.balancia/**/*.ts"
 ---
 # View Patterns
 
-Reference implementation: `app.rnc/src/modules/User/views/Users/UsersView.view.vue` and its `RULES.md` — a server-paginated `OListDivided` with `OPaginator`, add/edit dialog and confirm popups.
+Reference implementation: `app.balancia/src/modules/User/views/Users/UsersView.view.vue` and its `RULES.md` — a server-paginated `OListDivided` with `OPaginator`, add/edit dialog and confirm popups.
 
-These patterns apply to authenticated list/detail views in app.rnc. Auth flows (`Login`, `SignUp`, etc.) use `TheCenteredLayout` instead — do not force this structure there.
+These patterns apply to authenticated list/detail views in app.balancia. Auth flows (`Login`, `SignUp`, etc.) use `TheCenteredLayout` instead — do not force this structure there.
 
 ## Page structure
 

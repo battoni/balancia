@@ -31,6 +31,6 @@ test('parseColumns: a Blueprint macro stamps its columns into the table', () => 
   assert.deepEqual(locality, ['state', 'city', 'cep', 'region', 'lat', 'lng']);
 });
 
-// The case above tests the parser alone, because the template has no API of its own. docs.rnc's
+// The case above tests the parser alone, because the template has no API of its own. docs.balancia's
 // copy of this file also checks MACRO_COLUMNS against the macros the API registers — keep that check
 // when the project has an API to read.

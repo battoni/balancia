@@ -1,8 +1,8 @@
 ---
-description: Script structure, reactivity order, and code patterns for app.rnc (Vue 3 / TS)
+description: Script structure, reactivity order, and code patterns for app.balancia (Vue 3 / TS)
 paths:
-  - "app.rnc/**/*.vue"
-  - "app.rnc/**/*.ts"
+  - "app.balancia/**/*.vue"
+  - "app.balancia/**/*.ts"
 ---
 # Vue API
 

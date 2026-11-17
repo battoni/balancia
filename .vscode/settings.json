@@ -16,7 +16,7 @@
   "prettier.requireConfig": true,
   "volar.formatting.enable": false,
   "eslint.workingDirectories": [
-    { "directory": "./app.rnc", "changeProcessCWD": true }
+    { "directory": "./app.balancia", "changeProcessCWD": true }
   ],
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#c0e021",

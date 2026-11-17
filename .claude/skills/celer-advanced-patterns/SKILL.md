@@ -1,13 +1,13 @@
 ---
 name: celer-advanced-patterns
-description: "Advanced Vue 3 patterns for app.rnc — composable design, store architecture, performance optimization, complex form patterns. Load when building a new module, designing a composable, refactoring a store, working on complex form validation, or optimizing a large component."
+description: "Advanced Vue 3 patterns for app.balancia — composable design, store architecture, performance optimization, complex form patterns. Load when building a new module, designing a composable, refactoring a store, working on complex form validation, or optimizing a large component."
 paths:
-  - "app.rnc/**"
+  - "app.balancia/**"
 ---
 
-# app.rnc — Advanced Vue 3 Patterns
+# app.balancia — Advanced Vue 3 Patterns
 
-> **Scope:** This skill applies to the **app.rnc/** sub-project (Vue 3 SPA, TypeScript).
+> **Scope:** This skill applies to the **app.balancia/** sub-project (Vue 3 SPA, TypeScript).
 
 ## When to load this skill
 

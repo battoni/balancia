@@ -32,7 +32,7 @@ Use the rtk forms (`~/.claude/RTK.md`), so auto mode does not ask twice.
    ID=<id>` (PR closed unmerged, or no commit and no session for 7 days; `wt-down` refuses
    unmerged work, `wt-discard` throws it away).
 3. **Local branches** merged into `origin/main`, minus `main`, the sync's vendor branch
-   (`pendulum-upstream` / `rnc-upstream`) and the branch of any live worktree. Their GitHub
+   (`pendulum-upstream` / `balancia-upstream`) and the branch of any live worktree. Their GitHub
    copies too (`git ls-remote --heads origin <branch>`).
 4. **Open PRs** (`rtk gh pr list --state open`) and, for each, CI and draft state.
 5. **Loose files:** `handoffs/` (a handoff whose work is done is deleted; one for work still
@@ -69,7 +69,7 @@ worktree of a feature still building.
 - Worktree: `rtk make wt-down ID=<id>`, never `git worktree remove` by hand: it re-runs every
   check, names the one that fails and then touches nothing; once they pass it removes the folder
   and deletes the branch (in a Valet/MySQL project it first undoes the Valet sites and drops the
-  `<project>_<label>` DB; rnc has neither). A refusal is reported, not
+  `<project>_<label>` DB; balancia has neither). A refusal is reported, not
   worked around.
 - Left-behind worktree answered "discard": first the dry run, `rtk make wt-discard ID=<id>`, which
   runs the same checks and lists what goes (folder, branch with its tip SHA); show

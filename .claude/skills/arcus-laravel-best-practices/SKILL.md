@@ -1,14 +1,14 @@
 ---
 name: arcus-laravel-best-practices
-description: "Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code in api.rnc/. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions."
+description: "Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code in api.balancia/. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions."
 license: MIT
 metadata:
   author: laravel
 paths:
-  - "api.rnc/**"
+  - "api.balancia/**"
 ---
 
-> **Scope:** This skill applies to the **api.rnc/** sub-project (Laravel 13 API, PHP 8.4).
+> **Scope:** This skill applies to the **api.balancia/** sub-project (Laravel 13 API, PHP 8.4).
 
 # Laravel Best Practices
 

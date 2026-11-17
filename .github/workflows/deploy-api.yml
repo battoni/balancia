@@ -1,11 +1,11 @@
 name: Deploy API
 
-# Publishes api.rnc to the droplet on every push to main. The front does not appear here: app.rnc
+# Publishes api.balancia to the droplet on every push to main. The front does not appear here: app.balancia
 # is a Vercel project with Git integration and deploys itself when main moves.
 #
 # Deliberately NOT part of ci.yml: that file is a cortex-sync MERGE artifact and propagates to
-# every derived project, and this one is about a server only rnc has. Both this workflow
-# and api.rnc/deploy.sh are LOCAL in the sync manifest, and that is a safety rule rather than
+# every derived project, and this one is about a server only balancia has. Both this workflow
+# and api.balancia/deploy.sh are LOCAL in the sync manifest, and that is a safety rule rather than
 # tidiness — the script rebuilds the database from scratch, which is right for a bootstrap that
 # keeps no data and would be a data-loss incident in a project that has shipped.
 #
@@ -37,12 +37,12 @@ permissions:
 
 jobs:
   test:
-    name: api.rnc — Pest
+    name: api.balancia — Pest
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api.rnc
+        working-directory: api.balancia
     steps:
       - uses: actions/checkout@v4
 
@@ -65,7 +65,7 @@ jobs:
         run: php artisan test
 
   deploy:
-    name: api.rnc — droplet
+    name: api.balancia — droplet
     needs: test
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
@@ -111,7 +111,7 @@ jobs:
           set -euo pipefail
           cd "$1"
 
-          # DEPLOY_PATH is the MONOREPO root — /var/www/rnc — not the API subfolder.
+          # DEPLOY_PATH is the MONOREPO root — /var/www/balancia — not the API subfolder.
           # api.lifeshifter points at the subfolder instead and its workflow has to walk up
           # one level to find the repository; naming the root outright means git runs where
           # git belongs and the API is addressed as a path within it.
@@ -124,18 +124,18 @@ jobs:
           git config --global --add safe.directory "$PWD"
 
           # Main stays checked out (a deploy by hand still finds a branch), moved to the approved
-          # commit. api.rnc/deploy.sh fetches again, so it is told the same commit: it refuses one
+          # commit. api.balancia/deploy.sh fetches again, so it is told the same commit: it refuses one
           # that is not on main and would otherwise reset to main's tip.
           git fetch --quiet origin main
           git checkout --quiet main
           git merge-base --is-ancestor "$2" origin/main
           git reset --hard --quiet "$2"
 
-          DEPLOY_SHA="$2" bash api.rnc/deploy.sh
+          DEPLOY_SHA="$2" bash api.balancia/deploy.sh
           REMOTE
 
       - name: Confirm the API answers from outside
         run: |
-          STATUS=$(curl --silent --show-error --max-time 20 -o /dev/null -w '%{http_code}' https://api.rnc.battoni.dev/up)
+          STATUS=$(curl --silent --show-error --max-time 20 -o /dev/null -w '%{http_code}' https://api.balancia.battoni.dev/up)
           echo "GET /up -> $STATUS"
           test "$STATUS" = "200"

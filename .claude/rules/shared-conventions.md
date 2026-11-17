@@ -1,5 +1,5 @@
 ---
-description: Shared conventions for the rnc monorepo — git, commits, PRs, code hygiene
+description: Shared conventions for the balancia monorepo — git, commits, PRs, code hygiene
 ---
 # Shared Conventions
 

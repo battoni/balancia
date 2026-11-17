@@ -3,7 +3,7 @@ name: landing-page
 description: "Build a new high-performance marketing landing page, or review an existing one, for a Battoni client/product. Astro static-first, CodeLumen design tokens, scored against the seven pillars (Performance, UX, UI, SEO, AEO, GEO, Conversion). Load when asked to scaffold/create a landing page, a public.* or marketing site, a product page; when optimizing one for Lighthouse / Core Web Vitals / SEO / AEO / GEO / AI-SEO / structured data / llms.txt; or to review/audit an existing landing page. Canonical template: public.battoni.dev. Method: the landing-page recipe (codelumen/landing-page-recipe.md where codelumen is kept)."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 ---
 
 # Landing Page — Build & Review (Astro)
@@ -14,14 +14,14 @@ metadata:
 >
 > - **Method (do not duplicate here):** the landing-page recipe — pillars, targets, templates,
 >   do-not list. It lives at `codelumen/landing-page-recipe.md` **in a repo that keeps
->   `codelumen/`** (rnc always does).
+>   `codelumen/`** (balancia always does).
 > - **Canonical template / reference build:** `public.battoni.dev/`.
 > - **Deterministic engine:** `public.battoni.dev/scripts/audit.mjs` — the parts of the
 >   recipe verifiable without a live audit tool. Used by both modes.
 >
 > **When this repo has neither.** A project may delete `codelumen/`, and `public.battoni.dev/`
 > is never synced, while this skill is. Check both paths first. If they are missing, read them
-> from the rnc checkout (ask the user where it is) — do not guess the recipe's rules from
+> from the balancia checkout (ask the user where it is) — do not guess the recipe's rules from
 > memory. Without the recipe, what this file states is the enforceable minimum: the Mode A
 > length targets, the gate and the Guardrails below; say in the report that the judgement
 > pillars were reviewed without it.
@@ -32,7 +32,7 @@ Load when the user wants to **create** a landing page (a new client/product page
 `public.*` or marketing site) **or review** an existing one (Lighthouse, Core Web Vitals,
 SEO/AEO/GEO, AI-SEO, structured data, `llms.txt`, conversion). If unsure which mode, ask.
 
-Do **not** load for the app.rnc SPA, the api.rnc API, or the docs portal — those have their
+Do **not** load for the app.balancia SPA, the api.balancia API, or the docs portal — those have their
 own rules/skills.
 
 ---

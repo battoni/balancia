@@ -9,7 +9,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 - **F1a Firm by host — API** (A1–A5; AM1, AM2, AM4 API half, AM8, AM9) · 13/11 · full Pest 1917
   (+66: `FirmByHostTest`, `FirmMismatchTest`, `PlatformSeedersTest`, `LoginFirmTest`,
   `UsersFirmScopeTest`, `RegistrationClosedTest`, `StatefulHostTest`), all green; Vitest and
-  Playwright not run (no app.rnc change; F1b runs both in full, AM5) · Pint, PHPStan, mirror check
+  Playwright not run (no app.balancia change; F1b runs both in full, AM5) · Pint, PHPStan, mirror check
   green · pre-commit green 13/11/2026 (arcus review inline: constants extracted, docs bumped).
   Red first: 56 of the 66 new tests failed before the code (A1 and the own-host cases already held).
   Mutations seen red: platform firm by header (AM9), firm-less non-operator at root, mismatch check
@@ -38,7 +38,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   não encontrado", link to the root) in place of any path; Vite `server`/test/`preview` proxy `/api`
   (keeps Host, `VITE_API_PROXY_TARGET` overrides the target) and `allowedHosts: ['.localhost']`;
   Playwright `baseURL` `http://franco.localhost:<port>` (D31); `.env.example`, `.env.test` (retired
-  comment, AM4) and this worktree's `app.rnc/.env` carry `VITE_API_URL=/api`, `VITE_ROOT_DOMAIN`.
+  comment, AM4) and this worktree's `app.balancia/.env` carry `VITE_API_URL=/api`, `VITE_ROOT_DOMAIN`.
   Existing e2e touched: `fixtures/auth.ts` answers `public/firm` by default (W13). Every e2e intercept
   already matched `**/…` on any host.
   Live (AM3, through Vite's proxy, fresh seed): `public/firm` on `alvorada.localhost:5173` names
@@ -47,7 +47,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   `xyz.localhost` 404 `firms.notFound`; root → `hub`; the session cookie is host-only (no Domain).
 - **F2a Firm brand, product name, mail brand, consent versions — API** (A8–A10; R8, R9, R12, R13) ·
   14/11 · full Pest 1932 (+15: `Firm/PublicFirmBrandTest` 6, `Mail/FirmMailBrandTest` 3,
-  `Lead/ConsentVersionTest` 6), all green; Vitest and Playwright not run (no app.rnc change) · Pint,
+  `Lead/ConsentVersionTest` 6), all green; Vitest and Playwright not run (no app.balancia change) · Pint,
   PHPStan, mirror check green · pre-commit green 14/11/2026 (arcus review inline: the seeded consent
   default made write-once, unused update methods dropped, `based-on` bumped). `make fresh-seed` clean.
   Red first: all 15 new tests failed before the code. Mutations seen red: `platform` dropped from
@@ -59,7 +59,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   `platform.name` (`UserResource::withPlatform`); `Firm/Services/MailBrand` (name, ink = primary,
   accent, logo, mailbox, the firm's own site) carried in `MeetingMailDTO`, `ReferralMailDTO`,
   `BriefingMailDTO` and read by the `mail.*` composer; every mail is from `mail.from.address` under
-  the firm's name, reply-to its mailbox (D11); `config('rnc.brand')` removed; `MailPreviewController`
+  the firm's name, reply-to its mailbox (D11); `config('balancia.brand')` removed; `MailPreviewController`
   takes `?firma=<slug>`. Consent: `platform_settings` + `PlatformSettings` (`consent_default`,
   write-once seed), `firm_consent_versions` + `FirmConsentVersion` + `ConsentTextService` (current,
   `startFirm`, `createVersion`, `forLead`, `contractConsent`); `ConsentTerms` keeps `VIA_*`, the
@@ -87,7 +87,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   layout up, the rail block rendered before a firm is known, `useBrandTheme()` dropped from `App.vue`
   (4 e2e).
   What changed: `src/composables/brand/` — `useFirmBrand` (one `public/firm` per page load, no
-  `X-Brand`, kept in `sessionStorage` `app.rnc:firm-brand` and read at boot; `isFirmMissing` moved here
+  `X-Brand`, kept in `sessionStorage` `app.balancia:firm-brand` and read at boot; `isFirmMissing` moved here
   from `usePublicFirm`), `useBrandTheme` (mounted by `App.vue`: the firm's ramp on `<html>` for both
   layouts, `platform.name` as `document.title` off public pages) + `useSubBrandTheme` (`ThePublicLayout`:
   a sub-brand over the firm's only while a public layout is up), moved `brandPalette`, `publicBrand`, the
@@ -97,13 +97,13 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   the drawer: firm tile + logo text + `platform.name`. `ThePublicLayout`'s mark writes the firm's
   `logo_text`. `hub.css` neutral slate theme (franco.css's shape), `VITE_ACTIVE_THEME` default `hub`
   (`vite.config.ts`, `theme.constant.ts`, `.env.example`, `.env.test` with its retired comment, this
-  worktree's `app.rnc/.env`); `index.html` title "Carregando…". `brandPalette`'s 400 is lightened to
+  worktree's `app.balancia/.env`); `index.html` title "Carregando…". `brandPalette`'s 400 is lightened to
   read on the dark canvas/panel (C7).
   Existing tests changed: `TheRouteGuard.spec` (mocks `@Composables`' `useFirmBrand`), the two navbar
   organism specs (stub `MNavbarBrand`), `site/brands.spec.ts` (the host firm's header-less boot read is
   allowed beside the brand's; back on the main brand the root wears Franco's row, `data-brand=franco`).
 - **F2c1 Scripted rename — role slug, routes, workspace and locale keys** (A13, A14; R14; AM6) · 14/11 ·
-  scripted with `perl -pi` over `git ls-files api.rnc app.rnc` (CHANGELOGs excluded), tests first then
+  scripted with `perl -pi` over `git ls-files api.balancia app.balancia` (CHANGELOGs excluded), tests first then
   code; per-pattern file counts in the commit body. Role `ceo` → `gestao` (seeders, Briefing's recipients,
   the bell's team roles, every test); `/reinaldo/*` → `/gestao/*`, `/ceo/*` → `/management/*`, route
   names `ceo-*` → `management-*`, `WORKSPACES`/rail/channel key `ceo` → `management`, locale keys
@@ -138,11 +138,11 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 - **F3a Modules per firm — API with degrade** (A17–A21; R16–R20) · 14/11 · full Pest 1985 (+47:
   `Unit/Modules/Firm/FirmModulesServiceTest` 13, `Firm/ModuleGateTest` 16, `Firm/ModuleCommandsTest` 4,
   `Briefing/BriefingDegradeTest` 4, `Portfolio/ContractDegradeTest` 3, `Radar/RadarDegradeTest` 4,
-  `Auth/MeFirmTest` 3), all green · full Vitest 1345 (`--maxWorkers=2`; no app.rnc change) · Playwright
-  not run (no app.rnc change, no e2e file added or edited — phase gate) · Pint, PHPStan, aliases,
+  `Auth/MeFirmTest` 3), all green · full Vitest 1345 (`--maxWorkers=2`; no app.balancia change) · Playwright
+  not run (no app.balancia change, no e2e file added or edited — phase gate) · Pint, PHPStan, aliases,
   vue-tsc, ESLint, Prettier, sort-locales, mirror check, `wt-test` green; check-portal and check-cortex
   skip themselves here · arcus review inline (unit versions bumped, `based-on` with them on the
-  rnc-origin units; nothing else to fix) · pre-commit green 14/11/2026 without the full Playwright
+  balancia-origin units; nothing else to fix) · pre-commit green 14/11/2026 without the full Playwright
   suite. `make fresh-seed` clean: franco every key, alvorada every opt-in but `brands`, hub none.
   Red first: 41 of the 47 failed before the code (the six "while it is on" sanity cases passed).
   Mutations seen red (14, one per rule): `GET partners` ungated, `briefing:send` and
@@ -175,7 +175,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   v1 = platform default, `gestao` manager not a specialist, printed 16-char password refused on
   `franco` and signing in on `acme`, `--specialist` hours = business hours, refusals `www`/`hub`/
   `Acme!`/`-acme`/`franco`, taken username, taken/malformed e-mail, no name/manager, rollback), all
-  green · full Vitest 1345 (`--maxWorkers=2`; no app.rnc change) · Playwright not run (no app.rnc
+  green · full Vitest 1345 (`--maxWorkers=2`; no app.balancia change) · Playwright not run (no app.balancia
   change, no e2e file added or edited — phase gate) · check-app (aliases, vue-tsc), check-api (Pint,
   PHPStan), check-portal and check-cortex (skip themselves here), mirror check, sanitize (ESLint,
   Prettier, sort-locales) green · arcus review inline (units bumped; nothing else to fix) ·
@@ -204,8 +204,8 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   every row in its own firm, Franco's counts unchanged; Alvorada's four people, two specialists with
   hours, `parceiro.alvorada.<n>` logins; contact data not Franco's, `hub` the one platform firm with no
   module and its `gestao.hub` manager; a module off seeds none of its data; `PlatformManagerSeeder`
-  refuses testing/production/staging ×3), all green · full Vitest 1345 (`--maxWorkers=2`; no app.rnc
-  change) · Playwright not run (no app.rnc change, no e2e file added or edited — phase gate) ·
+  refuses testing/production/staging ×3), all green · full Vitest 1345 (`--maxWorkers=2`; no app.balancia
+  change) · Playwright not run (no app.balancia change, no e2e file added or edited — phase gate) ·
   check-app, check-api (Pint, PHPStan), check-portal and check-cortex (skip themselves here), mirror
   check, sanitize green · arcus review inline (database unit 1.27.0 + its rule, Franco-only docblocks
   generalised; nothing else to fix) · pre-commit green 14/11/2026 without the full Playwright suite.
@@ -270,7 +270,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   `Platform/PlatformFirmsTest` 22, `Platform/ConsentDefaultTest` 7, `Access/Phase4AccessTest` 51 + the route
   matrix's 7 new rows; `RoleLoginTest` lost its `battoni` row — moved to `OperatorSignInTest` — and `SeedShapeTest`
   expects `battoni` as the one firm-less account), all green · full Vitest 1391 (`--maxWorkers=2`; only
-  locale JSON changed in app.rnc) · Playwright not run (no e2e file added or edited — phase gate) · check-app
+  locale JSON changed in app.balancia) · Playwright not run (no e2e file added or edited — phase gate) · check-app
   (aliases, vue-tsc), check-api (Pint, PHPStan), mirror check, sanitize (ESLint, Prettier, sort-locales)
   green; check-portal and check-cortex skip themselves here · arcus review inline (vue/design reviews not
   applicable: no Vue/TS file changed; nothing to fix) · pre-commit green 14/11/2026 without the full
@@ -322,20 +322,20 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   true; `POST platform/firms` "Ipê Contábil"/`ipe` → `http://ipe.localhost:5173`, `gestao.ipe`, 16-char password;
   `POST …/manager` `gestao.ipe` → reset (`created` false); `gestao.ipe` signed in with `X-Firm: ipe` (firm ipe,
   role gestao) and got 403 on `platform/firms`. Re-seeded after (`migrate:fresh --seed`).
-  What changed (app.rnc): new module `src/modules/Platform` (constants, interfaces, 7 services, routes
+  What changed (app.balancia): new module `src/modules/Platform` (constants, interfaces, 7 services, routes
   `/plataforma/escritorios` + `/platform/firms`, `/plataforma/consentimento` + `/platform/consent`, molecules
   `MAddEditFirmForm`, `MFirmModulesForm`, `MFirmManagerForm`, `MOneTimePassword`, views `FirmsView`,
   `ConsentDefaultView`, RULES 1.0.0, CHANGELOG); `@PlatformModule` alias (vite, vitest, tsconfig; config-rules
   1.5.0); `routes.local.ts`; rail "Plataforma" in `navItems.local.ts` (TheNavbar 1.10.0); `HomeView` sends the
   firm-less operator to the console (Home 3.7.0, HomeView 1.2.0); locales `platform` group + 3 `navigation` keys,
-  `sort-locales.mjs` registers `platform` (locales 1.15.0); e2e 1.20.0. api.rnc: Platform RULES 1.0.1 (Known Gap
+  `sort-locales.mjs` registers `platform` (locales 1.15.0); e2e 1.20.0. api.balancia: Platform RULES 1.0.1 (Known Gap
   "No SPA yet" retired). Spec: no C# (W57–W59 stay inside R25's wording).
 - **F6a Beta signup — API** (A31; R29, D29) · 14/11 · `tests/Feature/Lead/BetaSignupTest.php` 30 tests (new).
   Gate: Pest dirs Lead, Notification, Access, Pipeline, Firm, Mail, Arch 698 + Diagnostic, Metrics,
   `MailSenderTest`, `DtoValidatedInputTest` 111, all green; Pint, PHPStan, mirror check green (`make check-api`,
   `make sync-mirror-check`); arcus review inline (1 finding fixed: Lead RULES `based-on` bumped with `version`).
   Phase gate green 14/11/2026 — NOT the full `/battoni-pre-commit`: skipped `check-app`, `sanitize`, Vitest and
-  Playwright (no app.rnc file changed, no e2e file in this phase; plan Defaults/D30), `check-portal` (no portal),
+  Playwright (no app.balancia file changed, no e2e file in this phase; plan Defaults/D30), `check-portal` (no portal),
   `check-cortex` (skipped by design here).
   Red first: 24 of the 29 first tests failed before the code (the 5 tenant-404 cases held with no route).
   Mutations seen red: `platform.firm` off the POST (1: the "404 before validation" case), BOTH the middleware and
@@ -411,14 +411,14 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   flagged; Lead (1.10.0) `ConsentVersionController` (`GET/POST firm/consent-versions`), `StoreConsentVersionRequest`,
   `StoreConsentVersionDTO`, `ConsentVersionResource`, `ConsentTextService::historyOfCurrentFirm`/`createForCurrentFirm`,
   `FirmConsentVersion::author()`; database (1.30.0) `create_firms` + `credentials`, `FirmSeeder::CREDENTIALS`,
-  `RoleSeeder::GESTAO_FIRM_KEYS`; routes in `api.local.php` (7, `routeClasses.php`: staff). app.rnc: `ThePublicLayout` reads
+  `RoleSeeder::GESTAO_FIRM_KEYS`; routes in `api.local.php` (7, `routeClasses.php`: staff). app.balancia: `ThePublicLayout` reads
   `firm.credentials` (no block when null, none on the product site), `PublicFirm.credentials`, `site.footer.credentialsText` removed,
   `rolesAndPermissions.groups.firm` (locales 1.16.0); Site (1.8.1) Known Gap retired; `helpers/RULES.md` table re-padded by Prettier
   (sanitize). Spec C16, C17.
 - **F5b Firm settings — SPA** (A39, A40; R30–R33) · 14/11 · Vitest full 1477 (`--maxWorkers=2`; +29 in FirmSettings:
   `FirmContactView` 5, `FirmTeamView` 6, `FirmSpecialistsView` 6, `FirmConsentView` 7, `MAddEditTeamMemberForm` 5; `navItems.local.spec`
   2 cases extended), all green · Playwright `e2e/firm-settings/settings.spec.ts` 3 (new) + `e2e/navigation` + `e2e/users` = 28, all green,
-  stable over 3 runs with `--retries=0` · Pest not run (no api.rnc change) · `make check-app` (aliases 35, vue-tsc), `make check-api`
+  stable over 3 runs with `--retries=0` · Pest not run (no api.balancia change) · `make check-app` (aliases 35, vue-tsc), `make check-api`
   (Pint, PHPStan), `sync-mirror-check`, `sanitize` (lint, format, sort-locales) green; vue, design reviews inline (fixed: watchers moved
   to named handlers, a `window` identifier shadowing the global renamed `span`, ref order, weekday toggles `gap-3`). Phase gate green
   14/11/2026 — NOT the full `/battoni-pre-commit`: skipped the full Playwright suite (plan Defaults/D30; only this phase's e2e file plus
@@ -441,11 +441,11 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   `@FirmSettingsModule` alias, `primevue/radiobutton` in `optimizeDeps`; e2e (1.21.0). Spec: no C# (W81–W83 stay inside R30–R33).
 - **F4c Logo upload and view-as — API** (A41, A42; R26, R27; AM1, AM10) · 14/11 · **security-sensitive — flagged for the verify review (P6)** ·
   full Pest 2323 (+90: `Platform/ViewAsTest` 22, `Platform/FirmLogoTest` 18, and 50 more dataset rows from the five new routes in
-  `Access/Phase4AccessTest` and the route matrix), all green · Vitest and Playwright not run (no app.rnc change; plan Defaults/D30) ·
+  `Access/Phase4AccessTest` and the route matrix), all green · Vitest and Playwright not run (no app.balancia change; plan Defaults/D30) ·
   Pest dirs Platform, Auth, Firm, Access re-run after the last edit, 1032 green · `make check-api` (Pint, PHPStan), `make check-app`
   (aliases 35, vue-tsc), `sync-mirror-check`, `sanitize` green; arcus review inline (fixed: concrete paginator type for
   `ApiResponse::paginated`, a named boolean in `LogoImage`, the "IP behind a proxy" gap written down). Phase gate 14/11/2026 — NOT the
-  full `/battoni-pre-commit`: skipped the Vitest and Playwright suites (no app.rnc change, D30), `check-portal` (no portal) and
+  full `/battoni-pre-commit`: skipped the Vitest and Playwright suites (no app.balancia change, D30), `check-portal` (no portal) and
   `check-cortex` (skipped by design here). No live HTTP check: the phase's Done-when is the Pest dirs; F4d's live round covers it.
   Red first: 38 of the 39 first tests failed before the code (the unknown-firm logo 404 held: no route). Mutations seen red: the
   operator check in `ViewAsService::find` off (caught only after adding "its own operator placed in a firm" — the firm-user cases never
@@ -495,7 +495,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   `sair`, back on the console, banner gone, rail "Hub da Reforma"; log row alvorada/sair/127.0.0.1 and 3 rows on the screen; a second
   view-as then `auth/logout` → 200, audit row `logout` (earlier rows `expirou` from the script's re-sign-ins, W87). Servers stopped,
   uploaded file deleted, `make fresh-seed` after.
-  What changed: app.rnc Platform (1.1.0) — `MFirmLogoField` (in `MAddEditFirmForm`'s look mode, `onLogoChange`), `OViewAsBanner`,
+  What changed: app.balancia Platform (1.1.0) — `MFirmLogoField` (in `MAddEditFirmForm`'s look mode, `onLogoChange`), `OViewAsBanner`,
   `ViewAsLogView` (`/plataforma/acessos` + `/platform/view-as-log`, `platform.firms`), five services (`UploadFirmLogo`, `RemoveFirmLogo`,
   `StartViewAs`, `StopViewAs`, `GetViewAsLog`), `PlatformFirm.logo_url`, `ViewAsSession`, `PLATFORM_LOGO_TYPES`/`_MAX_BYTES`, error keys
   `platform.logo*`/`viewAs*`, "Acessar como suporte" on every row but the platform firm's (`FirmsView`); Known Gap "no logo/view-as" retired,
@@ -514,7 +514,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   the owner's three commands) · Vitest full 1513 (`--maxWorkers=2`; +1 `User/store.spec` hasModule during view-as), all green ·
   Playwright `e2e/platform/view-as.spec.ts` 3/3 `--retries=0` (fixture now carries `view_as.modules`) · `make check-api` (Pint,
   PHPStan), `make check-app` (aliases 35, vue-tsc), `sync-mirror-check`, `sanitize` (lint exit 0, format, sort-locales: no changes),
-  `wt-test` green; `check-portal` and `check-cortex` skip themselves here (no portal; not the rnc upstream). Phase gate 14/11/2026 —
+  `wt-test` green; `check-portal` and `check-cortex` skip themselves here (no portal; not the balancia upstream). Phase gate 14/11/2026 —
   `/battoni-pre-commit` without the full Playwright suite (feature-flow phase gate): every other step ran. Reviews inline: arcus (not
   applied, on purpose: `HealthController` runs its `select 1` itself, with no service/repository — a probe with no domain and no
   model), vue (no finding), design (no UI change — skipped as not applicable).
@@ -538,9 +538,9 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   (1.22.1). Spec: no C# (W95–W100 stay inside R26, R34–R37).
 - **F9a LGPD — API** (A48, A49; R38–R40) · 14/11 · full Pest 2397 (+43: `Pipeline/LeadPrivacyTest` 19,
   `Firm/PublicPrivacyTest` 5, `Firm/OffboardFirmCommandTest` 10, `Access/Phase4AccessTest` 2, `RouteMatrixTest` 7 rows for the three new routes),
-  all green (parallel, SQLite in memory); Vitest and Playwright not run (no app.rnc change) · phase gate 14/11/2026 — NOT the full
+  all green (parallel, SQLite in memory); Vitest and Playwright not run (no app.balancia change) · phase gate 14/11/2026 — NOT the full
   `/battoni-pre-commit`: ran `make check-api` (Pint + PHPStan green), `make check-app` (aliases + type-check green),
-  `make sync-mirror-check` green, the full Pest; skipped `make sanitize` and `test-all`'s Vitest/e2e (no app.rnc file touched),
+  `make sync-mirror-check` green, the full Pest; skipped `make sanitize` and `test-all`'s Vitest/e2e (no app.balancia file touched),
   `check-portal` (no portal), `check-cortex` (skipped by design here); vue and design reviews not applicable (no app change);
   arcus review inline (findings fixed: `logout()` on the guard wrote `users` in the offboarded branch → session invalidate only;
   two nullsafe calls on non-null timestamps; `role?->slug` on a Model → `instanceof Role`).
@@ -569,7 +569,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   the phase gate), `check-portal` (no portal), `check-cortex` (skipped by design here). Reviews inline: vue conventions (no finding
   left; the confirm is `useConfirm` + `ConfirmPopup` in the `<aside>`, celer-07), design conventions (role tokens, `text-brand-word`
   for the brand as a word, `touch-target` on the hand-written links, `gap-3` between the two data buttons); arcus not applicable
-  (no api.rnc change).
+  (no api.balancia change).
   Red first: both e2e files failed before the code (6 of 7; the team case passed — nothing rendered yet), and the four Vitest files
   failed (no view, no buttons, no footer link, no consent link). Mutations seen red: `canManageData` without `firm.settings` (the
   team cases in Vitest and e2e), "Anonimizar" calling the API before the confirmation (e2e: a POST before the popup's yes).
@@ -582,9 +582,9 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   popup is clicked without a scroll). Spec: C21.
 - **F7b MySQL fix** (R36; retires W95; added by the coordinator after the owner gave the MySQL login, plan.md phase order) ·
   14/11 · MySQL 8.0.41 (strict default `sql_mode`): `migrate:fresh --seed` with the local seeders (Franco, hub, Alvorada, 2629 + 2287
-  NF-e) clean on `rnc_r4`; **full Pest 2399 on SQLite AND 2399 on MySQL (`rnc_r4_test`), all green** (+2: `SchemaIdentifierLengthTest`,
+  NF-e) clean on `balancia_r4`; **full Pest 2399 on SQLite AND 2399 on MySQL (`balancia_r4_test`), all green** (+2: `SchemaIdentifierLengthTest`,
   the slug-collision case in `AuthHardeningTest`); `make test-mysql` itself ran green (2399). Vitest and Playwright not run (no
-  app.rnc change). Pint, PHPStan (`make check-api`), mirror check green. pre-commit green 14/11/2026 for the steps that apply: the
+  app.balancia change). Pint, PHPStan (`make check-api`), mirror check green. pre-commit green 14/11/2026 for the steps that apply: the
   full `make pre-commit` was not run (sanitize, `wt-test`, Vitest and e2e skipped — API, tests and docs only).
   What changed: `client_contracts`' five-column unique named `client_contracts_period_unique` (the generated name was 66 > 64,
   SQLSTATE 1059 — the only long name; the test walks every table, column, index and foreign key name, red on the old migration).
@@ -707,7 +707,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 - (F4b) In this sandbox `source ~/.nvm/nvm.sh` is refused; run Node 24 as
   `PATH=/Users/battoni/.nvm/versions/node/v24.19.0/bin:$PATH rtk vitest …` (or `rtk make e2e`).
 - (F4b) `rtk make e2e` keeps only a truncated log of a green run; the outcome is
-  `app.rnc/test-results/.last-run.json` (`status`, `failedTests`).
+  `app.balancia/test-results/.last-run.json` (`status`, `failedTests`).
 - (F4b) An e2e firm list mocked with two rows of the same `id` collapses in the `v-for` and the new-firm
   dialog's password never shows — give every mocked firm its own id.
 - (F4b) The main checkout's `php artisan serve` still held :8000; the live check used :8001 again.
@@ -742,14 +742,14 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
   script that creates a login must send one.
 - (F5b) A new PrimeVue component in a template must join `optimizeDeps.include` in `vite.config.ts` (`src/test/optimizeDeps.spec.ts`).
 - (F4c) `logo_url` is `APP_URL/storage/...` (`http://localhost:8000/storage/...` locally) — it needs `php artisan storage:link`
-  in the worktree's api.rnc, and Vite proxies `/api` only (AM10). F4d decides: proxy `/storage` too, or show the 8000 URL.
+  in the worktree's api.balancia, and Vite proxies `/api` only (AM10). F4d decides: proxy `/storage` too, or show the 8000 URL.
 - (F4c) A view-as lives in the server session (key `platform.view_as` = an open audit row id); the SPA must re-read `auth/me` after
   start/stop — `POST` answers the session, not the user. Any sign-in of the operator (another browser too) closes it as `expirou`.
 - (F4c) A test that logs in as an operator now fires `CloseViewAsOnSignIn`; a test building a view-as row by hand before a login
   will see it closed.
 - (F4d) The SPA shows a logo from `/storage/...` on its OWN host (`toStorageAssetPath`); Vite proxies `/storage` to
-  `VITE_API_PROXY_TARGET`. Without `php artisan storage:link` in api.rnc the image 404s and `ALogo` falls back to the text mark — no error.
-- (F4d) A live script that opens the back office must set `localStorage['app.rnc:session-hint'] = '1'` (or sign in through the form):
+  `VITE_API_PROXY_TARGET`. Without `php artisan storage:link` in api.balancia the image 404s and `ALogo` falls back to the text mark — no error.
+- (F4d) A live script that opens the back office must set `localStorage['app.balancia:session-hint'] = '1'` (or sign in through the form):
   without the hint the SPA never asks `auth/me` and the QA login-as lands on `/entrar`.
 - (F4d) jsdom's `File` does not survive undici's `request.formData()` in an MSW handler (assertion error, the request fails): read the
   multipart body with `request.text()` — the file arrives named `blob`, so assert the field name and the type.
@@ -789,7 +789,7 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 - Layer 2 Chrome: rounds 1–2 run; fixes 13dae23 (1.11 QA login host) and the commit carrying this line (1.10 beta fields + beta consent summary). Gate after the fixes: 478 Pest (Auth, QaLogin, Lead, Pipeline, Mail, Platform) · 1542 Vitest · 8 Playwright (`e2e/pipeline`), all green; `make check-api`, `make check-app`, `make sync-mirror-check` clean.
 - Layer 2 Chrome: rounds 1–7 run (Guilherme's Chrome, 1440 only — window min 606 px; 390 covered by Playwright where marked); fixes bcd247c (5.21 firm brand kept per host, dropped on logout and on "Sair"; 4.11/4.12 prime→principal pinned, W123), 4ab5397 (5.2 Operador group, landing and Users screen the operator's alone, footer copies dropped, W124) and 5600215 (3.4 first-save toast pinned, not reproduced, W125). Gate: 1552 Vitest (`--maxWorkers=2`) · 90 Playwright (site, brand, navigation, firm-settings, platform, users, roles), all green; no PHP touched (no Pest run); `make check-app`, `make sync-mirror-check` clean. Retest: 3.4, 4.10 pass; 4.11/4.12, 5.21 fixed in 76add80 (a start under another brand is a new lead of that brand, C24, W127) and 16496bb (the brand read outlives the logout's navigation abort, W126); qa-script 5.2 expects the operator's rail by design (AM1). Gate: 2419 Pest · 1554 Vitest (`--maxWorkers=2`) · 71 Playwright (site, brand, diagnostic, platform), all green; `make check-app`, `make sync-mirror-check` clean.
 - Layer 2 Chrome final retest (14/11, 18:00): 4.10, 4.11, 4.12, 5.2, 5.21 pass after 76add80 / 16496bb. Human round: owed.
-- Balancia brand, step 3 (16/11/2026): Chrome, 4 rounds (root site, root login, console, Franco tenant; light and dark), 4 passed. Pitfall: a new local origin (another port) needs that port in `SANCTUM_STATEFUL_DOMAINS`, and `localStorage['app.rnc:session-hint']='1'` before the QA login-as link, or the guard sends the person to `/entrar` without asking `auth/me`.
+- Balancia brand, step 3 (16/11/2026): Chrome, 4 rounds (root site, root login, console, Franco tenant; light and dark), 4 passed. Pitfall: a new local origin (another port) needs that port in `SANCTUM_STATEFUL_DOMAINS`, and `localStorage['app.balancia:session-hint']='1'` before the QA login-as link, or the guard sends the person to `/entrar` without asking `auth/me`.
 
 ## Seeded people (password `seeding.password`; `battoni` uses `seeding.superadmin_password`)
 - Platform: `battoni` — operador, no firm (since F4a), root only (`localhost:5173`).
@@ -803,13 +803,13 @@ plan approved 13/11 (delegated): F1a F1b F2a F2b F2c F3a F3b F3c F4a F4b F6a F6b
 ## Local environment
 - API `make serve-api` → http://localhost:8000; SPA `make serve-app` → http://localhost:5173 (root =
   platform firm), http://franco.localhost:5173, http://alvorada.localhost:5173; `make fresh-seed`
-  rebuilds `api.rnc/database/database.sqlite`. Main checkout's stack stopped while this worktree serves.
+  rebuilds `api.balancia/database/database.sqlite`. Main checkout's stack stopped while this worktree serves.
 - API `.env` needs `DEFAULT_FIRM_SLUG=hub`, `PLATFORM_NAME`, `PLATFORM_ROOT_DOMAIN=localhost`,
   `REGISTRATION_ENABLED=false` and `SANCTUM_STATEFUL_DOMAINS=localhost:5173,*.localhost:5173` —
-  F1a wrote them to `.env.example` AND to this worktree's `api.rnc/.env` (gitignored; AM4). The
+  F1a wrote them to `.env.example` AND to this worktree's `api.balancia/.env` (gitignored; AM4). The
   worktree's SQLite was rebuilt (`migrate:fresh --seed`): firms franco, hub (platform), alvorada.
-- Mail goes to `api.rnc/storage/logs/laravel.log` (`MAIL_MAILER=log`).
-- A firm's logo needs `php artisan storage:link` in `api.rnc` (done in this worktree, F4d; `public/storage` is gitignored): the SPA asks
+- Mail goes to `api.balancia/storage/logs/laravel.log` (`MAIL_MAILER=log`).
+- A firm's logo needs `php artisan storage:link` in `api.balancia` (done in this worktree, F4d; `public/storage` is gitignored): the SPA asks
   `/storage/...` on the firm's host and Vite proxies it beside `/api` to the same target.
 ## Away run
 Stop at: draft PR after verify · Reviewer: fable-reviewer (#fable session) · Chrome QA: on
@@ -899,7 +899,7 @@ F7b done
   worker resolves nothing. To reverse: carry `firmId` and resolve it in the composer.
 - W16 F2a: e-mail links (report, briefing, footer) go to the firm's own host `<slug>.<root>` (spec
   C6) — a root link opened the platform firm, where the lead is absent. To reverse:
-  `config('rnc.frontend_url')` in `MailBrand::siteUrlOf`.
+  `config('balancia.frontend_url')` in `MailBrand::siteUrlOf`.
 - W17 F2a: Franco's `tagline` seeded null (the site keeps its own kicker and footer line, which one
   `tagline` would replace both of); its `proof` is the landing's four points, identical on screen. To
   reverse: a `tagline` in `FirmSeeder`.
@@ -1139,7 +1139,7 @@ F7b done
   signing in by QA login-as with the session hint set; the Chrome rounds (QA round 5) stay verify's (as W56). To reverse: n/a.
 - W95 F7: MySQL 8 not run (R36) — `mysql -uroot` without a password is refused (`ERROR 1045`, as rnc-1's W1) and no password was tried;
   the full Pest ran on SQLite in memory (2354). `docs/deploy/runbook.md` → "Database" gives the owner the exact commands (create
-  `rnc_test` + `rnc`, `DB_*` in the shell over phpunit.xml's unforced `<env>`, `make fresh-seed` with `.env` on MySQL). To reverse: run them
+  `balancia_test` + `balancia`, `DB_*` in the shell over phpunit.xml's unforced `<env>`, `make fresh-seed` with `.env` on MySQL). To reverse: run them
   and write the count there. **Retired by F7b (W112):** it held only because the password was unknown; the owner gave it and the suite
   and seed ran on MySQL 8.
 - W96 F7: F4d's W93 closed — `auth/me`'s `platform.view_as` carries the viewed firm's opt-in `modules` (`FirmModules::enabled`), and the
@@ -1220,14 +1220,14 @@ F7b done
   same "começa a ser cobrada em 01/01/2027" as the product landing lines the finding named. "Até a lei mudar, vale 01/01/2027" stays (still
   true). To reverse: drop the `cbsKey` calls in `LandingView`.
 - W121 Chrome QA 1.11: the QA login-as lands on the firm's own site (`MailBrand::siteUrlOf`) when the address named a firm (firm host or
-  `X-Firm`), the root otherwise — built from config, never the Host header echoed. Every other `rnc.frontend_url` read already went through
-  `siteUrlOf` per firm or is the platform's root by design. To reverse: redirect to `config('rnc.frontend_url')` again.
+  `X-Firm`), the root otherwise — built from config, never the Host header echoed. Every other `balancia.frontend_url` read already went through
+  `siteUrlOf` per firm or is the platform's root by design. To reverse: redirect to `config('balancia.frontend_url')` again.
 - W122 Chrome QA 1.10: a `beta` lead's detail shows the beta form's rows (role, city/UF, clients band with the Site's band labels, message)
   instead of the empty diagnostic rows, and its consent summary is channel-aware ("contatado sobre o beta"); the stored text and version are
   shown as given. No API change — `LeadDetailResource` already sent the whole `profile`. No C# — spec behaviour (R29, D29) unchanged; this
   is the detail showing what was stored. To reverse: drop the `LEAD_CHANNEL.BETA` branches in `LeadView`.
 - W123 Chrome QA 4.11/4.12: not reproduced on full page loads (headless Chromium on franco.localhost:5173, the running stack):
-  `?marca=principal` clears `app.rnc:brand` and every later public call goes without `X-Brand`. 4.11 as scripted opens plain
+  `?marca=principal` clears `app.balancia:brand` and every later public call goes without `X-Brand`. 4.11 as scripted opens plain
   `/diagnostico` after 4.10's `?marca=prime`, which keeps Prime for the tab by design (rnc-3 R2). Pinned by `publicBrand.spec` and
   `brands.spec` (red with the main-brand clear removed). The cached FIRM brand was the real hole (5.21): kept as `{ firm, host }`,
   dropped by `reload()`, `forget()` on logout, "Sair" reloads even when `auth/me` fails. Not done: the 401 path in `errorHandler`
@@ -1252,7 +1252,7 @@ F7b done
 - W127 Chrome QA 4.11/4.12 (lead 86 "Franco Prime" with Prime's consent after a full load of `/diagnostico?marca=principal`):
   reproduced headless on the live stack. The SPA was right — the second start left without `X-Brand`, title "Franco Contabilidade"
   — and the API answered the SAME token with Prime's consent: `LeadService::startLead` reopens the visitor's open `visitante`
-  (same `rnc:visitor` uuid in localStorage, no stored diagnostic token) and kept the brand it was born under. The hypothesis of a
+  (same `balancia:visitor` uuid in localStorage, no stored diagnostic token) and kept the brand it was born under. The hypothesis of a
   resumed client-side token was wrong; the resume is server-side, by visitor. Picked: reopen only under the same brand, else a new
   lead of the current one (C24) — keeps rnc-3 R4's "brand written once" and the per-brand start counts honest. Rejected: re-brand
   the reopened lead (rewrites where a counted Prime start came from); re-apply the lead's brand to the page (overrides the visitor's

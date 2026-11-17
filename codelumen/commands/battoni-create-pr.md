@@ -27,7 +27,7 @@ Read the diff carefully. Identify:
 
 - What the change does (the what)
 - Why it was made — infer from the code, commit messages, and context (the why)
-- Which sub-project(s) are affected (api.rnc, app.rnc, etc.)
+- Which sub-project(s) are affected (api.balancia, app.balancia, etc.)
 - Whether it is a feature, fix, refactor, or chore
 - Which files were touched (for the per-file breakdown)
 

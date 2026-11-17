@@ -1,12 +1,12 @@
 # Design System
 
-This page is the long form of app.rnc's UI styling decisions — the reasoning and the examples. The rule agents apply, `.claude/rules/celer-06-design-system.md`, is self-contained (a project may delete `codelumen/`), so when the two disagree the rule and the code win and this page is the one to fix.
+This page is the long form of app.balancia's UI styling decisions — the reasoning and the examples. The rule agents apply, `.claude/rules/celer-06-design-system.md`, is self-contained (a project may delete `codelumen/`), so when the two disagree the rule and the code win and this page is the one to fix.
 
 It documents the design rules implemented in:
 
-- `app.rnc/src/styles/theme/colors.css`
-- `app.rnc/src/libraries/primevue/theme.ts`
-- `app.rnc/src/styles/libraries/primevue.css`
+- `app.balancia/src/styles/theme/colors.css`
+- `app.balancia/src/libraries/primevue/theme.ts`
+- `app.balancia/src/styles/libraries/primevue.css`
 
 Use this page before adding new styles or tokens.
 
@@ -59,9 +59,9 @@ The preset's `var(--radius-*, …)` fallbacks (`6px` for `md`, `8px` for `lg`) o
 
 ## 2) Color system
 
-app.rnc is **multi-theme** (one active brand theme chosen at build time) and **light/dark**
+app.balancia is **multi-theme** (one active brand theme chosen at build time) and **light/dark**
 (toggled at runtime). Components consume **role tokens** and **state palettes** — never raw
-brand ramps. See `app.rnc/src/styles/theme/RULES.md` for the full system.
+brand ramps. See `app.balancia/src/styles/theme/RULES.md` for the full system.
 
 ### 2.1 Brand palette ramps (raw material)
 
@@ -109,7 +109,7 @@ Use semantic scales for state-driven UI:
 - **Muted/supporting text** (hints, timestamps, subtitles, placeholders): `text-muted`
 - **Icons and decorative marks**: `text-subtle` — it never carries a sentence. `muted` clears 4.5:1
   and `subtle` 3:1 on canvas, panel and panel-muted, in both schemes
-  (`app.rnc/src/styles/theme/RULES.md`). The old "`text-muted` to `text-subtle`" range is retired: it
+  (`app.balancia/src/styles/theme/RULES.md`). The old "`text-muted` to `text-subtle`" range is retired: it
   let hints pick the faint tier, which measured 1.72:1 on a panel.
 - **Error text**: `text-danger-700`
 
@@ -183,7 +183,7 @@ These are enforced in `primevue.css` to keep neutral table lines across views.
 - A card is a raised surface: `bg-panel` + `shadow-lift`, no outline. A border that SEPARATES content
   (a divider, a grid rule, a data-carrying `border-l-4`) stays a border; a data mark never takes relief.
 - The flat card (neutral background + `border-line-strong`, no shadow) is retired — the theme's relief
-  vocabulary replaced it (`app.rnc/src/styles/theme/RULES.md`).
+  vocabulary replaced it (`app.balancia/src/styles/theme/RULES.md`).
 
 ---
 
@@ -240,8 +240,8 @@ Don't:
 
 When updating design rules:
 
-1. Update tokens in `app.rnc/src/styles/theme/colors.css` and/or `app.rnc/src/libraries/primevue/theme.ts`.
-2. Add any required global structural overrides in `app.rnc/src/styles/libraries/primevue.css`.
+1. Update tokens in `app.balancia/src/styles/theme/colors.css` and/or `app.balancia/src/libraries/primevue/theme.ts`.
+2. Add any required global structural overrides in `app.balancia/src/styles/libraries/primevue.css`.
 3. Update this page in `codelumen/design-system.md`.
-4. Validate with `npm run lint` and `npm run type-check` in `app.rnc`.
+4. Validate with `npm run lint` and `npm run type-check` in `app.balancia`.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Collect RULES.md chain for a app.rnc Vue/TS file and format hook output for Claude or Cursor."""
+"""Collect RULES.md chain for a app.balancia Vue/TS file and format hook output for Claude or Cursor."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 MAX_CONTEXT_CHARS = 9000
 SUPPORTED_SUFFIXES = {".vue", ".ts", ".tsx"}
-CELER_SRC_MARKER = "app.rnc/src"
+CELER_SRC_MARKER = "app.balancia/src"
 
 
 def read_hook_input() -> dict:

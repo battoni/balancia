@@ -12,7 +12,7 @@ keys in `app/Modules/Auth/Helpers/permission-groups.local.php`, granted in `Role
 SPA code follows `.claude/rules/celer-0*.md` (module barrels `@XModule`, two routes per screen
 pt-BR + en, rail in `navItems.local.ts`, `MAddEdit{Entity}Form` in `MMainDialog`, granular list
 updates, `canX` computeds, strings in `src/locales/local/{pt-BR,en}.json`). A public call goes
-through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the order listed
+through `publicApi`, never `API` (rnc-3). Node 24 for app.balancia. Phases run in the order listed
 (the owner's priority, O9): a quota stop leaves the most valuable part done.
 
 ## Carried up front
@@ -65,7 +65,7 @@ through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the
   refuses a mismatch).
 
 **F1b Firm by host — SPA and local hosts** (R2, R3, R6 · proves A6, A7)
-- `app.rnc/src/helpers/firmHost.helper.ts` (new: `firmSlugFromHost(host, rootDomain)` → slug |
+- `app.balancia/src/helpers/firmHost.helper.ts` (new: `firmSlugFromHost(host, rootDomain)` → slug |
   null for root/`www`; `VITE_ROOT_DOMAIN`), `src/providers/ApiProvider/provider.ts` (changed: adds
   `X-Firm` on every call when a slug exists; base URL `/api`), `errorHandler.helper.ts` (changed:
   403 `firms.mismatch` → clear the user store and go to login), `src/constants/env.constant.ts`.
@@ -95,7 +95,7 @@ through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the
   a firm); `AppServiceProvider.php:115-125`, `resources/views/mail/layout.blade.php`,
   `MeetingMailBuilder`, `ReferralService` mail, `DailyBriefingMail`, `MailPreviewController`
   (changed: read the firm's `MailBrand`; queued mailables carry the firm id and resolve it with
-  `withoutGlobalScope`); from-name + reply-to per firm (D11); `config/rnc.php` `brand` removed;
+  `withoutGlobalScope`); from-name + reply-to per firm (D11); `config/balancia.php` `brand` removed;
   `resources/views/mail/RULES.md` updated.
 - Consent: `create_firm_consent_versions` + `create_platform_settings` (new, `300100`-series names),
   `Lead/Models/FirmConsentVersion.php` (BelongsToFirm), `Lead/Services/ConsentTextService.php`
@@ -132,14 +132,14 @@ through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the
   naming Franco/Reinaldo in locales, resources, lang and code → generic or `{firm}` (the brand
   composable passes it; API messages take the firm's name). Comments may keep history.
 - Guard: `tests/Arch/NoTenantNamesTest.php` (new, A15 Pest half) and
-  `app.rnc/src/test/noTenantNames.spec.ts` (new, A15 Vitest half; extends rnc-3's
+  `app.balancia/src/test/noTenantNames.spec.ts` (new, A15 Vitest half; extends rnc-3's
   `noPartnerNetworkNames` idea); `SeededRolesTest` (A14); `routes.spec.ts` of Briefing/Home (A13);
   `e2e/brand/no-franco.spec.ts` (A16, alvorada mocked).
 - Commit split allowed here: `rnc-4: F2c Rename …` (mechanical) is the phase commit; if the guard
   needs a second commit, name it `rnc-4: F2c Guard …` and record both SHAs in state.
 - Done when: **full gate** — every Pest, Vitest and Playwright test green (Defaults → Gate);
-  `/usr/bin/grep -rnE "Franco|Reinaldo|Willy|APW" api.rnc/app api.rnc/config api.rnc/routes
-  api.rnc/lang api.rnc/resources app.rnc/src` minus comments/tests/seeders shows nothing.
+  `/usr/bin/grep -rnE "Franco|Reinaldo|Willy|APW" api.balancia/app api.balancia/config api.balancia/routes
+  api.balancia/lang api.balancia/resources app.balancia/src` minus comments/tests/seeders shows nothing.
 
 **F3a Modules per firm — API with degrade** (R16–R20 · proves A17–A21)
 - Firm: `Helpers/FirmModules.php` (new: `CORE`, `OPT_IN`, `FRANCO_ONLY`, `DEPENDENCIES`),
@@ -193,7 +193,7 @@ through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the
 - `SuperAdminSeeder` (changed: `battoni` firm null); `AuthService` (F1a rule already lets a
   firm-less `operador` in at the platform firm only — tested here end to end); keys
   `platform.firms`, `platform.consent` (operator only; `RoleService` protects them).
-- New module `api.rnc/app/Modules/Platform/` (RULES.md, CHANGELOG.md): `PlatformFirmController`
+- New module `api.balancia/app/Modules/Platform/` (RULES.md, CHANGELOG.md): `PlatformFirmController`
   (`GET platform/firms` with lead counts in one grouped query, `POST platform/firms` via
   `FirmProvisioner`, `PATCH platform/firms/{id}` look + contrast, `PUT platform/firms/{id}/modules`
   via `FirmModulesService`, `POST platform/firms/{id}/manager` create/reset → password once),
@@ -297,7 +297,7 @@ through `publicApi`, never `API` (rnc-3). Node 24 for app.rnc. Phases run in the
   queue worker `php artisan queue:work`, scheduler `schedule:run` each minute and its three
   commands, per-firm mail (D11), backups, `firm:create`, "folded migrations end at the first
   deploy: from then on `add_*_to_*`"); MySQL: try `mysql -uroot -e 'select 1'`, if it works run the
-  full Pest on a `rnc_test` database and record the count, else W#.
+  full Pest on a `balancia_test` database and record the count, else W#.
 - Tests first: `tests/Feature/HealthTest.php` (A44), `tests/Feature/EnvInventoryTest.php` (A45),
   route-class completeness + `Phase4AccessTest` coverage over every rnc-4 route (A46).
 - Done when: Pest green (full Pest, since A46 reads every route).
@@ -364,7 +364,7 @@ Findings in short: P0-1 a firm-less operator gets a null CurrentFirm (`PublicFir
 
 **AM3 (F1b).** Replace the live diagnostic check with: `public/firm` on `alvorada.localhost:5173` names Alvorada; `patricia` is refused there and accepted on `franco.localhost:5173`; `helena.alvorada`'s pipeline is empty while patricia's shows Franco's leads. The alvorada diagnostic check moves to F3b2's Done line.
 
-**AM4 (F1a/F1b).** Put `proxy['/api']` in both the local and the test-mode `server` config. Update the worktree's `api.rnc/.env` and `app.rnc/.env` with the same keys as `.env.example`, and say so in `state.md`. Replace the `.env.test` comment with its retirement reason. Add `tests/Feature/Auth/StatefulHostTest.php`: login with `Origin: http://franco.localhost:5173` then `auth/me` returns 200 on the session, and an unlisted origin returns 401. If the wildcard fails, stop the phase as blocked and record a W# rather than switching to CORS.
+**AM4 (F1a/F1b).** Put `proxy['/api']` in both the local and the test-mode `server` config. Update the worktree's `api.balancia/.env` and `app.balancia/.env` with the same keys as `.env.example`, and say so in `state.md`. Replace the `.env.test` comment with its retirement reason. Add `tests/Feature/Auth/StatefulHostTest.php`: login with `Origin: http://franco.localhost:5173` then `auth/me` returns 200 on the session, and an unlisted origin returns 401. If the wildcard fails, stop the phase as blocked and record a W# rather than switching to CORS.
 
 **AM5 (gates).** F1a's Done requires the full Pest suite. F1b's Done requires the full Vitest and the full Playwright suites.
 

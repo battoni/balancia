@@ -1,4 +1,4 @@
-"""Python port of app.rnc/src/composables/brand/brandPalette.ts (rnc-4), kept identical on purpose.
+"""Python port of app.balancia/src/composables/brand/brandPalette.ts (rnc-4), kept identical on purpose.
 
 Used by extract.py to check that the primary ramp in balancia.css is exactly what the app
 computes at runtime from the platform firm's two colours. If brandPalette.ts changes, change this.

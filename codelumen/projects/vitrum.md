@@ -15,7 +15,7 @@ Vitrum is the **public website bootstrap** — the starting point for institutio
 
 ## When to reach for it
 
-Use Vitrum when the deliverable is a content/marketing site rather than an app: landing pages, institutional sites, documentation fronts. For an authenticated web app, start from [app.rnc](/projects/app.rnc) instead.
+Use Vitrum when the deliverable is a content/marketing site rather than an app: landing pages, institutional sites, documentation fronts. For an authenticated web app, start from [app.balancia](/projects/app.balancia) instead.
 
 ## Conventions
 

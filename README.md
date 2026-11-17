@@ -1,4 +1,4 @@
-# rnc
+# balancia
 
 A monorepo containing design systems, code conventions, client bootstrap projects, and AI tooling for battoni.dev.
 
@@ -9,8 +9,8 @@ A monorepo containing design systems, code conventions, client bootstrap project
 </div>
 
 <div align="center" style="margin-top: 10px">
-  <img src="./app.rnc/src/assets/logo/logo-full-light.png" alt="app.rnc Logo" width="150" height="150" style="margin: 0 10px;" />
-  <img src="./api.rnc/logo/png/logo-arcus-full-light.png" alt="Arcus Logo" width="150" height="150" style="margin: 0 10px;" />
+  <img src="./app.balancia/src/assets/logo/logo-full-light.png" alt="app.balancia Logo" width="150" height="150" style="margin: 0 10px;" />
+  <img src="./api.balancia/logo/png/logo-arcus-full-light.png" alt="Arcus Logo" width="150" height="150" style="margin: 0 10px;" />
   <img src="./vitrum/src/assets/logo/png/logo-vitrum-full-light.png" alt="Vitrum Logo" width="150" height="150" style="margin: 0 10px;" />
 </div>
 
@@ -24,11 +24,11 @@ A monorepo containing design systems, code conventions, client bootstrap project
 - RESTful API with Spatie Data DTOs, Eloquent Resources, role-based permissions
 - AI-ready: rules, skills, and commands configured at monorepo root
 
-[View Project](./api.rnc/)
+[View Project](./api.balancia/)
 
 ---
 
-### app.rnc
+### app.balancia
 
 **Vue 3 client bootstrap** — starting point for web applications.
 
@@ -37,7 +37,7 @@ A monorepo containing design systems, code conventions, client bootstrap project
 - Single-file theme system: change `src/styles/theme/colors.css` to retheme the entire project — semantic palette names (`primary`, `surface`, `ink`) propagate to PrimeVue tokens and Tailwind utilities automatically
 - AI-ready: rules and commands configured at monorepo root
 
-[View Project](./app.rnc/)
+[View Project](./app.balancia/)
 
 ---
 
@@ -54,7 +54,7 @@ A monorepo containing design systems, code conventions, client bootstrap project
 
 ### Cortex
 
-**AI knowledge layer** — history, documentation, and prompts for rnc's AI infrastructure.
+**AI knowledge layer** — history, documentation, and prompts for balancia's AI infrastructure.
 
 - All rules live at the monorepo root (`.claude/rules/`, `.cursor/rules/`) and activate automatically by file path
 - Commands: `/battoni-setup-project`, `/battoni-start-session`, `/battoni-review-vue-conventions`, `/battoni-review-arcus-code`, `/battoni-review-design-conventions`, `/battoni-generate-component-rules`
@@ -87,15 +87,15 @@ A monorepo containing design systems, code conventions, client bootstrap project
 
 ---
 
-### docs.rnc
+### docs.balancia
 
 **Documentation portal** — dual-audience (User/Developer) VitePress site documenting this monorepo, built from the `docs-portal` skill.
 
 - User/Developer depth switcher, codebase-driven extractors (endpoints, schema, views), fail-closed staff gate
 - Run with `make portal` (see the `portal-*` targets in the Makefile)
-- A worked example of the `docs-portal` skill applied to rnc itself
+- A worked example of the `docs-portal` skill applied to balancia itself
 
-[View Portal](./docs.rnc/)
+[View Portal](./docs.balancia/)
 
 ---
 

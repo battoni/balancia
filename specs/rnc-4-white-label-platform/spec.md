@@ -56,7 +56,7 @@ fable-reviewer · Chrome QA on. O12 QA rounds by role (plan `## QA`).
   its brand colours. (D10)
 - R11. A firm's primary colour must give white text 4.5:1 (`Contrast`), on every write that sets it.
 - R12. Every e-mail takes the brand of the firm it concerns: from-name = firm name, reply-to = firm
-  mailbox, band colours = firm palette, logo = firm logo; `config('rnc.brand')` is removed. (D11)
+  mailbox, band colours = firm palette, logo = firm logo; `config('balancia.brand')` is removed. (D11)
 - R13. Consent text is per firm and versioned: an edit creates version n+1 and never touches older
   ones; a diagnostic or chat answer stores the firm's current version number and its text (with
   `{escritorio}` filled by the firm's — or the sub-brand's — name); a new firm starts at version 1
@@ -193,7 +193,7 @@ landing, the diagnostic, the back-office home and the pipeline. → Playwright [
 A13 (R14) Given a `gestao` user, `/gestao/briefing` and `/management/briefing` render, `/reinaldo/briefing`
 is not found, and the rail group reads "Gestão". → Vitest [F2c]
 A14 (R14) The seeded `gestao` role holds exactly the former `ceo` keys and no role `ceo` exists. → Pest [F2c]
-A15 (R15) A Pest test over `api.rnc/{app,config,resources,lang,routes}` and a Vitest over `app.rnc/src`
+A15 (R15) A Pest test over `api.balancia/{app,config,resources,lang,routes}` and a Vitest over `app.balancia/src`
 (skipping specs, `test/` dirs and comment lines) find no `Franco|Reinaldo|Willy|APW`, and "RNC" only
 under the Channel modules. → Pest + Vitest [F2c]
 A16 (R15) Given alvorada's mocked firm, the landing, diagnostic result, report and back-office home
@@ -263,8 +263,8 @@ A43 (R26, R27) While `me.platform.view_as` is set the back office shows the bann
 name and "Sair" ends it and returns to the console; a firm with `logo_url` shows the image in both
 layouts; the upload field refuses an SVG before sending. → Vitest [F4d]
 A44 (R35) `GET api/health` → 200 `{status: ok, db: ok}` with no session and no firm field. → Pest [F7]
-A45 (R34, R36) Every `env('…')` key under `api.rnc/config` and every `VITE_*` key in
-`app.rnc/.env.example` appears in `docs/deploy/runbook.md`, and its "Database" section states the
+A45 (R34, R36) Every `env('…')` key under `api.balancia/config` and every `VITE_*` key in
+`app.balancia/.env.example` appears in `docs/deploy/runbook.md`, and its "Database" section states the
 MySQL run's Pest count or why it did not run. → Pest [F7]
 A46 (R37) Every route of `routes/api*.php` is classified, and the sweep covers each route added by
 rnc-4. → Pest [F7]
@@ -304,7 +304,7 @@ the first deploy (R34). Reverse: n/a.
 D9 Product name → `config/platform.php` `name` (env `PLATFORM_NAME`, "Hub da Reforma"); the SPA
 reads it from the API, `index.html` carries a neutral `<title>` until then. Reverse: one env line.
 D10 App-level brand → `useBrandTheme`, `brandPalette`, `publicBrand` move to
-`app.rnc/src/composables/brand/` (`useFirmBrand` + store), the Site module re-exports; the neutral
+`app.balancia/src/composables/brand/` (`useFirmBrand` + store), the Site module re-exports; the neutral
 theme `hub.css` replaces `franco.css` as `VITE_ACTIVE_THEME` default (franco's colours come from its
 row). Reverse: set `VITE_ACTIVE_THEME=franco` back (the file stays as `hub.css` values).
 D11 Per-firm mail → from address = the platform's verified `MAIL_FROM_ADDRESS`, from-name = firm
@@ -405,9 +405,9 @@ the deploy; a per-action audit trail inside view-as; firm self-signup without th
   Express/Prime words are byte-identical to rnc-3's. A literal sentence would have dropped the
   sub-brand's name from its leads' consent. Reverse: fill the main brand with `short_name`.
 - C6 (F2a, W16) R12's brand includes where an e-mail links: the report link, the briefing's links and
-  the footer go to the firm's own host (`<slug>.<host>` of `rnc.frontend_url`; the root for the
+  the footer go to the firm's own host (`<slug>.<host>` of `balancia.frontend_url`; the root for the
   platform firm). A root link opened the platform's firm, where the firm's lead is absent.
-  Reverse: `config('rnc.frontend_url')` again.
+  Reverse: `config('balancia.frontend_url')` again.
 - C7 (F2b, W23) R11's 4.5:1 reaches the runtime ramp's 400: `brandPalette` lightens it until it reads
   on the dark canvas and panel, because it is the dark scheme's link (`celer-button-link-primary`) and
   the back office now paints the firm's ramp (the plain mix measured 4.29:1 on Franco's row). Franco's

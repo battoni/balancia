@@ -1,23 +1,23 @@
-.PHONY: help install app build preview docs-install docs docs-gen docs-build docs-preview portal-install portal portal-extract portal-build portal-preview unit unit-watch integration e2e pest test test-all pre-commit check-app check-api check-portal check-cortex sync-mirror sync-mirror-check handoff fresh clear sanitize pint-api.rnc phpstan-api.rnc sanitize-api.rnc sync-audit sync-brand-audit sync-test sync-test-backport sync-test-engine sync-test-init wt-test wt-new wt-up wt-app wt-down wt-discard wt-gc
+.PHONY: help install app build preview docs-install docs docs-gen docs-build docs-preview portal-install portal portal-extract portal-build portal-preview unit unit-watch integration e2e pest test test-all pre-commit check-app check-api check-portal check-cortex sync-mirror sync-mirror-check handoff fresh clear sanitize pint-api.balancia phpstan-api.balancia sanitize-api.balancia sync-audit sync-brand-audit sync-test sync-test-backport sync-test-engine sync-test-init wt-test wt-new wt-up wt-app wt-down wt-discard wt-gc
 
 .DEFAULT_GOAL := help
 
-# A dot is allowed in a target name: downstream the sync renames `pint-api.rnc` to `pint-api.<project>`,
+# A dot is allowed in a target name: downstream the sync renames `pint-api.balancia` to `pint-api.<project>`,
 # and a pattern without it drops those targets from the help in silence.
 help: ## Show this help
 	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | sort | awk 'BEGIN{FS=":.*## "}{printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
-install: ## app.rnc — install dependencies
-	cd app.rnc && npm install
+install: ## app.balancia — install dependencies
+	cd app.balancia && npm install
 
-app: ## app.rnc — run the dev server
-	cd app.rnc && npm run dev
+app: ## app.balancia — run the dev server
+	cd app.balancia && npm run dev
 
-build: ## app.rnc — production build
-	cd app.rnc && npm run build
+build: ## app.balancia — production build
+	cd app.balancia && npm run build
 
-preview: ## app.rnc — build then preview
-	cd app.rnc && npm run build && npm run preview
+preview: ## app.balancia — build then preview
+	cd app.balancia && npm run build && npm run preview
 
 docs-install: ## codelumen — install the handbook deps
 	cd codelumen && npm install
@@ -35,41 +35,41 @@ docs-preview: ## codelumen — build then preview the handbook
 	cd codelumen && npm run docs:build && npm run docs:preview
 
 portal-install: ## docs portal — install deps
-	cd docs.rnc && npm install
+	cd docs.balancia && npm install
 
 portal: ## docs portal — run the dev server (extracts codebase data first)
-	cd docs.rnc && npm run docs:dev
+	cd docs.balancia && npm run docs:dev
 
 portal-extract: ## docs portal — regenerate endpoints/schema/views data
-	cd docs.rnc && npm run docs:extract
+	cd docs.balancia && npm run docs:extract
 
 portal-build: ## docs portal — build the static site (extracts first)
-	cd docs.rnc && npm run docs:build
+	cd docs.balancia && npm run docs:build
 
 portal-preview: ## docs portal — build then preview the static site
-	cd docs.rnc && npm run docs:build && npm run docs:preview
+	cd docs.balancia && npm run docs:build && npm run docs:preview
 
 # `test:unit:run`, not `test:unit`: plain `vitest` enters watch mode in a terminal and never
 # exits, which froze `make pre-commit` right after the unit tests. Watch has its own target.
-unit: ## app.rnc — unit + integration specs (Vitest, single run)
-	cd app.rnc && npm run test:unit:run
+unit: ## app.balancia — unit + integration specs (Vitest, single run)
+	cd app.balancia && npm run test:unit:run
 
-unit-watch: ## app.rnc — Vitest in watch mode
-	cd app.rnc && npm run test:unit
+unit-watch: ## app.balancia — Vitest in watch mode
+	cd app.balancia && npm run test:unit
 
-integration: unit ## app.rnc — alias for unit (includes integration specs)
+integration: unit ## app.balancia — alias for unit (includes integration specs)
 
-e2e: ## app.rnc — e2e (Playwright; its own vite --mode test on this checkout's E2E_PORT, API mocked — no backend) [E2E_ARGS=<spec file> …]
+e2e: ## app.balancia — e2e (Playwright; its own vite --mode test on this checkout's E2E_PORT, API mocked — no backend) [E2E_ARGS=<spec file> …]
 	@port="$${E2E_PORT:-$$(python3 scripts/worktree.py port)}" || exit 1; \
 	echo "e2e on port $$port"; \
-	cd app.rnc && E2E_PORT="$$port" npm run test:e2e -- $(E2E_ARGS)
+	cd app.balancia && E2E_PORT="$$port" npm run test:e2e -- $(E2E_ARGS)
 
-pest: ## api.rnc — Pest feature + unit tests
-	cd api.rnc && vendor/bin/pest
+pest: ## api.balancia — Pest feature + unit tests
+	cd api.balancia && vendor/bin/pest
 
 test: pest ## alias for pest (compat)
 
-test-all: unit e2e pest ## run app.rnc unit/integration + app.rnc e2e + api.rnc pest
+test-all: unit e2e pest ## run app.balancia unit/integration + app.balancia e2e + api.balancia pest
 
 handoff: ## eject a clean client-handoff copy (strips AI tooling, keeps RULES.md)
 	python3 cortex/sync/handoff.py \
@@ -95,21 +95,21 @@ sync-mirror-check: ## fail if any .cursor mirror has drifted from .claude (no wr
 pre-commit: check-app check-api check-portal check-cortex
 pre-commit: sync-mirror-check sanitize wt-test test-all ## mechanical pre-commit gate (static checks + mirror parity + sanitize + tests)
 
-check-app: ## app.rnc — CI's static checks: module aliases, type-check
-	cd app.rnc && npm run check:aliases && npm run type-check
+check-app: ## app.balancia — CI's static checks: module aliases, type-check
+	cd app.balancia && npm run check:aliases && npm run type-check
 
-check-api: ## api.rnc — CI's static checks over the whole app: Pint (--test) + PHPStan
-	cd api.rnc && vendor/bin/pint --test && vendor/bin/phpstan analyse --memory-limit=1G --no-progress
+check-api: ## api.balancia — CI's static checks over the whole app: Pint (--test) + PHPStan
+	cd api.balancia && vendor/bin/pint --test && vendor/bin/phpstan analyse --memory-limit=1G --no-progress
 
 check-portal: ## docs portal — CI's checks: extracted data current, gate tests, markdown lint
-	@if [ -f docs.rnc/package-lock.json ]; then \
-		cd docs.rnc && npm run docs:extract:check && npm test && npm run lint; \
+	@if [ -f docs.balancia/package-lock.json ]; then \
+		cd docs.balancia && npm run docs:extract:check && npm test && npm run lint; \
 	else \
 		echo "check-portal: no docs portal here — skipped."; \
 	fi
 
 # Upstream-only, like the matching CI steps: a derived project tracks .cortex-sync.conf and
-# rnc never does. A recipe rather than prerequisites, so a handoff copy (no cortex/, and
+# balancia never does. A recipe rather than prerequisites, so a handoff copy (no cortex/, and
 # the sync-* targets stripped) skips it instead of failing on a target that is gone.
 check-cortex: ## cortex — CI's sync checks: manifest audit, classification, back-port, handoff, mirror + hook + flow-status tests, engine + init proofs
 	@if [ -f cortex/sync/sync.py ] && [ ! -f .cortex-sync.conf ]; then \
@@ -123,7 +123,7 @@ check-cortex: ## cortex — CI's sync checks: manifest audit, classification, ba
 		bash cortex/sync/test_engine.sh && \
 		bash cortex/sync/test_init.sh; \
 	else \
-		echo "check-cortex: not the rnc upstream — skipped."; \
+		echo "check-cortex: not the balancia upstream — skipped."; \
 	fi
 
 wt-test: ## scripts — worktree script tests (labels, ports, env files, new/up/app/down/discard/gc/port; temp repos, stubbed lsof/mysql/valet/sudo/gh/composer/npm)
@@ -133,7 +133,7 @@ wt-new: ## scripts — new worktree .claude/worktrees/<ID> from origin/main with
 	@test -n "$(ID)" || { echo "usage: make wt-new ID=<id> [SLUG=<slug>] [BRANCH=<branch>]"; exit 2; }
 	python3 scripts/worktree.py new "$(ID)" $(if $(SLUG),--slug "$(SLUG)") $(if $(BRANCH),--branch "$(BRANCH)")
 
-wt-up: ## scripts — serve this worktree (run inside it): Valet api/app.<label> sites, its own DB copy, env files, migrate (refuses on SQLite: rnc)
+wt-up: ## scripts — serve this worktree (run inside it): Valet api/app.<label> sites, its own DB copy, env files, migrate (refuses on SQLite: balancia)
 	python3 scripts/worktree.py up
 
 wt-app: ## scripts — this worktree's Vite dev server on its own HTTPS port, E2E_PORT exported (after wt-up)
@@ -153,13 +153,13 @@ wt-gc: ## scripts — wt-down on every worktree that passes; lists the left-behi
 sync-audit: ## cortex — manifest coverage audit + classification unit tests
 	python3 cortex/sync/sync.py --audit
 
-sync-brand-audit: ## cortex — flag rnc brand literals in the shipped (MERGE) surface
+sync-brand-audit: ## cortex — flag balancia brand literals in the shipped (MERGE) surface
 	python3 cortex/sync/sync.py --brand-audit
 
 sync-test: ## cortex — classification unit tests
 	python3 cortex/sync/test_sync.py
 
-sync-test-backport: ## cortex — back-port preflight/audit/diff tests (read api.rnc/vendor: composer install first)
+sync-test-backport: ## cortex — back-port preflight/audit/diff tests (read api.balancia/vendor: composer install first)
 	python3 cortex/sync/test_backport.py
 
 sync-test-engine: ## cortex — end-to-end engine proof against a disposable temp clone
@@ -168,24 +168,24 @@ sync-test-engine: ## cortex — end-to-end engine proof against a disposable tem
 sync-test-init: ## cortex — first-run in-place transform proof (--init)
 	bash cortex/sync/test_init.sh
 
-sanitize: ## app.rnc — lint + format + sort locales
-	cd app.rnc && npm run lint && npm run format && npm run sort-locales
+sanitize: ## app.balancia — lint + format + sort locales
+	cd app.balancia && npm run lint && npm run format && npm run sort-locales
 
-pint-api.rnc: ## api.rnc — Pint on changed PHP (branch diff + uncommitted)
+pint-api.balancia: ## api.balancia — Pint on changed PHP (branch diff + uncommitted)
 	bash scripts/pint-changed.sh
 
-phpstan-api.rnc: ## api.rnc — PHPStan on changed PHP (larastan comes with composer install)
+phpstan-api.balancia: ## api.balancia — PHPStan on changed PHP (larastan comes with composer install)
 	bash scripts/phpstan-changed.sh
 
-sanitize-api.rnc: pint-api.rnc phpstan-api.rnc ## api.rnc — Pint + PHPStan on changed PHP
+sanitize-api.balancia: pint-api.balancia phpstan-api.balancia ## api.balancia — Pint + PHPStan on changed PHP
 
-fresh: ## api.rnc — migrate:fresh --seed
-	cd api.rnc && php artisan migrate:fresh --seed
+fresh: ## api.balancia — migrate:fresh --seed
+	cd api.balancia && php artisan migrate:fresh --seed
 
-clear: ## api.rnc — optimize:clear
-	cd api.rnc && php artisan optimize:clear
+clear: ## api.balancia — optimize:clear
+	cd api.balancia && php artisan optimize:clear
 
 # Project-owned make targets (LOCAL) — the cortex sync never touches Makefile.local.
-# Add or override targets there; they survive every rnc update. The leading '-'
+# Add or override targets there; they survive every balancia update. The leading '-'
 # makes the include silent when the file is absent.
 -include Makefile.local

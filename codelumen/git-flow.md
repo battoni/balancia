@@ -74,9 +74,9 @@ Once your **manual review** is done, an AI-assisted flow takes you from a clean 
 
 Runs the full gate so nothing broken reaches a commit:
 
-- `make pre-commit` — the local mirror of CI: static checks (app.rnc features catalogue, aliases and type-check; api.rnc Pint and PHPStan; the docs portal and cortex checks where they apply), `.cursor` mirror parity, then lint, format and locale sorting (which fix files), then the full test suite (app.rnc unit + e2e, api.rnc pest)
-- `/battoni-review-vue-conventions` and `/battoni-review-design-conventions` for app.rnc changes
-- `/battoni-review-arcus-code` for api.rnc changes
+- `make pre-commit` — the local mirror of CI: static checks (app.balancia features catalogue, aliases and type-check; api.balancia Pint and PHPStan; the docs portal and cortex checks where they apply), `.cursor` mirror parity, then lint, format and locale sorting (which fix files), then the full test suite (app.balancia unit + e2e, api.balancia pest)
+- `/battoni-review-vue-conventions` and `/battoni-review-design-conventions` for app.balancia changes
+- `/battoni-review-arcus-code` for api.balancia changes
 
 It fixes what it can and reports a clear go / no-go. It **never commits**.
 

@@ -1,30 +1,30 @@
 # AI Infrastructure Changelog
 
-A running history of every significant decision, change, or addition to rnc's AI tooling.
+A running history of every significant decision, change, or addition to balancia's AI tooling.
 
 ---
 
 ## 2026-11-04 — The flow, read in a repo with no app or API
 
-Found copying the tooling into battoni.dev (Astro sites only, no app.rnc or api.rnc). The commands described rnc's own Makefile and review commands as if every repo had them, so an agent there went looking for `make check-app`, `make sync-mirror`, `inject-rules-context.py` and `/battoni-review-*`, none of which exist.
+Found copying the tooling into battoni.dev (Astro sites only, no app.balancia or api.balancia). The commands described balancia's own Makefile and review commands as if every repo had them, so an agent there went looking for `make check-app`, `make sync-mirror`, `inject-rules-context.py` and `/battoni-review-*`, none of which exist.
 
-- `/battoni-pre-commit`: the seven-step list is now what a repo with an app and an API chains; a repo without them runs its own `pre-commit` suite, and Step 2 says no convention review applies there (`code-reviewer` at `/battoni-verify` instead). The `check-cortex` line no longer says "rnc only": `specialize()` turned that into "<child> only" in every copy, which named the wrong repo.
+- `/battoni-pre-commit`: the seven-step list is now what a repo with an app and an API chains; a repo without them runs its own `pre-commit` suite, and Step 2 says no convention review applies there (`code-reviewer` at `/battoni-verify` instead). The `check-cortex` line no longer says "balancia only": `specialize()` turned that into "<child> only" in every copy, which named the wrong repo.
 - `/battoni-improve`: the injection-gap fix and the `.cursor` mirror step say what to do where the hook and `make sync-mirror` are absent.
 - `/battoni-grill-me`, `midnight-oil`, `phase-review`: the review commands are called where the repo has them, with `code-reviewer` as the fallback.
-- `PHASE-SPEC.md`: Backend/Frontend are named as the api.rnc/app.rnc anatomy; a repo with one or neither shapes the sections to its own units.
-- `/battoni-explain-rnc`: the before-a-PR line points at `/battoni-pre-commit` and names the review commands only where the repo has an app or an API; the rule-editing paragraph says what to do without `make sync-mirror`.
+- `PHASE-SPEC.md`: Backend/Frontend are named as the api.balancia/app.balancia anatomy; a repo with one or neither shapes the sections to its own units.
+- `/battoni-explain-balancia`: the before-a-PR line points at `/battoni-pre-commit` and names the review commands only where the repo has an app or an API; the rule-editing paragraph says what to do without `make sync-mirror`.
 - `/battoni-verify`: the rule files it names to the reviewer follow the same Type mapping as `code-reviewer`, so a site-only repo passes its own `CLAUDE.md`/`RULES.md` chain instead of only `shared-conventions.md` (`fable-reviewer` reads only the rules it is given).
-- `code-reviewer` (the agent): its rule map listed only api.rnc and app.rnc; it now reads by the sub-project's Type, like `/battoni-start-session`, and says when no rule file covers a file — it is the review a repo without an app or API falls back to.
-- Applying the Fable review of the above: `/battoni-improve` opens its PR against `development` only if the remote has it; `/battoni-grill-me` bumps versions only where units are versioned; `phase-review` says the metadata gate binds only units with a `RULES.md`; `/battoni-pre-commit` names `ci.yml` only where it exists; `PHASE-SPEC.md` no longer names api.rnc/app.rnc (downstream they became directories the child does not have).
+- `code-reviewer` (the agent): its rule map listed only api.balancia and app.balancia; it now reads by the sub-project's Type, like `/battoni-start-session`, and says when no rule file covers a file — it is the review a repo without an app or API falls back to.
+- Applying the Fable review of the above: `/battoni-improve` opens its PR against `development` only if the remote has it; `/battoni-grill-me` bumps versions only where units are versioned; `phase-review` says the metadata gate binds only units with a `RULES.md`; `/battoni-pre-commit` names `ci.yml` only where it exists; `PHASE-SPEC.md` no longer names api.balancia/app.balancia (downstream they became directories the child does not have).
 
-The new text avoids the word "rnc", which the word map rewrites downstream. `/battoni-start-session` needed nothing: it already picks rules by each sub-project's Type.
+The new text avoids the word "balancia", which the word map rewrites downstream. `/battoni-start-session` needed nothing: it already picks rules by each sub-project's Type.
 
 ## 2026-11-04 — Two names the sync broke in every child
 
-Found syncing boanerges: two rnc names came out of `specialize()` wrong downstream.
+Found syncing boanerges: two balancia names came out of `specialize()` wrong downstream.
 
-- `cortex/hooks/test_claude_hooks.py`: `test_runs_eslint_on_the_edited_app.rnc_file_only` → `test_runs_eslint_on_the_edited_frontend_file_only`. The word map turns `app.rnc` into `app.<project>` inside the method name, a `SyntaxError` in every derived project (boanerges since its bootstrap, fixed there in its PR #27). `IDENT_COLLISION_RE` misses it: the token follows `_` and `.py` is not among the scanned suffixes.
-- `cortex/sync/sync.py`: the manifest's `SKIP public.battoni.dev/` now lands as `SKIP public.<project>/`, as its comment always promised. No project word is in that name, so `specialize()` left it verbatim and the child's own public site fell into `MERGE *`; boanerges had added the line by hand and the sync overwrote it. New `specialize_file()` carries the one-file rewrite, used by the sync and by `--init`; only the manifest rule changes, so `public.battoni.dev/` elsewhere (the landing-page template) still names rnc's site. `test_sync.py` gains three checks (the first two red before the fix).
+- `cortex/hooks/test_claude_hooks.py`: `test_runs_eslint_on_the_edited_app.balancia_file_only` → `test_runs_eslint_on_the_edited_frontend_file_only`. The word map turns `app.balancia` into `app.<project>` inside the method name, a `SyntaxError` in every derived project (boanerges since its bootstrap, fixed there in its PR #27). `IDENT_COLLISION_RE` misses it: the token follows `_` and `.py` is not among the scanned suffixes.
+- `cortex/sync/sync.py`: the manifest's `SKIP public.battoni.dev/` now lands as `SKIP public.<project>/`, as its comment always promised. No project word is in that name, so `specialize()` left it verbatim and the child's own public site fell into `MERGE *`; boanerges had added the line by hand and the sync overwrote it. New `specialize_file()` carries the one-file rewrite, used by the sync and by `--init`; only the manifest rule changes, so `public.battoni.dev/` elsewhere (the landing-page template) still names balancia's site. `test_sync.py` gains three checks (the first two red before the fix).
 - `cortex/sync/sync.py`: `--audit` now catches the first one. The token-collision check scanned only MERGE files, only for a token at the START of an identifier, and skipped `.py`; the hook test was an OVERWRITE `.py` file with the token mid-name. It now also scans OVERWRITE files (outside the engine), `.py`, and a token after `_` or a digit.
 
 ## 2026-11-04 — The away mode: `/battoni-run` builds and verifies with nobody there
@@ -45,7 +45,7 @@ The owner's first feature on the new flow took longer than the old way of workin
   - Hard stops: the run's own push of the feature branch and its draft PR are planned steps, not decisions taken away.
   - ISO dates in the `## Away run` template (`<yyyy-mm-dd hh:mm>`).
   - Claude Code only: in Cursor, use the attended mode (no subagents, no `ScheduleWakeup`).
-  - `app.rnc/src/modules/Showcase/views/Features/features.generated.json` regenerated: the catalogue gate was red.
+  - `app.balancia/src/modules/Showcase/views/Features/features.generated.json` regenerated: the catalogue gate was red.
 
 ## 2026-11-04 — Review fixes for the feature-flow back-port
 
@@ -56,9 +56,9 @@ boanerges reviewed the feature-flow back-port (#45, merge f422a6f); each finding
 - `/battoni-start-session` Step 1: "the root `CLAUDE.md` (in Cursor, `project-context.mdc`), already in context", because in Cursor the always-loaded file is the `.mdc`; and "plus `cortex` when it has no row of its own", because cortex is usually a row already.
 - `/battoni-verify` layer 2: the login-as link now says where the username comes from (the project's QA notes, e.g. `qa.local.md`) and that it is opened on the API host — the path alone left the driver guessing both.
 - `/battoni-spec` "High risk": the launched-project migration rule is stated inline (never edit a published `create_*`, change it with an `add_*_to_*` migration), because `arcus-api-architecture` §3's heading says the opposite and the exception sits in its last paragraph.
-- `api.rnc/routes/api.php`: the login-as comment dates in ISO (`2026-11-04`), like every other date in the repo.
+- `api.balancia/routes/api.php`: the login-as comment dates in ISO (`2026-11-04`), like every other date in the repo.
 - `QaLoginAsTest`: a 13th case proves the route is NOT registered in `production` (loads `routes/api.php` into a fresh route collection and matches nothing); the "(7)" mutation only proved it is registered in `testing`. Red with the `environment('local', 'testing')` guard removed, green with it.
-- `manifest.tsv`: `LOCAL brand/` — the brand chain the `battoni-new-brand` skill writes at the repo root (survey, `SYSTEM.md`, `design-system/`) is identity, and `MERGE *` kept it safe only while rnc ships no `brand/`. `test_sync.py` gains `brand/SYSTEM.md` among the LOCAL cases (red without the line).
+- `manifest.tsv`: `LOCAL brand/` — the brand chain the `battoni-new-brand` skill writes at the repo root (survey, `SYSTEM.md`, `design-system/`) is identity, and `MERGE *` kept it safe only while balancia ships no `brand/`. `test_sync.py` gains `brand/SYSTEM.md` among the LOCAL cases (red without the line).
 
 **On the next sync:** a project that already registered `qa/login-as` in its `routes/api.local.php` (boanerges did) must delete that block and its `use` import. The core `routes/api.php` now registers the route, `api.local.php` loads later and would silently override it, and no test can catch a duplicate.
 
@@ -68,7 +68,7 @@ Back-ported from boanerges (#25). Every Chrome QA round of boanerges-1 started a
 where the owner's 1Password pop-up breaks the extension; one rerun met the login screen only on
 the second try, and another ran on the previous round's session, so a round ran twice.
 `/battoni-verify` now signs each round in by `GET /api/qa/login-as/{username}?to=/route`
-(`api.rnc/app/Http/Controllers/QaLoginAsController.php`), which replaces the session and redirects
+(`api.balancia/app/Http/Controllers/QaLoginAsController.php`), which replaces the session and redirects
 into the app.
 
 - Registered only in `local` and `testing`, and the controller itself refuses anything but
@@ -89,7 +89,7 @@ into the app.
 The feature flow builds each phase with `/battoni-start-session <id>`, and the command was
 `LOCAL` ("it lists THIS repo's sub-projects, so each project owns its copy"). Retired: LOCAL froze
 every child's copy — lifeshifter, chapaja, largatudoevai and impressao still said "read all five
-files" with nine app.rnc rules shipped, and none loaded `shared-conventions` — and the `<id>` mode
+files" with nine app.balancia rules shipped, and none loaded `shared-conventions` — and the `<id>` mode
 could never have reached them.
 
 The sub-project list was the only project-specific part. The command now reads it from the
@@ -129,12 +129,12 @@ owner decides by seeing the screen. Reference: `.claude/feature-flow.md`.
   Fable review only of a high-risk spec.
 - `/battoni-grill-me` and `/battoni-agent-handoff` point feature work at the flow (`state.md` is
   the handoff); `midnight-oil` runs build rows from `state.md`.
-- Manifest: `specs/` is `LOCAL`. `specs/README.md` is rnc's own.
+- Manifest: `specs/` is `LOCAL`. `specs/README.md` is balancia's own.
 
-Generalised on the way in: example IDs are `rnc-<n>` (the transform makes them each
+Generalised on the way in: example IDs are `balancia-<n>` (the transform makes them each
 project's); boanerges' named tester and elders became "a tester, the client"; its private `data/`
 folder became "never a real record"; the login link of its `qa.local.md` became the QA login-as
-route that ships with api.rnc; its production-migration rule became a pointer to
+route that ships with api.balancia; its production-migration rule became a pointer to
 `arcus-api-architecture` §3 and the project's own `CLAUDE.md`.
 
 ## 2026-11-04 — `/battoni-publish-pr` opens against `main` when there is no `development`
@@ -167,18 +167,18 @@ overall.
 ## 2026-11-04 — rules and skills load by `paths:`; Boost's skill copies retired
 
 Back-ported from boanerges (#20). The rules declared Cursor's `globs:`/`alwaysApply:` in their
-Claude frontmatter, which Claude Code does not read: a rule loads by `paths:`, so the app.rnc and
-api.rnc rules were either loaded by hand (`/battoni-start-session`) or not at all. Every
+Claude frontmatter, which Claude Code does not read: a rule loads by `paths:`, so the app.balancia and
+api.balancia rules were either loaded by hand (`/battoni-start-session`) or not at all. Every
 `.claude/rules/*` now names its `paths:`, `shared-conventions` has none (always loaded), and the
-api.rnc/app.rnc skills declare the folder they serve. The `.cursor` mirrors keep `globs:` — only
+api.balancia/app.balancia skills declare the folder they serve. The `.cursor` mirrors keep `globs:` — only
 bodies are mirrored.
 
-`api.rnc/.claude/skills/` was Laravel Boost's generated copy of the root `arcus-*` skills — two
-versions of one skill, the copy loading only in a session opened inside `api.rnc/`. Deleted and
+`api.balancia/.claude/skills/` was Laravel Boost's generated copy of the root `arcus-*` skills — two
+versions of one skill, the copy loading only in a session opened inside `api.balancia/`. Deleted and
 `RETIRED` in the manifest; `boost.json` stops targeting `claude_code` and sets
-`"guidelines": false`, so `boost:update` no longer regenerates `api.rnc/CLAUDE.md` (10 KB pointing
-at the Boost MCP tools, which no session opened at the monorepo root has). `api.rnc/CLAUDE.md` and
-`app.rnc/CLAUDE.md` are rewritten by hand to what is easy to get wrong and point at the rules for
+`"guidelines": false`, so `boost:update` no longer regenerates `api.balancia/CLAUDE.md` (10 KB pointing
+at the Boost MCP tools, which no session opened at the monorepo root has). `api.balancia/CLAUDE.md` and
+`app.balancia/CLAUDE.md` are rewritten by hand to what is easy to get wrong and point at the rules for
 the rest; `arcus-laravel-best-practices` verifies syntax against `vendor/laravel/framework`
 instead of `search-docs`.
 
@@ -186,10 +186,10 @@ instead of `search-docs`.
 
 `sync.py --init` renamed two folders and left every other path alone, while rewriting every
 file's CONTENT into the new project's vocabulary. The two halves disagreed, and the disagreement
-was silent: `api.rnc/config/rnc.php` kept its name in a repo where the code now asked for
+was silent: `api.balancia/config/balancia.php` kept its name in a repo where the code now asked for
 `config('zion.…')`, so every lookup answered null with nothing anywhere to say why — it surfaced
-as one failing Pest test on zion's first run, hours after the setup. `.claude/commands/battoni-explain-rnc.md`
-and its `.cursor` mirror had the same problem, as did `docs.rnc/`. And because a sync DOES
+as one failing Pest test on zion's first run, hours after the setup. `.claude/commands/battoni-explain-balancia.md`
+and its `.cursor` mirror had the same problem, as did `docs.balancia/`. And because a sync DOES
 name-map paths (`specialize()` runs on the path in `build_merge_plan` and in the OVERWRITE
 writer), the first sync would have written `config/zion.php` beside the file init never renamed.
 
@@ -204,11 +204,11 @@ which is exactly why the fix reuses it instead of a second rewrite table.
 
 The same disagreement lived in the OVERWRITE writer, and fixing init alone would have made it
 worse. That writer took the raw path — "the AI layer carries no project token in its names" — and
-`battoni-explain-rnc.md` plus its `.cursor` mirror are exactly that counter-example: every
-project has them named after rnc while their text speaks of the project. With init naming
-them correctly, the next sync would have written the rnc-named copy back BESIDE the right
+`battoni-explain-balancia.md` plus its `.cursor` mirror are exactly that counter-example: every
+project has them named after balancia while their text speaks of the project. With init naming
+them correctly, the next sync would have written the balancia-named copy back BESIDE the right
 one: two commands, the stale one holding the old text. The writer now name-maps its path too, and
-removes the copy under the previous name — an OVERWRITE file is rnc's to own, so a second
+removes the copy under the previous name — an OVERWRITE file is balancia's to own, so a second
 answer to the same question is not left behind. `test_engine.sh` gained four checks for it, all
 watched failing first. The four children will take the rename on their next sync.
 
@@ -226,21 +226,21 @@ delete plus an add.
   rewrote it inside other words: `accelerometer` arrived as `acapp.Xometer` in every
   Permissions-Policy header, Laravel Boost's description in `composer.lock` "acapp.Xates", and the
   landing's testimonial author "Marcus" became "Mapi.X". An uppercase letter, `_` or digit after
-  the word still counts (`app.rncPreset`), so the identifier-collision gate keeps seeing those.
-- **The dev hosts map once.** `app.rnc.test` / `api.rnc.test` are rewritten as a
+  the word still counts (`app.balanciaPreset`), so the identifier-collision gate keeps seeing those.
+- **The dev hosts map once.** `app.balancia.test` / `api.balancia.test` are rewritten as a
   unit to `app.X.test` / `api.X.test`; word by word they arrived as `app.X.X.test` in
-  `.env.example`, the CORS default and `config/rnc.php`.
+  `.env.example`, the CORS default and `config/balancia.php`.
 - **A host written inside a regex maps too.** The CORS pattern spells it with escaped dots
-  (`app\.rnc\.test`), which the plain mapping did not match: it still arrived as
-  `app.X\.X\.test` in `api.rnc/.env.example`. Found on largatudoevai's second sync (22/09).
-- **`origin: rnc` is guarded only in the frontmatter that opens the file.** Guarded
+  (`app\.balancia\.test`), which the plain mapping did not match: it still arrived as
+  `app.X\.X\.test` in `api.balancia/.env.example`. Found on largatudoevai's second sync (22/09).
+- **`origin: balancia` is guarded only in the frontmatter that opens the file.** Guarded
   everywhere, the review commands arrived downstream saying "(X-origin units) … frontmatter has
-  `origin: rnc`", contradicting themselves, and the generate-rules templates stamped
-  `origin: rnc` on units the child itself was writing. Found in lifeshifter's T0 (PR #11).
+  `origin: balancia`", contradicting themselves, and the generate-rules templates stamped
+  `origin: balancia` on units the child itself was writing. Found in lifeshifter's T0 (PR #11).
 - **`contrast.spec` test 1 asks the stylesheets who declares `--color-primary-contrast`**
   instead of requiring it to equal `--color-ink-900` — battoni-dev's answer, which failed every
   white-label brand (chapaja's Terra, lifeshifter's terracotta) while their themes declared the
-  token exactly as the test demands. `app.rnc/e2e` 1.8.1.
+  token exactly as the test demands. `app.balancia/e2e` 1.8.1.
 
 ### Why
 
@@ -307,7 +307,7 @@ the four above.
   `public.battoni.dev/` is in the repo. `battoni-setup-project` removes a dropped sub-project's row from
   `CLAUDE.md` and `project-context.mdc`, and states the rule for the synced layer.
 - **`.cursor/rules/project-context.mdc`** mirrors `CLAUDE.md` again. It had drifted: it named a
-  `cortex/start-session.md` and a `/sync-cortex` command that do not exist, and "all 5 app.rnc rules"
+  `cortex/start-session.md` and a `/sync-cortex` command that do not exist, and "all 5 app.balancia rules"
   where there are nine.
 - **codelumen** — `design-system.md` carries the same tier rule; the generated pages for the rules and
   commands touched here were regenerated. The other generated pages that had drifted were left alone.
@@ -361,7 +361,7 @@ fails silently: the agent reads the pointer, finds no file, and applies its own 
 - **Rules** — `celer-07` a load that failed is not an empty list; `arcus-api-architecture` §3 a fold is
   verified by diffing the schema; `shared-conventions` a rule is retired with its reason, and a known
   gap lives under `## Known Gaps` in the unit's `RULES.md` (the RULES template gained the section).
-- **Docs portal (template and `docs.rnc`)** — the endpoint extractor resolves `->middleware($var)`
+- **Docs portal (template and `docs.balancia`)** — the endpoint extractor resolves `->middleware($var)`
   and reports every key of `permission:a,b`: routes guarded through a variable were documented as open
   to anyone. `planned-seeds.mjs` documents what a phase specified and has not built;
   `EntityDiagram`, `ReachabilityMap` and a client-only `MermaidRender` join the theme. The guide
@@ -407,13 +407,13 @@ fails silently: the agent reads the pointer, finds no file, and applies its own 
 ### Why
 
 chapaja was the first child triaged item by item (161 back, 207 product-local). Its AI-layer changes
-were real and had no entry here — the child's own `cortex/CHANGELOG.md` was byte for byte rnc's.
+were real and had no entry here — the child's own `cortex/CHANGELOG.md` was byte for byte balancia's.
 
-Two defects of the parent surfaced on the way. The portal documented **2** of rnc's screens and
+Two defects of the parent surfaced on the way. The portal documented **2** of balancia's screens and
 **0** navigation items, because its extractor read a `NavTemplate.vue` and a `views/routes.ts` this
 bootstrap does not have — it now documents 39 and 10. And the manifest protected the pre-rename
 `start-session.md` as LOCAL, so in every child the command a person runs was overwritten with
-rnc's sub-project roster while the project's adaptation sat in a file nobody invokes.
+balancia's sub-project roster while the project's adaptation sat in a file nobody invokes.
 
 ### Files
 
@@ -427,7 +427,7 @@ rnc's sub-project roster while the project's adaptation sat in a file nobody inv
 
 ### What changed
 
-Six `origin: rnc` units realigned (`AEmptyState`, `ALogo`, `ONavbarDesktop`,
+Six `origin: balancia` units realigned (`AEmptyState`, `ALogo`, `ONavbarDesktop`,
 `ONavbarDrawer`, `TheCenteredLayout`, `TheLayout`), and the invariant added to
 `sync.py --audit` as `BASED-ON DRIFT`, with the comparison extracted pure
 (`based_on_drift_in_text`) and unit-tested.
@@ -449,7 +449,7 @@ synced target as changed. The engine proof passes again.
 
 ### Files
 
-- 6 `app.rnc/**/RULES.md` — `based-on` realigned to `version`
+- 6 `app.balancia/**/RULES.md` — `based-on` realigned to `version`
 - `cortex/sync/sync.py` — `based_on_drift_in_text` + `find_based_on_drift`, wired into `--audit`
 - `cortex/sync/test_sync.py` — 7 checks, including both drift directions
 
@@ -479,7 +479,7 @@ reads Developer mode to continue it). A skill makes the pattern reusable instead
 ### What changed
 
 Added a third assertion to the A.6 changelog/version gate (`/reviewVueConventions`): for any
-`origin: rnc` unit, `based-on:` must equal `version:`. New flag `[A.6 — based-on drift]`.
+`origin: balancia` unit, `based-on:` must equal `version:`. New flag `[A.6 — based-on drift]`.
 Regenerated the Cursor mirror.
 
 ### Why
@@ -503,25 +503,25 @@ Two engine bugs, surfaced while preparing the first downstream sync (vigil):
 
 1. **The engine rewrote itself into the project's vocabulary** — on *both* transform paths.
    `init_in_place()` and the regular sync's **OVERWRITE writer** both `specialize()`d *every*
-   file including `cortex/sync/*.py`, so the rewrite table's `("app.rnc", app)` entries became
-   `("app.<project>", app)` and doc source-names flipped (RUNBOOK's "run from rnc"). In init
+   file including `cortex/sync/*.py`, so the rewrite table's `("app.balancia", app)` entries became
+   `("app.<project>", app)` and doc source-names flipped (RUNBOOK's "run from balancia"). In init
    it only bit on the *next* engine load (Python holds the pristine function in memory for the
    pass — a self-modifying-code footgun); via OVERWRITE it shipped a broken engine downstream,
    where `make sync-test` actually runs it. Fix: a new `is_engine_internal()` guard makes **both**
    paths write everything under `cortex/sync/` **verbatim**, **except `manifest.tsv`** (which
    legitimately needs the renamed `app.X/api.X` path tokens for the downstream `--audit`).
    Regression checks in `test_init.sh` and `test_engine.sh` (engine byte-identical to source;
-   manifest still transformed; RUNBOOK keeps the rnc name).
+   manifest still transformed; RUNBOOK keeps the balancia name).
 
 2. **`based-on` drift on 13 units.** The battoni-dev theme pass bumped `version` but left
-   `based-on` behind, violating the rnc invariant `based-on == version` (`SCHEMA.md`). The
+   `based-on` behind, violating the balancia invariant `based-on == version` (`SCHEMA.md`). The
    sync triage then read those units as falsely **diverged** on a fresh sync (caught by
    `make sync-test-engine`, "fresh sync: 0 diverged"). Realigned all 13. Added the invariant as
    an explicit rule in the `cortex-sync` skill (+ Cursor mirror) so a future bump can't recreate it.
 
 ### Why
 
-The engine is the one artifact that must stay pristine across the rnc→project boundary — a
+The engine is the one artifact that must stay pristine across the balancia→project boundary — a
 corrupted copy throws spurious merge conflicts on later syncs. And a stale `based-on` quietly
 poisons triage classification, the very signal a maintainer trusts to decide how a unit merges.
 
@@ -529,7 +529,7 @@ poisons triage classification, the very signal a maintainer trusts to decide how
 
 - `cortex/sync/sync.py` — `is_engine_internal()` self-exclusion in `init_in_place()`
 - `cortex/sync/test_init.sh` — engine-pristine regression checks
-- 13 `app.rnc/**/RULES.md` — `based-on` realigned to `version`
+- 13 `app.balancia/**/RULES.md` — `based-on` realigned to `version`
 - `.claude/skills/cortex-sync/SKILL.md` + `.cursor/rules/cortex-sync.mdc` — `based-on==version` rule
 
 ---
@@ -567,7 +567,7 @@ metadata + propagation rules that previously lived only as prose in `cortex/sync
 discipline (source + `RULES.md` + `CHANGELOG.md`), version-on-change (CHANGELOG canonical,
 frontmatter mirrors it), tests-are-part-of-the-unit, sync MODE awareness
 (OVERWRITE/MERGE/LOCAL/SKIP), naming/transform protection, parallel-session staging (never
-`git add -A`), and one-way rnc→projects flow. Trigger-loads (not `alwaysApply`) on
+`git add -A`), and one-way balancia→projects flow. Trigger-loads (not `alwaysApply`) on
 `RULES.md` / `CHANGELOG.md` / `cortex/sync/**` / `.cortex-*`. Claude + Cursor mirrors authored
 by hand (the mirror script covers rules and commands, not skills) with byte-identical bodies.
 
@@ -575,7 +575,7 @@ by hand (the mirror script covers rules and commands, not skills) with byte-iden
 
 Written discipline only binds when an agent is pointed at it. A skill auto-loads on the right
 triggers, turning the docs into default behavior — and because it is committed markdown in the
-AI (OVERWRITE) layer, it propagates to every rnc-derived project via the sync system itself.
+AI (OVERWRITE) layer, it propagates to every balancia-derived project via the sync system itself.
 
 ### Files affected
 
@@ -589,7 +589,7 @@ AI (OVERWRITE) layer, it propagates to every rnc-derived project via the sync sy
 
 ### What changed
 
-Restructured Codelumen from a celer-only conventions site into the **rnc internal handbook** covering every sub-project, the workflow, and the AI tooling. A zero-dependency generator (`codelumen/scripts/generate-rules.mjs`) renders one page per `.claude/rules/*` rule **and** per `.claude/commands/*` command, plus the sidebar data — so the handbook can never drift from the canonical sources. Added authored overview pages (monorepo map, AI tooling, per-project, access control) and retired the stale prose pages. Command pages live under the Cortex sidebar group.
+Restructured Codelumen from a celer-only conventions site into the **balancia internal handbook** covering every sub-project, the workflow, and the AI tooling. A zero-dependency generator (`codelumen/scripts/generate-rules.mjs`) renders one page per `.claude/rules/*` rule **and** per `.claude/commands/*` command, plus the sidebar data — so the handbook can never drift from the canonical sources. Added authored overview pages (monorepo map, AI tooling, per-project, access control) and retired the stale prose pages. Command pages live under the Cortex sidebar group.
 
 ### Why
 
@@ -646,7 +646,7 @@ Codelumen — and future client apps — must be reachable online but visible on
 
 ### What changed
 
-`cortex/sync/handoff.py` (`make handoff`) produces a clean copy of the repo for client delivery: it exports the committed tree, **strips all rnc AI tooling** (`.claude`, `.cursor`, `cortex`, `codelumen`, `plans`, `CLAUDE.md`, tooling Makefile/CI targets), **keeps the component `RULES.md`**, and re-inits git so the tooling isn't recoverable from history. Supports `PROJECTS=`, `OUT=`, `VERIFY=`.
+`cortex/sync/handoff.py` (`make handoff`) produces a clean copy of the repo for client delivery: it exports the committed tree, **strips all balancia AI tooling** (`.claude`, `.cursor`, `cortex`, `codelumen`, `plans`, `CLAUDE.md`, tooling Makefile/CI targets), **keeps the component `RULES.md`**, and re-inits git so the tooling isn't recoverable from history. Supports `PROJECTS=`, `OUT=`, `VERIFY=`.
 
 ### Why
 
@@ -692,19 +692,19 @@ The previous workflow had `/create-pr` but no standardised way to stage/commit o
 
 ---
 
-## 2026-05-26 — RULES.md auto-injection hooks (app.rnc)
+## 2026-05-26 — RULES.md auto-injection hooks (app.balancia)
 
 ### What changed
 
-Implemented automatic injection of folder-specific `RULES.md` chains before every **Edit** or **Write** on app.rnc Vue/TS files. Both Claude Code and Cursor use the same Python script with tool-specific output formatting.
+Implemented automatic injection of folder-specific `RULES.md` chains before every **Edit** or **Write** on app.balancia Vue/TS files. Both Claude Code and Cursor use the same Python script with tool-specific output formatting.
 
 **Hook pipeline:**
 
 | Step | Detail |
 | --- | --- |
-| Trigger | `Edit` or `Write` on a file under `app.rnc/src/` with extension `.vue`, `.ts`, or `.tsx` |
+| Trigger | `Edit` or `Write` on a file under `app.balancia/src/` with extension `.vue`, `.ts`, or `.tsx` |
 | Script | `cortex/hooks/inject-rules-context.py` |
-| Walk | From the edited file's folder up to `app.rnc/src/`, collecting every `RULES.md` |
+| Walk | From the edited file's folder up to `app.balancia/src/`, collecting every `RULES.md` |
 | Priority | Closer files override parent rules |
 | Limit | Output truncated at 9,000 characters with a pointer to read full files |
 
@@ -712,14 +712,14 @@ Implemented automatic injection of folder-specific `RULES.md` chains before ever
 
 | Rule | Scope | Purpose |
 | --- | --- | --- |
-| `celer-07-view-patterns` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` | Page layout, `MMainDialog`, form molecules, granular list updates, permissions, confirm popups. Reference: `UsersView.view.vue` |
+| `celer-07-view-patterns` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` | Page layout, `MMainDialog`, form molecules, granular list updates, permissions, confirm popups. Reference: `UsersView.view.vue` |
 | `celer-08-rules-auto-injection` | same | Documents hook behaviour and agent obligations |
-| `celer-folder-mmaindialog` | `app.rnc/src/components/molecules/MMainDialog/**` | Summary of `MMainDialog/RULES.md` — mask scoping, i18n titles, `isFooterless` |
-| `celer-folder-thelayout` | `app.rnc/src/layouts/TheLayout/**` | Summary of `TheLayout/RULES.md` — containing block, `main-scroll`, `#pageHeader` |
-| `celer-folder-thepageheader` | `app.rnc/src/components/unique/ThePageHeader/**` | Summary of `ThePageHeader/RULES.md` — i18n title, hamburger breakpoints, `#actions` |
-| `celer-folder-form-molecule` | `app.rnc/src/modules/**/components/molecules/MAddEdit*/**` | Form molecule contract — owns form + API, emits `@onClose` / `@onSuccess` |
-| `celer-folder-users-view` | `app.rnc/src/modules/User/views/Users/**` | Summary of `UsersView/RULES.md` — reference CRUD view |
-| `celer-folder-theme` | `app.rnc/src/styles/theme/**` | Summary of `theme/RULES.md` — brand hex contract (`#c0e021`, `#888b8d`, `#141413`) |
+| `celer-folder-mmaindialog` | `app.balancia/src/components/molecules/MMainDialog/**` | Summary of `MMainDialog/RULES.md` — mask scoping, i18n titles, `isFooterless` |
+| `celer-folder-thelayout` | `app.balancia/src/layouts/TheLayout/**` | Summary of `TheLayout/RULES.md` — containing block, `main-scroll`, `#pageHeader` |
+| `celer-folder-thepageheader` | `app.balancia/src/components/unique/ThePageHeader/**` | Summary of `ThePageHeader/RULES.md` — i18n title, hamburger breakpoints, `#actions` |
+| `celer-folder-form-molecule` | `app.balancia/src/modules/**/components/molecules/MAddEdit*/**` | Form molecule contract — owns form + API, emits `@onClose` / `@onSuccess` |
+| `celer-folder-users-view` | `app.balancia/src/modules/User/views/Users/**` | Summary of `UsersView/RULES.md` — reference CRUD view |
+| `celer-folder-theme` | `app.balancia/src/styles/theme/**` | Summary of `theme/RULES.md` — brand hex contract (`#c0e021`, `#888b8d`, `#141413`) |
 
 `celer-folder-*` rules exist in `.cursor/rules/` only (glob-loaded when matching files are open). Claude Code receives the same folder contracts via hook injection on Edit/Write; global rules `celer-01`–`celer-08` exist in both `.claude/rules/` and `.cursor/rules/`.
 
@@ -729,7 +729,7 @@ Implemented automatic injection of folder-specific `RULES.md` chains before ever
 
 Folder `RULES.md` files capture intentional decisions that global conventions cannot express. Agents were inconsistent about reading them before editing. Auto-injection on Edit/Write guarantees the full chain is in context; glob-scoped `celer-folder-*` rules provide the same summaries during read/planning sessions in Cursor.
 
-Scoped to `app.rnc/src/` only — no cross-project paths from other repos.
+Scoped to `app.balancia/src/` only — no cross-project paths from other repos.
 
 ### Files affected
 
@@ -757,11 +757,11 @@ Scoped to `app.rnc/src/` only — no cross-project paths from other repos.
 
 ---
 
-## 2026-05-22 — Folder-specific `RULES.md` rollout (app.rnc)
+## 2026-05-22 — Folder-specific `RULES.md` rollout (app.balancia)
 
 ### What changed
 
-Added 51 `RULES.md` files across `app.rnc/src/`, giving each significant folder a machine-readable contract for AI agents. Files capture folder purpose, intentional design decisions, prop/emit contracts, edge cases, and "do not" rules — never repeating what is already in global `celer-01`–`celer-06` conventions.
+Added 51 `RULES.md` files across `app.balancia/src/`, giving each significant folder a machine-readable contract for AI agents. Files capture folder purpose, intentional design decisions, prop/emit contracts, edge cases, and "do not" rules — never repeating what is already in global `celer-01`–`celer-06` conventions.
 
 Agents read the chain manually during planning; from 2026-05-26 onward the pre-edit hook injects it automatically on Edit/Write (see entry above).
 
@@ -771,107 +771,107 @@ Agents read the chain manually during planning; from 2026-05-26 onward the pre-e
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/RULES.md` | `App.vue` — global Toast, no layout here |
+| `app.balancia/src/RULES.md` | `App.vue` — global Toast, no layout here |
 
 **Shared infrastructure**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/components/RULES.md` | Atomic design tiers (A/M/O), auto-import contract |
-| `app.rnc/src/composables/RULES.md` | Shared composable patterns |
-| `app.rnc/src/helpers/RULES.md` | Helper utilities and providers |
-| `app.rnc/src/stores/RULES.md` | Pinia store conventions |
-| `app.rnc/src/locales/RULES.md` | Locale file structure, key ordering, `npm run sort-locales` |
-| `app.rnc/src/modules/RULES.md` | Module folder structure, barrel exports, alias usage |
+| `app.balancia/src/components/RULES.md` | Atomic design tiers (A/M/O), auto-import contract |
+| `app.balancia/src/composables/RULES.md` | Shared composable patterns |
+| `app.balancia/src/helpers/RULES.md` | Helper utilities and providers |
+| `app.balancia/src/stores/RULES.md` | Pinia store conventions |
+| `app.balancia/src/locales/RULES.md` | Locale file structure, key ordering, `npm run sort-locales` |
+| `app.balancia/src/modules/RULES.md` | Module folder structure, barrel exports, alias usage |
 
 **Layouts**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/layouts/TheLayout/RULES.md` | Authenticated shell — `transform-[translateZ(0)]`, `main-scroll`, `#pageHeader` slot |
-| `app.rnc/src/layouts/TheCenteredLayout/RULES.md` | Auth/marketing centered layout |
+| `app.balancia/src/layouts/TheLayout/RULES.md` | Authenticated shell — `transform-[translateZ(0)]`, `main-scroll`, `#pageHeader` slot |
+| `app.balancia/src/layouts/TheCenteredLayout/RULES.md` | Auth/marketing centered layout |
 
 **Theme**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/styles/theme/RULES.md` | Brand palettes (`primary`, `surface`, `ink`), semantic tokens, forking guide |
+| `app.balancia/src/styles/theme/RULES.md` | Brand palettes (`primary`, `surface`, `ink`), semantic tokens, forking guide |
 
 **Components — atoms**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/components/atoms/AFormError/RULES.md` | Form error display |
-| `app.rnc/src/components/atoms/ALogo/RULES.md` | Logo component |
+| `app.balancia/src/components/atoms/AFormError/RULES.md` | Form error display |
+| `app.balancia/src/components/atoms/ALogo/RULES.md` | Logo component |
 
 **Components — molecules**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/components/molecules/MConfirmPopup/RULES.md` | Destructive confirm wrapper |
-| `app.rnc/src/components/molecules/MDefaultModal/RULES.md` | Legacy/default modal |
-| `app.rnc/src/components/molecules/MMainDialog/RULES.md` | Bottom-sheet add/edit dialog — mask scoping, i18n, scroll lock |
-| `app.rnc/src/components/molecules/MOrderBy/RULES.md` | Sort selector |
-| `app.rnc/src/components/molecules/MSearch/RULES.md` | Search input |
-| `app.rnc/src/components/molecules/MWalletCard/RULES.md` | Wallet summary card |
+| `app.balancia/src/components/molecules/MConfirmPopup/RULES.md` | Destructive confirm wrapper |
+| `app.balancia/src/components/molecules/MDefaultModal/RULES.md` | Legacy/default modal |
+| `app.balancia/src/components/molecules/MMainDialog/RULES.md` | Bottom-sheet add/edit dialog — mask scoping, i18n, scroll lock |
+| `app.balancia/src/components/molecules/MOrderBy/RULES.md` | Sort selector |
+| `app.balancia/src/components/molecules/MSearch/RULES.md` | Search input |
+| `app.balancia/src/components/molecules/MWalletCard/RULES.md` | Wallet summary card |
 
 **Components — organisms**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/components/organisms/OWalletTransactions/RULES.md` | Transaction list |
+| `app.balancia/src/components/organisms/OWalletTransactions/RULES.md` | Transaction list |
 
 **Components — unique / navbar**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/components/unique/ThePageHeader/RULES.md` | Page header row, i18n title, hamburger |
-| `app.rnc/src/components/unique/TheNavbar/RULES.md` | Navbar shell |
-| `app.rnc/src/components/unique/TheNavbar/components/organisms/ONavbarDesktop/RULES.md` | Desktop sidebar |
-| `app.rnc/src/components/unique/TheNavbar/components/organisms/ONavbarDrawer/RULES.md` | Tablet drawer |
-| `app.rnc/src/components/unique/TheNavbar/components/organisms/ONavbarMobile/RULES.md` | Mobile bottom bar |
+| `app.balancia/src/components/unique/ThePageHeader/RULES.md` | Page header row, i18n title, hamburger |
+| `app.balancia/src/components/unique/TheNavbar/RULES.md` | Navbar shell |
+| `app.balancia/src/components/unique/TheNavbar/components/organisms/ONavbarDesktop/RULES.md` | Desktop sidebar |
+| `app.balancia/src/components/unique/TheNavbar/components/organisms/ONavbarDrawer/RULES.md` | Tablet drawer |
+| `app.balancia/src/components/unique/TheNavbar/components/organisms/ONavbarMobile/RULES.md` | Mobile bottom bar |
 
 **Modules — Auth**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/modules/Auth/RULES.md` | Auth domain — login flows, roles, permissions, services |
-| `app.rnc/src/modules/Auth/layouts/RULES.md` | Auth-specific layouts |
-| `app.rnc/src/modules/Auth/views/Login/RULES.md` | Login view |
-| `app.rnc/src/modules/Auth/views/SignUp/RULES.md` | Sign-up view |
-| `app.rnc/src/modules/Auth/views/ForgotPassword/RULES.md` | Password reset |
-| `app.rnc/src/modules/Auth/views/Terms/RULES.md` | Terms view |
-| `app.rnc/src/modules/Auth/views/RolesAndPermissions/RULES.md` | Role/permission management |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginForm/RULES.md` | Login form router |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginEmail/RULES.md` | Email login step |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginPhone/RULES.md` | Phone login step |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginCode/RULES.md` | OTP code step |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginUsernamePassword/RULES.md` | Username/password step |
-| `app.rnc/src/modules/Auth/components/molecules/MLoginPasswordCredentials/RULES.md` | Password credentials step |
-| `app.rnc/src/modules/Auth/components/molecules/MSignUpUser/RULES.md` | Sign-up form |
-| `app.rnc/src/modules/Auth/components/molecules/MSupportForgotPassword/RULES.md` | Forgot-password support |
-| `app.rnc/src/modules/Auth/components/molecules/MAddEditProfileForm/RULES.md` | Profile edit form molecule |
-| `app.rnc/src/modules/Auth/components/molecules/MPermissionPanel/RULES.md` | Permission panel |
-| `app.rnc/src/modules/Auth/components/molecules/MPermissionToolbar/RULES.md` | Permission toolbar |
-| `app.rnc/src/modules/Auth/components/molecules/MRolesAndPermissionsSkeleton/RULES.md` | Loading skeleton |
+| `app.balancia/src/modules/Auth/RULES.md` | Auth domain — login flows, roles, permissions, services |
+| `app.balancia/src/modules/Auth/layouts/RULES.md` | Auth-specific layouts |
+| `app.balancia/src/modules/Auth/views/Login/RULES.md` | Login view |
+| `app.balancia/src/modules/Auth/views/SignUp/RULES.md` | Sign-up view |
+| `app.balancia/src/modules/Auth/views/ForgotPassword/RULES.md` | Password reset |
+| `app.balancia/src/modules/Auth/views/Terms/RULES.md` | Terms view |
+| `app.balancia/src/modules/Auth/views/RolesAndPermissions/RULES.md` | Role/permission management |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginForm/RULES.md` | Login form router |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginEmail/RULES.md` | Email login step |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginPhone/RULES.md` | Phone login step |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginCode/RULES.md` | OTP code step |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginUsernamePassword/RULES.md` | Username/password step |
+| `app.balancia/src/modules/Auth/components/molecules/MLoginPasswordCredentials/RULES.md` | Password credentials step |
+| `app.balancia/src/modules/Auth/components/molecules/MSignUpUser/RULES.md` | Sign-up form |
+| `app.balancia/src/modules/Auth/components/molecules/MSupportForgotPassword/RULES.md` | Forgot-password support |
+| `app.balancia/src/modules/Auth/components/molecules/MAddEditProfileForm/RULES.md` | Profile edit form molecule |
+| `app.balancia/src/modules/Auth/components/molecules/MPermissionPanel/RULES.md` | Permission panel |
+| `app.balancia/src/modules/Auth/components/molecules/MPermissionToolbar/RULES.md` | Permission toolbar |
+| `app.balancia/src/modules/Auth/components/molecules/MRolesAndPermissionsSkeleton/RULES.md` | Loading skeleton |
 
 **Modules — Home**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/modules/Home/RULES.md` | Home module domain |
-| `app.rnc/src/modules/Home/views/Home/RULES.md` | Home dashboard view |
-| `app.rnc/src/modules/Home/views/Finance/RULES.md` | Finance/wallet view |
-| `app.rnc/src/modules/Showcase/views/Showcase/RULES.md` | UI showcase view (moved to own module 2026-05-26) |
+| `app.balancia/src/modules/Home/RULES.md` | Home module domain |
+| `app.balancia/src/modules/Home/views/Home/RULES.md` | Home dashboard view |
+| `app.balancia/src/modules/Home/views/Finance/RULES.md` | Finance/wallet view |
+| `app.balancia/src/modules/Showcase/views/Showcase/RULES.md` | UI showcase view (moved to own module 2026-05-26) |
 
 **Modules — User**
 
 | Path | Covers |
 | --- | --- |
-| `app.rnc/src/modules/User/RULES.md` | User domain — CRUD services, `useUserStore`, permissions |
-| `app.rnc/src/modules/User/views/Users/RULES.md` | User list view — reference CRUD pattern, granular updates |
-| `app.rnc/src/modules/User/components/molecules/MAddEditUserForm/RULES.md` | User add/edit form molecule |
-| `app.rnc/src/modules/User/components/molecules/MUserCard/RULES.md` | User card in list grid |
+| `app.balancia/src/modules/User/RULES.md` | User domain — CRUD services, `useUserStore`, permissions |
+| `app.balancia/src/modules/User/views/Users/RULES.md` | User list view — reference CRUD pattern, granular updates |
+| `app.balancia/src/modules/User/components/molecules/MAddEditUserForm/RULES.md` | User add/edit form molecule |
+| `app.balancia/src/modules/User/components/molecules/MUserCard/RULES.md` | User card in list grid |
 
 ### Why
 
@@ -879,19 +879,19 @@ Global Vue/TS rules (`celer-01`–`celer-06`) cannot capture per-folder intentio
 
 ### Files affected
 
-- 51 files under `app.rnc/src/**/RULES.md` (see table above)
+- 51 files under `app.balancia/src/**/RULES.md` (see table above)
 - No changes to `.claude/` or `.cursor/` in these commits — distribution rules added 2026-05-26
 
 ---
 
-## 2026-05-05 — Design system rules and review command (app.rnc)
+## 2026-05-05 — Design system rules and review command (app.balancia)
 
 ### What changed
 
 - Added `celer-06-design-system` — typography, spacing, radius, button severity, dialog usage
 - Expanded color token rules in `celer-01-vue-checklist` (brand palettes, semantic states, no hardcoded hex)
 - Added `/reviewDesignConventions` command — plan-mode design system review against `celer-06`
-- Updated `explain-rnc` command descriptions
+- Updated `explain-balancia` command descriptions
 
 ### Why
 
@@ -905,17 +905,17 @@ Design token migration (primary/surface/ink semantic palettes) needed enforceabl
 - `.claude/rules/celer-01-vue-checklist.md`
 - `.claude/commands/reviewDesignConventions.md`
 - `.cursor/rules/reviewDesignConventions.mdc`
-- `.claude/commands/explain-rnc.md` (via related commit)
-- `.cursor/rules/explain-rnc.mdc` (via related commit)
-- `app.rnc/src/styles/theme/RULES.md` (theme docs consolidated in same period)
+- `.claude/commands/explain-balancia.md` (via related commit)
+- `.cursor/rules/explain-balancia.mdc` (via related commit)
+- `app.balancia/src/styles/theme/RULES.md` (theme docs consolidated in same period)
 
 ---
 
-## 2026-05-01 — `generateComponentRules` command and checklist update (app.rnc)
+## 2026-05-01 — `generateComponentRules` command and checklist update (app.balancia)
 
 ### What changed
 
-- Added `/generateComponentRules` command and matching Cursor rule — prompts agents to write a `RULES.md` for any folder in `app.rnc/src/`
+- Added `/generateComponentRules` command and matching Cursor rule — prompts agents to write a `RULES.md` for any folder in `app.balancia/src/`
 - Added canonical prompt at `cortex/generate-component-rules.md`
 - Updated `celer-01-vue-checklist` step 1: check for `RULES.md` in folder chain before editing
 - ESLint: same-name `v-bind` shorthand (`vue/v-bind-style`) and template attribute ordering updates
@@ -931,15 +931,15 @@ Folder rules need a repeatable generation workflow so new components get documen
 - `.cursor/rules/generate-component-rules.mdc`
 - `.cursor/rules/celer-01-vue-checklist.mdc`
 - `.claude/commands/reviewVueConventions.md`
-- `app.rnc/eslint.config.ts` (ESLint rule updates)
+- `app.balancia/eslint.config.ts` (ESLint rule updates)
 
 ---
 
-## 2026-04-30 — Unified `class` / `:class` binding rule (app.rnc)
+## 2026-04-30 — Unified `class` / `:class` binding rule (app.balancia)
 
 ### What changed
 
-Added a CRITICAL rule to app.rnc template conventions: when an element has BOTH static `class` and bound `:class`, they MUST be unified into a single `:class` array. The static string becomes the first array entry; dynamic parts (objects, conditional strings, icon vars) follow.
+Added a CRITICAL rule to app.balancia template conventions: when an element has BOTH static `class` and bound `:class`, they MUST be unified into a single `:class` array. The static string becomes the first array entry; dynamic parts (objects, conditional strings, icon vars) follow.
 
 Single-source attributes are unaffected — `class="..."` alone or `:class="..."` alone stay as is. The rule only triggers when both would otherwise coexist on the same element.
 
@@ -980,16 +980,16 @@ Added a model check at the top of the Cursor `start-session` rule. If the active
 
 ### Decision: monorepo-always workflow
 
-rnc projects are always started from the monorepo root. Individual modules (`api.rnc/`, `app.rnc/`, etc.) are never forked standalone. This eliminated the need for per-module AI tooling copies and for cortex rule sub-folders.
+balancia projects are always started from the monorepo root. Individual modules (`api.balancia/`, `app.balancia/`, etc.) are never forked standalone. This eliminated the need for per-module AI tooling copies and for cortex rule sub-folders.
 
-**Consequence:** All AI rules, skills, agents, commands, and hooks now live exclusively at the rnc root. Cortex no longer holds rule files — it holds history, prompts, and documentation.
+**Consequence:** All AI rules, skills, agents, commands, and hooks now live exclusively at the balancia root. Cortex no longer holds rule files — it holds history, prompts, and documentation.
 
 ### What was built
 
 **Root `.claude/` structure:**
-- `rules/` — 7 glob-routed rule files (api.rnc architecture, app.rnc Vue/TS × 5, shared conventions)
+- `rules/` — 7 glob-routed rule files (api.balancia architecture, app.balancia Vue/TS × 5, shared conventions)
 - `settings.json` — shared team permissions and hooks configuration
-- `hooks/post-edit.sh` — runs Pint automatically after PHP edits in api.rnc/, ESLint after Vue/TS edits in app.rnc/
+- `hooks/post-edit.sh` — runs Pint automatically after PHP edits in api.balancia/, ESLint after Vue/TS edits in app.balancia/
 - `hooks/pre-bash-guard.sh` — blocks dangerous bash patterns
 - `skills/arcus-laravel-best-practices/` — Laravel best practices (20 rule files)
 - `skills/arcus-pest-testing/` — Pest 4 testing patterns
@@ -997,15 +997,15 @@ rnc projects are always started from the monorepo root. Individual modules (`api
 - `skills/celer-advanced-patterns/` — Advanced Vue 3 composable, store, and form patterns
 - `agents/code-reviewer.md` — read-only PR review agent
 - `agents/security-auditor.md` — security scan agent
-- `commands/reviewVueConventions.md` — review app.rnc Vue/TS convention violations
-- `commands/reviewArcusCode.md` — review api.rnc PHP convention violations
+- `commands/reviewVueConventions.md` — review app.balancia Vue/TS convention violations
+- `commands/reviewArcusCode.md` — review api.balancia PHP convention violations
 - `commands/sync-cortex.md` — sync cortex prompts to distribution targets
 
 **Root `.cursor/` structure:**
 - `rules/project-context.mdc` — always-loaded Cursor equivalent of CLAUDE.md, includes rule router for planning sessions
 - `rules/shared-conventions.mdc` — always-loaded git/commit/PR conventions
-- `rules/arcus-api-architecture.mdc` — scoped to `api.rnc/**`
-- `rules/celer-01` through `celer-05.mdc` — scoped to `app.rnc/**/*.vue, app.rnc/**/*.ts`
+- `rules/arcus-api-architecture.mdc` — scoped to `api.balancia/**`
+- `rules/celer-01` through `celer-05.mdc` — scoped to `app.balancia/**/*.vue, app.balancia/**/*.ts`
 
 **Root level:**
 - `CLAUDE.local.md` — gitignored personal overrides template
@@ -1022,8 +1022,8 @@ Each rule activates only when the edited file path matches:
 
 | Rule file | Activates for |
 | --- | --- |
-| `arcus-api-architecture.md` | Any file in `api.rnc/**` |
-| `celer-01` through `celer-05` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` |
+| `arcus-api-architecture.md` | Any file in `api.balancia/**` |
+| `celer-01` through `celer-05` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` |
 | `shared-conventions.md` | Always (alwaysApply: true) |
 
 ### Planning session gap

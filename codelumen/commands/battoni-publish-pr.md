@@ -85,7 +85,7 @@ Derive the deployment slug from the branch name:
 Then run:
 
 ```bash
-vercel alias set rnc-git-<slug>-battonis-projects.vercel.app <slug>.preview.battoni.dev
+vercel alias set balancia-git-<slug>-battonis-projects.vercel.app <slug>.preview.battoni.dev
 ```
 
 If the alias command fails (e.g. deployment not ready yet), report the error but do not block — the PR is already created.

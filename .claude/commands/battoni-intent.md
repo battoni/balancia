@@ -30,7 +30,7 @@
    - feature: `rtk make wt-new ID=<id> SLUG=<slug>` (branch `feature/<id>-<slug>` from the fetched
      `origin/main`, no upstream), then `EnterWorktree` with `path: .claude/worktrees/<id>`;
    - small: `rtk make wt-new ID=<id> BRANCH=fix/<id>-<slug>`, then `EnterWorktree` the same way.
-   rnc has no `wt-up`: it serves through Valet and copies a MySQL database, and this project runs
+   balancia has no `wt-up`: it serves through Valet and copies a MySQL database, and this project runs
    on `php artisan serve` and SQLite, so `wt-up` refuses. A browser round in the worktree uses
    `make fresh-seed`, `make serve-api` and `make serve-app` from it, with the main stack stopped
    (`.claude/feature-flow.md`, "Worktrees").

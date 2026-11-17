@@ -9,9 +9,9 @@ This page is generated from `.claude/commands/battoni-review-vue-conventions.md`
 
 # Review Vue Conventions
 
-> This command reviews Vue/TS files in **app.rnc/**. Run from the rnc monorepo root.
+> This command reviews Vue/TS files in **app.balancia/**. Run from the balancia monorepo root.
 
-Analyze all app.rnc changes in the current branch against `main`, identify every convention violation, and fix them.
+Analyze all app.balancia changes in the current branch against `main`, identify every convention violation, and fix them.
 
 **This command runs in plan mode. Do not edit any file until the plan is approved.**
 
@@ -19,7 +19,7 @@ Analyze all app.rnc changes in the current branch against `main`, identify every
 
 ## Step 1 — Read the rules
 
-Before doing anything else, read all nine app.rnc rule files (the canonical set is `celer-01` through `celer-09`) and the shared conventions:
+Before doing anything else, read all nine app.balancia rule files (the canonical set is `celer-01` through `celer-09`) and the shared conventions:
 
 - `.claude/rules/celer-01-vue-checklist.md`
 - `.claude/rules/celer-02-vue-imports.md`
@@ -36,13 +36,13 @@ Before doing anything else, read all nine app.rnc rule files (the canonical set 
 
 This command runs inside `/battoni-pre-commit`, **before** a commit — so it must review work that is not committed yet. Do **not** rely on `main...HEAD` alone; that only sees committed work and silently misses staged, unstaged, and new files.
 
-Compute the fork point once, then union three sources, filtered to app.rnc TS/Vue files (`.ts`, `.mts`, `.tsx`, `.vue`):
+Compute the fork point once, then union three sources, filtered to app.balancia TS/Vue files (`.ts`, `.mts`, `.tsx`, `.vue`):
 
 ```bash
 BASE=$(git merge-base main HEAD)
-git diff "$BASE" HEAD   --name-only -- app.rnc/   # committed on this branch
-git diff                --name-only -- app.rnc/   # staged + unstaged
-git ls-files --others --exclude-standard -- app.rnc/   # untracked new files
+git diff "$BASE" HEAD   --name-only -- app.balancia/   # committed on this branch
+git diff                --name-only -- app.balancia/   # staged + unstaged
+git ls-files --others --exclude-standard -- app.balancia/   # untracked new files
 ```
 
 Take the **union** of those three lists (de-duplicated). For each file, diff it against the fork point so you review what the branch **plus your uncommitted work** introduced — not noise from `main` moving ahead:
@@ -55,7 +55,7 @@ Read every file in the union in full.
 
 ## Step 3 — Read the folder RULES.md chain
 
-For each changed file, read the `RULES.md` chain from the file's folder up to `app.rnc/src/` (see `celer-08-rules-auto-injection`). **Closer `RULES.md` files override the global rules.** A convention defined in a folder `RULES.md` is binding for files under it and is not optional.
+For each changed file, read the `RULES.md` chain from the file's folder up to `app.balancia/src/` (see `celer-08-rules-auto-injection`). **Closer `RULES.md` files override the global rules.** A convention defined in a folder `RULES.md` is binding for files under it and is not optional.
 
 ## Step 4 — Find violations
 
@@ -67,7 +67,7 @@ Go through every added line in every changed file. Check each line against the g
 
 1. **A new CHANGELOG entry exists.** If any non-metadata file in the unit changed (`.vue`, `.ts`, spec) but the unit's `CHANGELOG.md` has no new top entry on this branch, that is a violation. Detect it: a unit whose code changed but whose `CHANGELOG.md` is *not* in the diff (`git diff main...HEAD --name-only -- <unit>/CHANGELOG.md` is empty) fails the gate.
 2. **Versions match.** The `version:` in the unit's `RULES.md` frontmatter must equal the top entry version in its `CHANGELOG.md`. A mismatch is a violation.
-3. **`based-on` tracks `version` (rnc-origin units).** For any unit whose `RULES.md` frontmatter has `origin: rnc`, `based-on:` must equal `version:`. They are bumped together; a stale `based-on` (`< version`) makes the cortex sync triage read the unit as falsely **diverged** downstream. Units with a different `origin` are exempt — their `based-on` tracks the upstream they were forked from.
+3. **`based-on` tracks `version` (balancia-origin units).** For any unit whose `RULES.md` frontmatter has `origin: balancia`, `based-on:` must equal `version:`. They are bumped together; a stale `based-on` (`< version`) makes the cortex sync triage read the unit as falsely **diverged** downstream. Units with a different `origin` are exempt — their `based-on` tracks the upstream they were forked from.
 
 Flag each as `[A.6 — missing changelog]`, `[A.6 — version mismatch]`, or `[A.6 — based-on drift]` with the unit path and the expected fix (add the entry / align the frontmatter / set `based-on` to `version`). These are **blocking, not cosmetic**: the cortex propagation triage reads these versions to decide how each unit merges downstream, so a missed bump, a mismatch, or a stale `based-on` corrupts the triage.
 
@@ -106,7 +106,7 @@ After the plan is approved, apply every fix listed. Work file by file. Do not in
 After all fixes are applied, run:
 
 ```bash
-cd app.rnc && npm run sort-locales
+cd app.balancia && npm run sort-locales
 ```
 
 This re-sorts all locale files according to the COMMON/COMPONENT/MODULE grouping and one-liners-first convention. Always run it last, even if no locale files were changed — it is idempotent.

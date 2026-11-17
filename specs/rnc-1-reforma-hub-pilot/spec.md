@@ -15,7 +15,7 @@ silent, do what the demo does. Copy wording, rules and numbers from it; do not c
 - R2. Roles: `operador` (Battoni Dev, every firm), `ceo` (Reinaldo), `equipe` (Franco's team; a
   flag `is_specialist` makes a member bookable). Login by e-mail + password (bootstrap Auth module).
   Seeded users per role, passwords in `state.md` → Local environment (D2).
-- R3. Two shells in `app.rnc`: the public site (no login, Franco's brand, pt-BR) and the back
+- R3. Two shells in `app.balancia`: the public site (no login, Franco's brand, pt-BR) and the back
   office (login, a rail filtered by role: Equipe · Reinaldo · Operador). Willy/APW appear nowhere.
 - R4. The bootstrap's sample modules that this product does not use (`Idea`, `Tip`, `Showcase`,
   `Home` sample content) are removed with their full test surface (`/battoni-setup-project` Step 2c).
@@ -140,7 +140,7 @@ mocked), `→ Chrome` (the battoni-test-in-chrome round against the real API and
 - D3 CNPJ → the real BrasilAPI lookup (free, no key) instead of the demo's simulation, because the
   product is real now; regime beyond Simples/MEI is not public, so it is asked. Reverse: the
   `CnpjLookup` contract has a fake implementation.
-- D4 Site → the public pages live in `app.rnc` (one SPA, two layouts), not a separate Astro site:
+- D4 Site → the public pages live in `app.balancia` (one SPA, two layouts), not a separate Astro site:
   one deploy and one API for the pilot. Server-side rendering for SEO is a known gap (RULES.md).
 - D5 Notifications → e-mail through Laravel Mail (log driver locally) and in-app database
   notifications polled every 30 s; no websockets, no WhatsApp in Phase 1.
@@ -148,7 +148,7 @@ mocked), `→ Chrome` (the battoni-test-in-chrome round against the real API and
   attachment: no PDF library, and the page can be updated. Reverse: render it with a PDF package.
 - D7 Partners have no login in Phase 1 (the portal is Phase 2); a referral is recorded and the
   partner is notified by e-mail.
-- D8 Database → MySQL 8 locally (database `rnc`) for the running app; Pest on in-memory SQLite
+- D8 Database → MySQL 8 locally (database `balancia`) for the running app; Pest on in-memory SQLite
   (the bootstrap's `phpunit.xml`), so every migration must run on both.
 - D9 Login → the bootstrap's `username` (e-mail/username + password) flow, the one the e2e suite
   already targets (`.env.test`). Reverse: `VITE_LOGIN_FLOW`.

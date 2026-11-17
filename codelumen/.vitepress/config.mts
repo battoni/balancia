@@ -43,7 +43,7 @@ export default withMermaid(defineConfig({
         text: 'Start here',
         items: [
           { text: 'About', link: '/about' },
-          { text: 'The rnc Monorepo', link: '/monorepo' },
+          { text: 'The balancia Monorepo', link: '/monorepo' },
           { text: 'Repositories', link: '/repositories' },
           { text: 'AI Tooling', link: '/ai-tooling' },
           { text: 'Access Control', link: '/access-control' },
@@ -60,8 +60,8 @@ export default withMermaid(defineConfig({
       {
         text: 'Projects',
         items: [
-          { text: 'Arcus', link: '/projects/api.rnc', collapsed: true, items: rulesSidebar.api.rnc ?? [] },
-          { text: 'app.rnc', link: '/projects/app.rnc', collapsed: true, items: rulesSidebar.app.rnc ?? [] },
+          { text: 'Arcus', link: '/projects/api.balancia', collapsed: true, items: rulesSidebar.api.balancia ?? [] },
+          { text: 'app.balancia', link: '/projects/app.balancia', collapsed: true, items: rulesSidebar.app.balancia ?? [] },
           { text: 'Vitrum', link: '/projects/vitrum' },
           { text: 'Liquen', link: '/projects/liquen' },
           { text: 'Cortex', link: '/projects/cortex', collapsed: true, items: commandsSidebar },

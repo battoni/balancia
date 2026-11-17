@@ -28,12 +28,12 @@ This is intentional — you gate the deployed site, not your own machine.
 
 ## Why there is no `robots.txt` here
 
-Every other site in the family has one — `app.rnc`, `api.rnc`, `vitrum`, `docs.rnc`. This
+Every other site in the family has one — `app.balancia`, `api.balancia`, `vitrum`, `docs.balancia`. This
 one deliberately does not, and the reason is the matcher above: `'/:path*'` covers **every**
 path, `/robots.txt` included. A crawler that asks for it is answered with a 302 to GitHub's
 OAuth screen. The file would be unreachable, so it would state nothing to anyone.
 
-Compare `docs.rnc`, whose matcher excludes `.txt`, `.xml`, `.json` and assets: there the
+Compare `docs.balancia`, whose matcher excludes `.txt`, `.xml`, `.json` and assets: there the
 file **is** served while the pages stay gated, which is what makes it worth writing.
 
 What this project does carry is `X-Robots-Tag: noindex` in `vercel.json`, and that is a
@@ -42,7 +42,7 @@ open, because a missing env var or a middleware misconfiguration turns this into
 site in one deploy, with no error anywhere to say so.
 
 **If you ever narrow the matcher** so static files bypass the gate, add
-`public/robots.txt` in the same commit — copy `docs.rnc/public/robots.txt`. The
+`public/robots.txt` in the same commit — copy `docs.balancia/public/robots.txt`. The
 moment the file becomes reachable is the moment its absence starts to matter.
 
 ## Granting or revoking access

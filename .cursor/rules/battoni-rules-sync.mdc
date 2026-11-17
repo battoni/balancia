@@ -1,14 +1,14 @@
 ---
-description: > Keep each **unit's `RULES.md`** in sync with the code changed on the current branch, and keep the unit's **version + `CHANGELOG.md`** aligned with it. This is the stack-aware freshness engine for both `app.rnc` (Vue 3) and `api.rnc` (Laravel). It complements the review commands: they check that the version metadata was bumped; this checks (and can fix) that the RULES.md **content** still describes the code, then drives the version bump. Invoke with /battoni-rules-sync.
+description: > Keep each **unit's `RULES.md`** in sync with the code changed on the current branch, and keep the unit's **version + `CHANGELOG.md`** aligned with it. This is the stack-aware freshness engine for both `app.balancia` (Vue 3) and `api.balancia` (Laravel). It complements the review commands: they check that the version metadata was bumped; this checks (and can fix) that the RULES.md **content** still describes the code, then drives the version bump. Invoke with /battoni-rules-sync.
 alwaysApply: false
 ---
 # Rules Sync (unit RULES.md freshness gate)
 
-> Keep each **unit's `RULES.md`** in sync with the code changed on the current branch, and keep the unit's **version + `CHANGELOG.md`** aligned with it. This is the stack-aware freshness engine for both `app.rnc` (Vue 3) and `api.rnc` (Laravel). It complements the review commands: they check that the version metadata was bumped; this checks (and can fix) that the RULES.md **content** still describes the code, then drives the version bump.
+> Keep each **unit's `RULES.md`** in sync with the code changed on the current branch, and keep the unit's **version + `CHANGELOG.md`** aligned with it. This is the stack-aware freshness engine for both `app.balancia` (Vue 3) and `api.balancia` (Laravel). It complements the review commands: they check that the version metadata was bumped; this checks (and can fix) that the RULES.md **content** still describes the code, then drives the version bump.
 >
 > **Two modes.** Default **auto-updates** stale/missing `RULES.md` (+ bumps version & CHANGELOG) — writes to the working tree, never commits. `--check` is **read-only** and only **reports** stale/missing/unbumped units (a blocking backstop for `/battoni-pre-commit` and `/battoni-publish-pr`).
 >
-> **Usage:** `/battoni-rules-sync [app.rnc|api.rnc] [--check]`. Run from the rnc monorepo root. No sub-project → do both.
+> **Usage:** `/battoni-rules-sync [app.balancia|api.balancia] [--check]`. Run from the balancia monorepo root. No sub-project → do both.
 
 ---
 
@@ -16,8 +16,8 @@ alwaysApply: false
 
 | sub-project | source root(s) | source file types | unit stack |
 | --- | --- | --- | --- |
-| `app.rnc` | `app.rnc/src` | `.vue` `.ts` `.mts` `.tsx` | Vue 3 |
-| `api.rnc` | `api.rnc/app`, `api.rnc/database` | `.php` | Laravel |
+| `app.balancia` | `app.balancia/src` | `.vue` `.ts` `.mts` `.tsx` | Vue 3 |
+| `api.balancia` | `api.balancia/app`, `api.balancia/database` | `.php` | Laravel |
 
 - `--check` → **read-only** (no writes at all); default → auto-update.
 - If the tree is clean and there are no commits ahead of `main`, there is nothing to sync → report "no change set" and stop.
@@ -43,9 +43,9 @@ For each changed source file, its **unit** = the **nearest ancestor folder that 
 
 A `RULES.md` is **stale** when a change touches the **documented contract** for that stack. Read the changed file's diff and the unit's `RULES.md`, then decide:
 
-**Vue (app.rnc)** — stale if the change adds/removes/renames a **prop, emit, or slot**; changes a **service** the unit calls or its payload; changes a **documented decision / edge case / dependency** the rule names.
+**Vue (app.balancia)** — stale if the change adds/removes/renames a **prop, emit, or slot**; changes a **service** the unit calls or its payload; changes a **documented decision / edge case / dependency** the rule names.
 
-**Laravel (api.rnc)** — stale if the change adds/removes/renames a **public method or route**; changes a **response shape** (the `ApiResponse` envelope / returned fields / a Resource); changes a **repository method** the rule names; adds/changes an **Enum** or **semantic const** the rule documents.
+**Laravel (api.balancia)** — stale if the change adds/removes/renames a **public method or route**; changes a **response shape** (the `ApiResponse` envelope / returned fields / a Resource); changes a **repository method** the rule names; adds/changes an **Enum** or **semantic const** the rule documents.
 
 Outcome per unit:
 - **`RULES.md` (or `CHANGELOG.md`) already in the change set** → the developer handled it; confirm it matches and mark **ok**.
@@ -56,9 +56,9 @@ Outcome per unit:
 
 ## Step 4a — Default mode (auto-update, writes)
 
-- **stale** → refresh the unit's `RULES.md` so it matches the new code (delegate to `/battoni-generate-component-rules` for app.rnc or `/battoni-generate-api-rules` for api.rnc via their **UPDATE** path — preserve human edits, change only the drifted sections), then **bump the version**:
+- **stale** → refresh the unit's `RULES.md` so it matches the new code (delegate to `/battoni-generate-component-rules` for app.balancia or `/battoni-generate-api-rules` for api.balancia via their **UPDATE** path — preserve human edits, change only the drifted sections), then **bump the version**:
   - Pick the SemVer bump per `cortex/sync/SCHEMA.md`: **MAJOR** for a breaking contract change, **MINOR** for additive, **PATCH** for clarification.
-  - Add a new top entry to the unit's `CHANGELOG.md` (canonical source), then set `RULES.md` frontmatter `version:` to equal it. For `origin: rnc` units, set `based-on:` = the new `version:` too (they track together in rnc itself).
+  - Add a new top entry to the unit's `CHANGELOG.md` (canonical source), then set `RULES.md` frontmatter `version:` to equal it. For `origin: balancia` units, set `based-on:` = the new `version:` too (they track together in balancia itself).
 - **missing** → create `<unit>/RULES.md` + `<unit>/CHANGELOG.md` at `1.0.0` via the generator's CREATE path (frontmatter + sibling CHANGELOG per SCHEMA).
 - **unbumped** → content is fine; just add the CHANGELOG entry + bump `version:` (and `based-on:`) to match.
 - **advisory** → leave the files; note it in the report.

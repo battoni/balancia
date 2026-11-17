@@ -2,13 +2,13 @@
 
 **Base:** stacks on rnc-2 — base branch `feature/rnc-2-reforma-hub-phase-2` (rnc-1 and rnc-2 are not on `main` and the remote is empty; publish after them).
 
-**Problem.** After Phase 2 the Franco site had one face and one voice: no sub-brands, no way to see Franco's revenue from the Rede Nacional de Contabilidade channel, no assistant for the team's Reforma questions, no view of client contracts missing the Reforma clause, and no daily summary for the CEO. **Outcome.** The real Phase 3 in `api.rnc` + `app.rnc`: sub-brands that re-theme the public site, the RNC channel screen, the curated Reforma assistant with specialist review, the contract alert with referral to a partner, and the daily briefing (screen and 07:00 mail).
+**Problem.** After Phase 2 the Franco site had one face and one voice: no sub-brands, no way to see Franco's revenue from the Rede Nacional de Contabilidade channel, no assistant for the team's Reforma questions, no view of client contracts missing the Reforma clause, and no daily summary for the CEO. **Outcome.** The real Phase 3 in `api.balancia` + `app.balancia`: sub-brands that re-theme the public site, the RNC channel screen, the curated Reforma assistant with specialist review, the contract alert with referral to a partner, and the daily briefing (screen and 07:00 mail).
 
 ## R# → tests
 
 | R# | Tests |
 | --- | --- |
-| R1–R4 sub-brands, public firm, theming, lead brand | `api.rnc/tests/Feature/Firm/PublicBrandTest.php`, `BrandRepositoryFirmTest.php`; `Feature/Diagnostic/BrandLeadTest.php`; `Feature/Pipeline/BrandFilterTest.php`; `app.rnc/src/modules/Site/composables/brandPalette.spec.ts`, `usePublicFirm.spec.ts`; `e2e/site/brands.spec.ts` |
+| R1–R4 sub-brands, public firm, theming, lead brand | `api.balancia/tests/Feature/Firm/PublicBrandTest.php`, `BrandRepositoryFirmTest.php`; `Feature/Diagnostic/BrandLeadTest.php`; `Feature/Pipeline/BrandFilterTest.php`; `app.balancia/src/modules/Site/composables/brandPalette.spec.ts`, `usePublicFirm.spec.ts`; `e2e/site/brands.spec.ts` |
 | R5 brands console | `Feature/Firm/BrandAdminTest.php`; `tests/Unit/Modules/Firm/ContrastTest.php`; `MAddEditBrandForm.spec.ts`, `BrandsView.view.integration.spec.ts` |
 | R6–R9 RNC channel | `Feature/Channel/ChannelTest.php`; `tests/Unit/Modules/Channel/ChannelShareTest.php`, `ChannelStageTest.php`; `MAddEditChannelFirmForm.spec.ts`, `ChannelView.view.integration.spec.ts`; `e2e/channel/channel.spec.ts` |
 | R10–R11 knowledge base, review, expiry | `Feature/Assistant/NoteReviewTest.php`, `NoteExpiryTest.php`; `KnowledgeView.view.integration.spec.ts`, `MAddEditNoteForm.spec.ts` |

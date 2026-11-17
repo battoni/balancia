@@ -1,6 +1,6 @@
 # Cortex — AI Brain
 
-Cortex is the **knowledge layer** of rnc's AI infrastructure. It holds the history of decisions, reusable prompts, and documentation about the overall AI setup.
+Cortex is the **knowledge layer** of balancia's AI infrastructure. It holds the history of decisions, reusable prompts, and documentation about the overall AI setup.
 
 Rules are not stored here — they live at the monorepo root and activate automatically based on file path.
 
@@ -9,9 +9,9 @@ Rules are not stored here — they live at the monorepo root and activate automa
 ## Getting started on a new project
 
 ```text
-1. Clone rnc
+1. Clone balancia
 2. Delete the modules you won't use
-3. Rename folders to match your project (e.g. api.rnc → api.myproject)
+3. Rename folders to match your project (e.g. api.balancia → api.myproject)
 4. Run /battoni-setup-project — maps all rules and commands to your folder names
 5. Run /battoni-start-session — loads the right rules before you begin
 ```
@@ -26,16 +26,16 @@ Commands work in both **Claude Code** (as `/command-name`) and **Cursor** (as `/
 | --- | --- |
 | `/battoni-setup-project` | One-time setup after cloning — maps folder names, updates globs, removes unused modules |
 | `/battoni-start-session` | Loads the right rules for the projects you're working on before planning begins |
-| `/battoni-explain-rnc` | Gives a new developer a full end-to-end overview of the AI setup and how to use it |
+| `/battoni-explain-balancia` | Gives a new developer a full end-to-end overview of the AI setup and how to use it |
 | `/battoni-pre-commit` | Runs lint, format, locales, tests, and the convention reviews — commits nothing |
 | `/battoni-commit` | Presents a bottom-up conventional-commit plan and commits it (no AI signature) |
 | `/battoni-create-pr` | Generates a PR title and description for the current branch for review (does not save) |
 | `/battoni-publish-pr` | Pushes and opens a draft PR against `development`, requests a reviewer, sets the Vercel preview |
-| `/battoni-review-vue-conventions` | Reviews all app.rnc Vue/TS changes on the current branch and fixes violations |
-| `/battoni-review-arcus-code` | Reviews all api.rnc PHP changes on the current branch and fixes violations |
-| `/battoni-review-design-conventions` | Reviews app.rnc changes for design-system violations (runs in plan mode) |
-| `/battoni-generate-api-rules` | Generates a `RULES.md` for a unit in `api.rnc/` |
-| `/battoni-generate-component-rules` | Generates a `RULES.md` for a folder in `app.rnc/src/` |
+| `/battoni-review-vue-conventions` | Reviews all app.balancia Vue/TS changes on the current branch and fixes violations |
+| `/battoni-review-arcus-code` | Reviews all api.balancia PHP changes on the current branch and fixes violations |
+| `/battoni-review-design-conventions` | Reviews app.balancia changes for design-system violations (runs in plan mode) |
+| `/battoni-generate-api-rules` | Generates a `RULES.md` for a unit in `api.balancia/` |
+| `/battoni-generate-component-rules` | Generates a `RULES.md` for a folder in `app.balancia/src/` |
 | `/battoni-rules-sync` | Checks that each changed unit's `RULES.md` still describes its code, and drives the version + `CHANGELOG.md` bump |
 | `/battoni-grill-me` | Grills you on a task, scaled to its difficulty, until the plan is validated |
 | `/battoni-improve` | Turns an AI mistake into a rule change and opens a PR after you approve the draft |
@@ -49,12 +49,12 @@ Rules activate automatically when you open or edit a matching file — no manual
 
 | Rule file | Activates for | Tool |
 | --- | --- | --- |
-| `arcus-api-architecture` | Any file in `api.rnc/**` | Claude + Cursor |
-| `celer-01-vue-checklist` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` | Claude + Cursor |
-| `celer-02-vue-imports` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` | Claude + Cursor |
-| `celer-03-vue-script` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` | Claude + Cursor |
-| `celer-04-vue-template` | `app.rnc/**/*.vue` | Claude + Cursor |
-| `celer-05-module-conventions` | `app.rnc/**/*.vue`, `app.rnc/**/*.ts` | Claude + Cursor |
+| `arcus-api-architecture` | Any file in `api.balancia/**` | Claude + Cursor |
+| `celer-01-vue-checklist` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` | Claude + Cursor |
+| `celer-02-vue-imports` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` | Claude + Cursor |
+| `celer-03-vue-script` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` | Claude + Cursor |
+| `celer-04-vue-template` | `app.balancia/**/*.vue` | Claude + Cursor |
+| `celer-05-module-conventions` | `app.balancia/**/*.vue`, `app.balancia/**/*.ts` | Claude + Cursor |
 | `shared-conventions` | Always | Claude + Cursor |
 | `project-context` | Always | Cursor only |
 
@@ -82,11 +82,11 @@ Skills are demand-loaded specializations — they load only when the task contex
 
 | Skill | Loads when |
 | --- | --- |
-| `arcus-laravel-best-practices` | Writing, reviewing, or refactoring any Laravel PHP code in api.rnc |
-| `arcus-pest-testing` | Writing or editing any test file in api.rnc |
-| `arcus-tailwindcss` | Working with Tailwind classes in api.rnc Blade templates |
-| `celer-advanced-patterns` | Building a new module, composable, or complex form in app.rnc |
-| `celer-testing` | Writing or editing app.rnc tests |
+| `arcus-laravel-best-practices` | Writing, reviewing, or refactoring any Laravel PHP code in api.balancia |
+| `arcus-pest-testing` | Writing or editing any test file in api.balancia |
+| `arcus-tailwindcss` | Working with Tailwind classes in api.balancia Blade templates |
+| `celer-advanced-patterns` | Building a new module, composable, or complex form in app.balancia |
+| `celer-testing` | Writing or editing app.balancia tests |
 
 Skills live in `.claude/skills/`. Each skill has a `SKILL.md` as its entry point.
 
@@ -111,8 +111,8 @@ Hooks run automatically — no manual trigger needed.
 
 | Hook | Trigger | What it does |
 | --- | --- | --- |
-| `post-edit.sh` | After any file edit | Runs Pint on api.rnc PHP files; runs ESLint on app.rnc Vue/TS files |
-| `pre-edit-rules.sh` | Before editing a app.rnc file | Injects the folder's `RULES.md` chain (up to `src/`) so local rules win |
+| `post-edit.sh` | After any file edit | Runs Pint on api.balancia PHP files; runs ESLint on app.balancia Vue/TS files |
+| `pre-edit-rules.sh` | Before editing a app.balancia file | Injects the folder's `RULES.md` chain (up to `src/`) so local rules win |
 | `pre-bash-guard.sh` | Before any Bash command | Blocks dangerous patterns (`rm -rf /`, `git push --force`, etc.) |
 
 ---
@@ -141,14 +141,14 @@ Hooks run automatically — no manual trigger needed.
 
 ## Client handoff
 
-When a rnc-built app is delivered to a client, we hand over a clean,
+When a balancia-built app is delivered to a client, we hand over a clean,
 self-documenting codebase **without** the reusable framework and AI tooling.
 `make handoff` (→ `sync/handoff.py`) produces that copy in one step:
 
 ```bash
-make handoff                               # all app projects → ../rnc-handoff
-make handoff PROJECTS="app.rnc" VERIFY=1     # just app.rnc, and prove it builds
-make handoff OUT=/path PROJECTS="app.rnc api.rnc" FORCE=1
+make handoff                               # all app projects → ../balancia-handoff
+make handoff PROJECTS="app.balancia" VERIFY=1     # just app.balancia, and prove it builds
+make handoff OUT=/path PROJECTS="app.balancia api.balancia" FORCE=1
 ```
 
 It:
@@ -166,7 +166,7 @@ framework IP and license the app.
 
 ## Design principles
 
-- **Monorepo-always** — rnc is always used as a whole. Modules are never forked standalone. Rules live at root, not inside each module.
+- **Monorepo-always** — balancia is always used as a whole. Modules are never forked standalone. Rules live at root, not inside each module.
 - **Single canonical source** — each rule's body lives once in `.claude/rules/`; `.cursor/rules/` is a generated mirror kept identical by `make sync-mirror`.
 - **Glob routing** — rules activate automatically by file path. No manual loading during implementation.
 - **Planning gap** — `/battoni-start-session` loads the right rules before any files are open. `project-context.mdc` in Cursor does this automatically when you name a project.

@@ -10,7 +10,7 @@ To sell the December pilot (`battonidev-1` `commercial.md` §2–3) and run it, 
 exist for real: an API, a database, logins, real e-mail, real CNPJ lookup.
 
 ## Proposed outcome
-A working product in this repo (`api.rnc` Laravel + `app.rnc` Vue), Phase 1 of the commercial
+A working product in this repo (`api.balancia` Laravel + `app.balancia` Vue), Phase 1 of the commercial
 menu: foundation · site · diagnostic · result · booking · pipeline · metrics · governance · fee
 repricing. A visitor runs the diagnostic on Franco's site, is captured as a lead before the result,
 books a specialist; Franco's team works the lead on a kanban and refers it to a partner only with

@@ -9,7 +9,7 @@ This page is generated from `.claude/commands/battoni-generate-component-rules.m
 
 # Generate Component RULES.md
 
-> Generates a `RULES.md` for a specific folder in **app.rnc/src/**. Run from the rnc monorepo root.
+> Generates a `RULES.md` for a specific folder in **app.balancia/src/**. Run from the balancia monorepo root.
 >
 > Usage: `/battoni-generate-component-rules` — then provide the target folder path when asked.
 
@@ -19,11 +19,11 @@ This page is generated from `.claude/commands/battoni-generate-component-rules.m
 
 If a folder path was passed as an argument, use it. Otherwise ask:
 
-> Which folder should I generate RULES.md for? (e.g. `app.rnc/src/components/molecules/MMainDialog`)
+> Which folder should I generate RULES.md for? (e.g. `app.balancia/src/components/molecules/MMainDialog`)
 
 ## Step 2 — Read the global rules
 
-Read all nine app.rnc rule files (`celer-01` through `celer-09`) and the shared conventions, so you know what is already covered globally and must **not** be repeated in the RULES.md:
+Read all nine app.balancia rule files (`celer-01` through `celer-09`) and the shared conventions, so you know what is already covered globally and must **not** be repeated in the RULES.md:
 
 - `.claude/rules/celer-01-vue-checklist.md`
 - `.claude/rules/celer-02-vue-imports.md`
@@ -54,7 +54,7 @@ Only CREATE and UPDATE proceed.
 
 An **UPDATE** is a change to the unit, so it also bumps the unit (SemVer rules in
 `cortex/sync/SCHEMA.md`): a new entry on top of the sibling `CHANGELOG.md`, the RULES.md
-frontmatter `version` set to it, and — in rnc — `based-on` set to the same value. A CREATE
+frontmatter `version` set to it, and — in balancia — `based-on` set to the same value. A CREATE
 starts at `1.0.0` (Step 7).
 
 ## Step 5 — Analyze
@@ -86,7 +86,7 @@ Write the file inside the target folder. **Start with the metadata frontmatter**
 ```md
 ---
 version: 1.0.0
-origin: rnc
+origin: balancia
 based-on: 1.0.0
 ---
 
@@ -120,7 +120,7 @@ based-on: 1.0.0
 - [A hole shipped on purpose, an open decision, or something not yet verified live — and why]
 ```
 
-In rnc, `based-on` always equals `version`. In a derived project, a unit the project
+In balancia, `based-on` always equals `version`. In a derived project, a unit the project
 authored itself takes `origin: <project>` — `cortex/sync/SCHEMA.md` says what `based-on` records
 there.
 

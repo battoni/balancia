@@ -5,13 +5,13 @@ reviewed by a clean-context Sonnet agent 07/11/2026 → Amendments AM1–AM14 an
 
 Every phase: Pest tests red first for the API, then Vitest for the SPA, then code; then
 `E2E_PORT=5176 make pre-commit` green (Node 24; stop any `npm run dev` of this worktree first — the
-port is this worktree's own, `rnc` uses 5173 and `rnc-wt-2` 5175); then commit `rnc-3: F<n> <what>`.
+port is this worktree's own, `balancia` uses 5173 and `balancia-wt-2` 5175); then commit `rnc-3: F<n> <what>`.
 API code follows `.claude/rules/arcus-api-architecture.md` (route → FormRequest → DTO → Service →
-Repository → Resource → `ApiResponse`; modules under `api.rnc/app/Modules/<Name>/` with RULES.md +
+Repository → Resource → `ApiResponse`; modules under `api.balancia/app/Modules/<Name>/` with RULES.md +
 CHANGELOG.md bumped); routes in `routes/api.local.php`; keys declared in
 `app/Modules/Auth/Helpers/permission-groups.local.php` and granted in
 `database/seeders/RoleSeeder.php` (`SeededRolesTest` updated). SPA code follows
-`.claude/rules/celer-0*.md` (modules under `app.rnc/src/modules/<Name>/`, barrels `@XModule`, two
+`.claude/rules/celer-0*.md` (modules under `app.balancia/src/modules/<Name>/`, barrels `@XModule`, two
 routes per screen pt-BR + en, rail in `navItems.local.ts` by permission, `MAddEdit{Entity}Form` in
 `MMainDialog`, strings in `src/locales/{en,pt-BR}.json`). Behaviour reference: the demo files named
 in the spec header.
@@ -19,7 +19,7 @@ in the spec header.
 ## Carried up front (rnc-1 AM1–AM15, rnc-2 AM1–AM13 and both pitfall lists, applied before any code)
 - **P0 Phase 2 underneath.** This branch starts at rnc-2's F1. At the start of every phase, if
   `feature/rnc-2-reforma-hub-phase-2` has commits this branch lacks, `git merge --no-edit` it
-  (never rebase, never write in `rnc-wt-2`); resolve a fold conflict in a shared `create_*` migration
+  (never rebase, never write in `balancia-wt-2`); resolve a fold conflict in a shared `create_*` migration
   by keeping both column sets, then `make fresh-seed` and the gate. **F6–F9 need rnc-2 finished**
   (its `state.md` shows F10 done and verified): portfolio leads (`findOrStartPortfolioLead`, D13),
   client consent (`clients.partner_consent`), the portal, `ReferralSla`, `client_events`,
@@ -27,7 +27,7 @@ in the spec header.
   it does not stub Phase 2.
 - **P1 Hosts and env** — `localhost` only; `MAIL_MAILER=log`, `QUEUE_CONNECTION=sync`. This
   worktree's live checks serve the API on 8013 (`php artisan serve --host=localhost --port=8013`)
-  and the SPA on 5176 against its own `api.rnc/database/database.sqlite`.
+  and the SPA on 5176 against its own `api.balancia/database/database.sqlite`.
 - **P2 Migrations** — fold new columns into the owner's `create_*` (D15); portable SQL only (no
   `enum`, no raw SQL, Carbon bounds + `whereBetween`); cross-module ids carry no foreign key (rnc-1
   W25); dump the schema before/after a fold and diff it.
@@ -97,7 +97,7 @@ in the spec header.
 - AM3: `ThePublicLayout.spec.ts` and the consent component's spec assert the brand name in the
   consent sentence and that no other firm's name (the firm list of the seed, plus "Alvorada") renders;
   AM12: "Ver como" is disabled "Inativa" for an inactive brand.
-- Site module: `usePublicFirm.ts` (changed: `?marca=` → `sessionStorage` `app.rnc:brand`, sends
+- Site module: `usePublicFirm.ts` (changed: `?marca=` → `sessionStorage` `app.balancia:brand`, sends
   `X-Brand` on public calls through one helper, `franco` clears, any 404 with code `brands.notFound` clears the stored brand and reloads the main (AM21));
   `ThePublicLayout` (changed: CSS custom properties from primary/accent on the layout root, title,
   footer, preview banner when `previa=1`); hero/proof components and the consent sentence read the

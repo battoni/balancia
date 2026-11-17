@@ -1,6 +1,6 @@
 ---
-description: Design system rules – typography, spacing, radius, component patterns for app.rnc
-globs: app.rnc/**/*.vue, app.rnc/**/*.ts
+description: Design system rules – typography, spacing, radius, component patterns for app.balancia
+globs: app.balancia/**/*.vue, app.balancia/**/*.ts
 alwaysApply: false
 ---
 # Design System Rules
@@ -15,7 +15,7 @@ this file is synced as OVERWRITE, so a rule that deferred to it deferred to noth
 
 ## Color tokens & scheme (CRITICAL)
 
-app.rnc is **light/dark themed**. Components must use semantic tokens that flip per scheme — never raw brand ramps. Full reference: `app.rnc/src/styles/theme/RULES.md`.
+app.balancia is **light/dark themed**. Components must use semantic tokens that flip per scheme — never raw brand ramps. Full reference: `app.balancia/src/styles/theme/RULES.md`.
 
 - **Structure → role tokens** (these flip light↔dark automatically):
 
@@ -81,7 +81,7 @@ cell is a grid whose cell is too small.
 `text-subtle` is for icons and marks. The two tiers have different floors, measured on canvas, panel
 and panel-muted in both schemes: `muted` clears **4.5:1** (normal text), `subtle` clears **3:1**
 (WCAG 1.4.11, an icon a person has to find). The measurements and the test live in
-`app.rnc/src/styles/theme/RULES.md` and `e2e/theme/contrast.spec.ts`.
+`app.balancia/src/styles/theme/RULES.md` and `e2e/theme/contrast.spec.ts`.
 
 ❌ **NEVER:** `<small class="text-subtle text-xs">{{ $t('form.hint') }}</small>`
 

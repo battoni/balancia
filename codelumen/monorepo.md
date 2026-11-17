@@ -1,20 +1,20 @@
 ---
 outline: deep
-title: The rnc Monorepo
+title: The balancia Monorepo
 ---
 
-# The rnc Monorepo
+# The balancia Monorepo
 
-Everything battoni.dev builds lives in a single monorepo called **rnc**. It holds the bootstrap projects we start new client work from, the design-token source, and the shared AI tooling that keeps every project consistent.
+Everything battoni.dev builds lives in a single monorepo called **balancia**. It holds the bootstrap projects we start new client work from, the design-token source, and the shared AI tooling that keeps every project consistent.
 
-> rnc is always used **as a whole**. Sub-projects are never forked off on their own — rules, commands, and conventions live at the root and apply across the board.
+> balancia is always used **as a whole**. Sub-projects are never forked off on their own — rules, commands, and conventions live at the root and apply across the board.
 
 ## The six sub-projects
 
 | Project | Type | What it's for |
 | --- | --- | --- |
-| [Arcus](/projects/api.rnc) | Laravel API | Backend API bootstrap — the starting point for new APIs |
-| [app.rnc](/projects/app.rnc) | Vue 3 SPA | Frontend bootstrap — the starting point for new web apps |
+| [Arcus](/projects/api.balancia) | Laravel API | Backend API bootstrap — the starting point for new APIs |
+| [app.balancia](/projects/app.balancia) | Vue 3 SPA | Frontend bootstrap — the starting point for new web apps |
 | [Vitrum](/projects/vitrum) | Astro site | Public / marketing website bootstrap |
 | [Liquen](/projects/liquen) | Design tokens | Figma integration and design-token management |
 | [Cortex](/projects/cortex) | AI knowledge | Changelog, prompts, and AI infrastructure docs |
@@ -23,9 +23,9 @@ Everything battoni.dev builds lives in a single monorepo called **rnc**. It hold
 ## How a new project starts
 
 ```text
-1. Clone rnc
+1. Clone balancia
 2. Delete the modules you won't use
-3. Rename folders to match your project (e.g. api.rnc → api.myproject)
+3. Rename folders to match your project (e.g. api.balancia → api.myproject)
 4. Run /battoni-setup-project   — maps all rules and commands to your folder names
 5. Run /battoni-start-session   — loads the right rules before you begin
 ```

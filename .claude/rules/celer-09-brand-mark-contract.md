@@ -1,12 +1,12 @@
 ---
-description: The brand-mark contract for app.rnc — the props, motion and accessibility any logo component must honour
+description: The brand-mark contract for app.balancia — the props, motion and accessibility any logo component must honour
 paths:
-  - "app.rnc/**/*.vue"
-  - "app.rnc/**/*.ts"
+  - "app.balancia/**/*.vue"
+  - "app.balancia/**/*.ts"
 ---
 # The brand mark — a contract that travels, for a component that does not
 
-`app.rnc/src/components/atoms/ALogo/` is `LOCAL` in the sync manifest. It has to be: the mark is
+`app.balancia/src/components/atoms/ALogo/` is `LOCAL` in the sync manifest. It has to be: the mark is
 the one thing a product cannot inherit, and a bootstrap that overwrote it would replace every
 project's identity on every sync.
 

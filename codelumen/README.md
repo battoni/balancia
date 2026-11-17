@@ -23,7 +23,7 @@ node scripts/generate-rules.mjs --check   # exit 1 when a generated page is stal
 | Path | Topic |
 | ---- | ----- |
 | `index.md`, `about.md` | Home and about |
-| `monorepo.md`, `repositories.md` | The rnc monorepo and its repositories |
+| `monorepo.md`, `repositories.md` | The balancia monorepo and its repositories |
 | `technologies.md` | Tech stack decisions |
 | `day-to-day.md` | Day-to-day development workflow |
 | `git-flow.md` | Git branching and the commit/PR cycle |

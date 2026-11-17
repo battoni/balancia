@@ -5,14 +5,14 @@ title: AI Tooling
 
 # AI Tooling
 
-rnc ships with an AI layer that keeps every project consistent without anyone memorising the rules. It works in both **Claude Code** (as `/command-name`) and **Cursor**. The knowledge and history behind it live in the `cortex/` sub-project — see the [Cortex page](/projects/cortex).
+balancia ships with an AI layer that keeps every project consistent without anyone memorising the rules. It works in both **Claude Code** (as `/command-name`) and **Cursor**. The knowledge and history behind it live in the `cortex/` sub-project — see the [Cortex page](/projects/cortex).
 
 ## How it fits together
 
 | Layer | What it does |
 | --- | --- |
 | `CLAUDE.md` | Always-loaded project context |
-| `.claude/rules/` | Rules that auto-load by file path (glob) — api.rnc, app.rnc, shared |
+| `.claude/rules/` | Rules that auto-load by file path (glob) — api.balancia, app.balancia, shared |
 | `.claude/skills/` | Demand-loaded specializations, loaded only when the task needs them |
 | `.claude/commands/` | Slash commands like `/battoni-start-session`, `/battoni-setup-project` |
 | `.claude/agents/` | Isolated read-only helpers (`code-reviewer`, `security-auditor`) |
@@ -25,8 +25,8 @@ Rules activate **automatically** when you open or edit a matching file — no ma
 
 The enforced rules are mirrored into this handbook so they never drift:
 
-- **Arcus** — [API Architecture](/rules/api.rnc/api-architecture)
-- **app.rnc** — [Vue Checklist](/rules/app.rnc/01-vue-checklist) and the rest of the `celer-*` set
+- **Arcus** — [API Architecture](/rules/api.balancia/api-architecture)
+- **app.balancia** — [Vue Checklist](/rules/app.balancia/01-vue-checklist) and the rest of the `celer-*` set
 - **Shared** — [Shared Conventions](/rules/shared/conventions)
 
 Each rule has one **canonical source** in `.claude/rules/` (at the monorepo root). The `.cursor/rules/` mirror and this handbook are both generated from it — so edit the source rule, never the mirror or the page. See [Keeping Claude and Cursor in sync](#keeping-claude-and-cursor-in-sync).
@@ -37,11 +37,11 @@ Demand-loaded specializations that keep the context window lean:
 
 | Skill | Loads when |
 | --- | --- |
-| `arcus-laravel-best-practices` | Writing or refactoring Laravel PHP in api.rnc |
-| `arcus-pest-testing` | Writing or editing an api.rnc test file |
-| `arcus-tailwindcss` | Working with Tailwind in api.rnc Blade templates |
-| `celer-advanced-patterns` | Building a new module, composable, or complex form in app.rnc |
-| `celer-testing` | Writing or editing app.rnc tests |
+| `arcus-laravel-best-practices` | Writing or refactoring Laravel PHP in api.balancia |
+| `arcus-pest-testing` | Writing or editing an api.balancia test file |
+| `arcus-tailwindcss` | Working with Tailwind in api.balancia Blade templates |
+| `celer-advanced-patterns` | Building a new module, composable, or complex form in app.balancia |
+| `celer-testing` | Writing or editing app.balancia tests |
 | `docs-portal` | Building a dual-audience (User/Developer) VitePress documentation portal for a project |
 
 ## Agents (Claude Code)
@@ -57,8 +57,8 @@ Isolated, limited-tool helpers for focused work that shouldn't pollute the main 
 
 Run automatically, no trigger needed:
 
-- **Formatting** — Pint on api.rnc PHP edits; ESLint on app.rnc Vue/TS edits.
-- **RULES.md injection** — before editing a app.rnc file, the folder's `RULES.md` chain (up to `src/`) is injected so local rules win.
+- **Formatting** — Pint on api.balancia PHP edits; ESLint on app.balancia Vue/TS edits.
+- **RULES.md injection** — before editing a app.balancia file, the folder's `RULES.md` chain (up to `src/`) is injected so local rules win.
 - **Bash guard** — before any bash command, dangerous patterns (`rm -rf /`, `rm -rf ~`, `git push --force`, `drop table`, …) are blocked.
 
 ## Commands
@@ -69,7 +69,7 @@ Setup and session:
 | --- | --- |
 | `/battoni-setup-project` | One-time setup after cloning — transforms the bootstrap into your project's names and trims what you don't use |
 | `/battoni-start-session` | Loads the right rules before planning begins |
-| `/battoni-explain-rnc` | Full end-to-end overview of the AI setup for a new developer |
+| `/battoni-explain-balancia` | Full end-to-end overview of the AI setup for a new developer |
 
 Commit and PR flow:
 
@@ -83,16 +83,16 @@ Review:
 
 | Command | What it does |
 | --- | --- |
-| `/battoni-review-vue-conventions` | Reviews app.rnc Vue/TS changes on the branch and fixes convention violations |
-| `/battoni-review-arcus-code` | Reviews api.rnc PHP changes on the branch and fixes convention violations |
-| `/battoni-review-design-conventions` | Reviews app.rnc changes for design-system violations (runs in plan mode) |
+| `/battoni-review-vue-conventions` | Reviews app.balancia Vue/TS changes on the branch and fixes convention violations |
+| `/battoni-review-arcus-code` | Reviews api.balancia PHP changes on the branch and fixes convention violations |
+| `/battoni-review-design-conventions` | Reviews app.balancia changes for design-system violations (runs in plan mode) |
 
 Rule generation:
 
 | Command | What it does |
 | --- | --- |
-| `/battoni-generate-api-rules` | Generates a `RULES.md` for a unit in `api.rnc/` |
-| `/battoni-generate-component-rules` | Generates a `RULES.md` for a folder in `app.rnc/src/` |
+| `/battoni-generate-api-rules` | Generates a `RULES.md` for a unit in `api.balancia/` |
+| `/battoni-generate-component-rules` | Generates a `RULES.md` for a folder in `app.balancia/src/` |
 
 ## Adding or updating a rule
 
@@ -107,8 +107,8 @@ There are two kinds of rules.
 
 **Folder / unit rules** (`RULES.md`) — rules scoped to a single component folder or API unit. Don't hand-write these; generate them:
 
-- `/battoni-generate-component-rules` — creates a `RULES.md` for a folder in `app.rnc/src/`.
-- `/battoni-generate-api-rules` — creates a `RULES.md` for a unit in `api.rnc/`.
+- `/battoni-generate-component-rules` — creates a `RULES.md` for a folder in `app.balancia/src/`.
+- `/battoni-generate-api-rules` — creates a `RULES.md` for a unit in `api.balancia/`.
 
 ## Keeping Claude and Cursor in sync
 
