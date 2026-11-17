@@ -1,7 +1,7 @@
 ---
-description: Template structure, attribute order, and formatting rules for app.rnc (Vue 3)
+description: Template structure, attribute order, and formatting rules for app.balancia (Vue 3)
 paths:
-  - "app.rnc/**/*.vue"
+  - "app.balancia/**/*.vue"
 ---
 # i18n in Templates — `$t()`, never `t()` (CRITICAL)
 

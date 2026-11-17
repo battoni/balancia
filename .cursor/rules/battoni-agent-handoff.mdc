@@ -6,7 +6,7 @@ alwaysApply: false
 
 > Produce a dense, **AI-to-AI** handoff document so another agent — a new chat, a different model, or a future you — can resume this work **with zero prior context**. Read-only except for the one file it writes.
 >
-> **Usage:** `/battoni-agent-handoff [topic]` — e.g. `/battoni-agent-handoff cortex-port`, `/battoni-agent-handoff auth-2fa`. Run from the rnc monorepo root.
+> **Usage:** `/battoni-agent-handoff [topic]` — e.g. `/battoni-agent-handoff cortex-port`, `/battoni-agent-handoff auth-2fa`. Run from the balancia monorepo root.
 >
 > Not to be confused with `make handoff` (the client-delivery eject). This produces a resume-work note for another agent.
 >
@@ -25,7 +25,7 @@ The reader has **read nothing** — not this conversation, not the codebase. Wri
 ## Step 1 — Scope
 
 - **Topic:** use the argument if given; otherwise ask: *"What's this handoff about (short topic)?"* Slugify it (lowercase, `-` for spaces) for the filename.
-- Identify which **sub-projects** the work touches (`api.rnc`, `app.rnc`, `cortex`, `codelumen`, root).
+- Identify which **sub-projects** the work touches (`api.balancia`, `app.balancia`, `cortex`, `codelumen`, root).
 
 ## Step 2 — Gather real state (inspect, don't recall)
 
@@ -86,7 +86,7 @@ Save to **`handoffs/HANDOFF-<slug>-<YYYY-MM-DD>.md`** (today's date; create `han
 
 Rules for the content:
 - **Decisions section is the point** — capture every choice already made + its reason, so the next agent doesn't reopen settled questions or contradict them.
-- **Be concrete**: `app.rnc/src/modules/Auth/.../MLoginEmail.vue:42`, real `git log` hashes, real `make` targets — never "the relevant file".
+- **Be concrete**: `app.balancia/src/modules/Auth/.../MLoginEmail.vue:42`, real `git log` hashes, real `make` targets — never "the relevant file".
 - **Committed vs uncommitted must be unambiguous** — the next agent needs to know what's safe and what's in-flight.
 - Keep it **self-contained**: if a convention matters, name the rule file to read rather than re-explaining it.
 

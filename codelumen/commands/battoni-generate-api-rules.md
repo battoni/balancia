@@ -9,7 +9,7 @@ This page is generated from `.claude/commands/battoni-generate-api-rules.md` —
 
 # Generate API RULES.md
 
-> Generates a `RULES.md` for a unit in **api.rnc/** (Laravel API). Run from the rnc monorepo root.
+> Generates a `RULES.md` for a unit in **api.balancia/** (Laravel API). Run from the balancia monorepo root.
 >
 > Usage: `/battoni-generate-api-rules` — then provide the target folder when asked.
 
@@ -22,9 +22,9 @@ non-obvious decisions — NOT Vue prop/emit contracts.
 
 If a folder path was passed as an argument, use it. Otherwise ask:
 
-> Which folder should I generate RULES.md for? (e.g. `api.rnc/app/Modules/Auth/Repositories`)
+> Which folder should I generate RULES.md for? (e.g. `api.balancia/app/Modules/Auth/Repositories`)
 
-Typical api.rnc units: a module root (`app/Modules/{Module}`), a request-flow layer within a
+Typical api.balancia units: a module root (`app/Modules/{Module}`), a request-flow layer within a
 module (`Controllers`, `DTOs`, `Requests`, `Services`, `Repositories`, `Resources`), shared
 `app/Helpers` / `app/Models`, or `database` (factories + seeders).
 
@@ -90,7 +90,7 @@ into a layer-level `RULES.md`, don't truncate.**
 ```md
 ---
 version: 1.0.0
-origin: rnc
+origin: balancia
 based-on: 1.0.0
 ---
 # RULES — [Unit Name]

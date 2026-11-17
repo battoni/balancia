@@ -1,8 +1,8 @@
 ---
-description: Import ordering and module alias conventions for app.rnc (Vue 3 / TS)
+description: Import ordering and module alias conventions for app.balancia (Vue 3 / TS)
 paths:
-  - "app.rnc/**/*.vue"
-  - "app.rnc/**/*.ts"
+  - "app.balancia/**/*.vue"
+  - "app.balancia/**/*.ts"
 ---
 # Import Ordering (CRITICAL)
 
@@ -48,7 +48,7 @@ Imports MUST follow this exact sequence without blank lines between groups. **Wi
 
    The module barrel (`index.ts` and `interfaces.ts` for shared types) re-exports everything that is public. Sub-paths bypass it.
 
-   Enforced in app.rnc by ESLint `no-restricted-imports` (pattern `@AuthModule/**`).
+   Enforced in app.balancia by ESLint `no-restricted-imports` (pattern `@AuthModule/**`).
 
    ❌ **NEVER** (any extra segment after `@AuthModule`):
 

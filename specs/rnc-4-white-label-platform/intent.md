@@ -30,7 +30,7 @@ cannot be shown to a second firm without showing Franco, and cannot take a secon
 ## Affected users and systems
 Visitors of a firm's site (diagnostic, booking, report); visitors of the product site (accounting
 firms); a firm's manager (today's `ceo` role) and team (`equipe`, specialists); the network's
-partners (portal); Battoni Dev as platform operator. Both sub-projects (`api.rnc`, `app.rnc`), the
+partners (portal); Battoni Dev as platform operator. Both sub-projects (`api.balancia`, `app.balancia`), the
 e-mails, the seeders, the Playwright suite (it serves one host today).
 
 ## Constraints

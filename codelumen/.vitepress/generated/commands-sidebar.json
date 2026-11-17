@@ -12,8 +12,8 @@
     "link": "/commands/battoni-create-pr"
   },
   {
-    "text": "/battoni-explain-rnc",
-    "link": "/commands/battoni-explain-rnc"
+    "text": "/battoni-explain-balancia",
+    "link": "/commands/battoni-explain-balancia"
   },
   {
     "text": "/battoni-generate-api-rules",

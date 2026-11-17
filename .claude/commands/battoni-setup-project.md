@@ -1,6 +1,6 @@
 # Setup Project
 
-Initialize a new project cloned from rnc: transform the bootstrap into your project's
+Initialize a new project cloned from balancia: transform the bootstrap into your project's
 names and trim what you don't use. Run this once, right after cloning and `git init`.
 
 **This command runs in plan mode. Do not edit any file until the plan is approved.**
@@ -13,12 +13,12 @@ Ask the user the following, one at a time:
 
 1. **Project name** — a lowercase slug (e.g. `zion`, `acme`). This becomes `PROJECT`; the
    frontend becomes `app.<project>` and the API `api.<project>`.
-2. **Frontend (`app.rnc`)** — used? (If yes it is renamed to `app.<project>`.)
-3. **API (`api.rnc`)** — used? (If yes it is renamed to `api.<project>`.)
+2. **Frontend (`app.balancia`)** — used? (If yes it is renamed to `app.<project>`.)
+3. **API (`api.balancia`)** — used? (If yes it is renamed to `api.<project>`.)
 4. **Other sub-projects** — `codelumen` (docs), `vitrum` (site), `liquen` (design tokens):
-   keep or remove each? (These keep their own names — the transform only renames app.rnc/api.rnc.)
-5. **Feature modules to remove** — the bootstrap ships app.rnc modules `Auth`, `User`, `Home`,
-   `Showcase` (and api.rnc `Auth`). List any you don't want; each gets deleted **and its full
+   keep or remove each? (These keep their own names — the transform only renames app.balancia/api.balancia.)
+5. **Feature modules to remove** — the bootstrap ships app.balancia modules `Auth`, `User`, `Home`,
+   `Showcase` (and api.balancia `Auth`). List any you don't want; each gets deleted **and its full
    test surface pruned** (Step 2c).
 
 ---
@@ -37,11 +37,11 @@ Produce a plan with three parts. Present it and **wait for approval** before cha
   API=api.<project>
   ```
 
-- Run the shared transform engine. It rewrites every `app.rnc`/`api.rnc`/`rnc` word in **file
+- Run the shared transform engine. It rewrites every `app.balancia`/`api.balancia`/`balancia` word in **file
   contents** — rule globs, `CLAUDE.md`, `project-context`, command paths, hook patterns, all of
-  it — and name-maps **paths** the same way a sync does: `app.rnc/`→`app.<project>/`,
-  `api.rnc/`→`api.<project>/`, `docs.rnc/`→`docs.<project>/`, and any file whose own name
-  carries the word (`config/rnc.php`, `battoni-explain-rnc.md` + its `.mdc` mirror).
+  it — and name-maps **paths** the same way a sync does: `app.balancia/`→`app.<project>/`,
+  `api.balancia/`→`api.<project>/`, `docs.balancia/`→`docs.<project>/`, and any file whose own name
+  carries the word (`config/balancia.php`, `battoni-explain-balancia.md` + its `.mdc` mirror).
   `celer-`/`arcus-` rule **filenames** are preserved. No more editing globs by hand:
 
   ```bash
@@ -51,12 +51,12 @@ Produce a plan with three parts. Present it and **wait for approval** before cha
 
 ### b. Remove unused sub-projects
 
-For each unused sub-project (`codelumen`, `vitrum`, `liquen` — or `app.rnc`/`api.rnc` themselves if
+For each unused sub-project (`codelumen`, `vitrum`, `liquen` — or `app.balancia`/`api.balancia` themselves if
 not used), delete:
 
 - the sub-project folder,
 - its `.claude/rules/*` and `.cursor/rules/*` files,
-- its `.claude/skills/*` and `.claude/commands/*` (e.g. `battoni-review-arcus-code.md` and `battoni-generate-api-rules.md` if api.rnc is dropped),
+- its `.claude/skills/*` and `.claude/commands/*` (e.g. `battoni-review-arcus-code.md` and `battoni-generate-api-rules.md` if api.balancia is dropped),
 - its row — and any path into it — in `CLAUDE.md` and `.cursor/rules/project-context.mdc` (both
   are project-owned and keep identical bodies).
 
@@ -75,7 +75,7 @@ but things **outside** the folder still reference it. For each removed module `<
   - `app.<project>/vitest.config.ts` — the `moduleSubAliases` entry (`@<X>Module`),
   - `app.<project>/playwright.config.ts` — any per-module project entry,
   - `app.<project>/src/test/msw/handlers.ts` — the module's mock endpoints,
-  - `api.<project>/tests/Feature/Modules/<X>/` — its api.rnc feature tests (if any),
+  - `api.<project>/tests/Feature/Modules/<X>/` — its api.balancia feature tests (if any),
   - `app.<project>/e2e/<x>/` — its e2e specs (if any),
   - its `.claude/rules` / `.cursor/rules` folder-glob entries, if module-specific.
 
@@ -97,5 +97,5 @@ but things **outside** the folder still reference it. For each removed module `<
 
 Report what was renamed, removed, and pruned. End with:
 
-> Project configured as **<project>**. `.cortex-sync.conf` is set, so future rnc updates
+> Project configured as **<project>**. `.cortex-sync.conf` is set, so future balancia updates
 > flow in via `cortex/sync/RUNBOOK.md`. Run `/battoni-start-session` to begin.

@@ -1,7 +1,7 @@
 # Battoni Landing Page Recipe
 
 **Version:** 1.1 (September 2026) — languages, build-time data, declared islands, blog and institutional pages  
-**Canonical reference implementation:** `rnc/public.battoni.dev/`  
+**Canonical reference implementation:** `balancia/public.battoni.dev/`  
 **Live preview:** https://public-battoni-dev.vercel.app/
 
 ---
@@ -46,9 +46,9 @@ Every landing page is engineered across these seven pillars. Each pillar has con
 **References:**
 - [Astro documentation](https://docs.astro.build/)
 - [Astro Fonts API](https://docs.astro.build/en/guides/fonts/)
-- [CodeLumen design system](./design-system.md) (`rnc/codelumen/design-system.md`)
-- **Canonical template / reference build:** `rnc/public.battoni.dev/` — copy this to
-  start a new page. (`rnc/vitrum/` is only the bare Astro bootstrap, not the optimized
+- [CodeLumen design system](./design-system.md) (`balancia/codelumen/design-system.md`)
+- **Canonical template / reference build:** `balancia/public.battoni.dev/` — copy this to
+  start a new page. (`balancia/vitrum/` is only the bare Astro bootstrap, not the optimized
   template.)
 
 ---
@@ -684,7 +684,7 @@ PageSpeed and external audits require a **live public URL**. Use preview deploys
 
 When asked to build or optimize a Battoni landing page:
 
-1. **Copy `public.battoni.dev/` as the template** (the canonical, optimized reference build). `rnc/vitrum/` is only the bare Astro bootstrap.
+1. **Copy `public.battoni.dev/` as the template** (the canonical, optimized reference build). `balancia/vitrum/` is only the bare Astro bootstrap.
 2. **Edit the data files — they are the only source of on-page copy.** `src/data/brand.ts` (name, domain, contact), `src/data/locales/{locale}.ts` (the landing page, chrome included), `src/data/pages/*.ts` (other pages). Strings interpolate `SITE_NAME`, so the brand cascades from one value. Decide the languages in `src/data/i18n.ts` first. Do not hardcode copy back into `.astro` components.
 3. **Follow the seven pillars in order:** Performance → UX → UI → SEO → AEO → GEO → Conversion.
 4. **Never skip structured data** — Organization, WebPage, Article, FAQPage, HowTo as applicable.

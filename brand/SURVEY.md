@@ -9,7 +9,7 @@ accounting firm runs on Balancia under its own name and colours. Franco Contabil
 theme is a tenant theme and is not part of this identity.
 
 Naming context (16/11/2026): replaces the placeholder "Hub da Reforma" (`PLATFORM_NAME`,
-`api.rnc/config/platform.php`, rnc-4). Chosen over Partida, Haver, Contrapartida and Honorária after
+`api.balancia/config/platform.php`, rnc-4). Chosen over Partida, Haver, Contrapartida and Honorária after
 a registro.br and INPI (pePI, radical search) check: balancia.com.br free, nothing active in classes
 35/36/41/42.
 

@@ -5,7 +5,7 @@ license: MIT
 metadata:
   author: laravel
 paths:
-  - "api.rnc/**"
+  - "api.balancia/**"
 ---
 
 # Pest Testing 4
@@ -23,7 +23,7 @@ All tests must be written using Pest. Use `php artisan make:test --pest {name}`.
 ### Test Organization
 
 - Unit/Feature tests: `tests/Feature` and `tests/Unit` directories.
-- Browser tests: **not in api.rnc today** — see the note under "Browser Test Example".
+- Browser tests: **not in api.balancia today** — see the note under "Browser Test Example".
 - Do NOT remove tests without approval - these are core application code.
 - **Group with `describe()`, and open the file with a docblock that says WHY the test exists** —
   usually the incident: the date and the symptom someone saw. Name each `it()` after the promise it
@@ -97,9 +97,9 @@ it('has emails', function (string $email) {
 
 ### Browser Test Example
 
-> **Not available in api.rnc as shipped.** `pestphp/pest-plugin-browser` is not a dependency and there is
-> no `tests/Browser/` directory: api.rnc answers JSON and renders no pages, so a `visit()` test has
-> nothing to open. A flow a person clicks through is tested in app.rnc's Playwright suite (the
+> **Not available in api.balancia as shipped.** `pestphp/pest-plugin-browser` is not a dependency and there is
+> no `tests/Browser/` directory: api.balancia answers JSON and renders no pages, so a `visit()` test has
+> nothing to open. A flow a person clicks through is tested in app.balancia's Playwright suite (the
 > `celer-testing` skill). Adding the plugin is a dependency decision, not something to do inside a
 > test task — the examples below apply only once it is installed.
 

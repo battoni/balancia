@@ -1,9 +1,9 @@
 ---
 name: cortex-backport
-description: "Bring a feature that was built in a downstream project back into rnc, so it becomes part of the bootstrap and can then flow to everyone. Load when asked to back-port, port back, promote or upstream a module/component/fix from a project (lifeshifter, chapaja, largatudoevai, impressao) into rnc — and before copying any file between those repos."
+description: "Bring a feature that was built in a downstream project back into balancia, so it becomes part of the bootstrap and can then flow to everyone. Load when asked to back-port, port back, promote or upstream a module/component/fix from a project (lifeshifter, chapaja, largatudoevai, impressao) into balancia — and before copying any file between those repos."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 ---
 
 # Back-port — a project's work returning to the bootstrap
@@ -43,10 +43,10 @@ personas. What it does not see is in `BACKPORT.md` — read that before trusting
 
 **Everything back-ported is bootstrap.** Wiring goes to the CORE files — `routes/api.php`,
 `libraries/router/routes.ts`, `PermissionGroupsHelper`, `TheNavbar.vue`,
-`locales/{en,pt-BR}.json`. The `.local.*` files in rnc stay empty: they are the projects'
+`locales/{en,pt-BR}.json`. The `.local.*` files in balancia stay empty: they are the projects'
 extension point, not the bootstrap's.
 
-**A defect the port reveals in rnc is a result, not an interruption.** Fix it there and write
+**A defect the port reveals in balancia is a result, not an interruption.** Fix it there and write
 it down. The first port surfaced two, both invisible until a module exercised the parent in a way
 its own tests never had.
 
@@ -54,6 +54,6 @@ its own tests never had.
 
 - Do not port and generalise in one motion. Get it moved and green, then generalise and green
   again — otherwise you are debugging "it moved" and "it changed" at once.
-- Do not carry an `add_*_to_*_table` migration. In rnc the table is new, so the `create_*`
+- Do not carry an `add_*_to_*_table` migration. In balancia the table is new, so the `create_*`
   is its only description; fold the ALTERs in and drop any data backfill.
 - Do not leave the product's vocabulary in the tests. They carry more of it than the code does.

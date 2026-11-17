@@ -22,7 +22,7 @@ There is no `image-prompt.md`: the mark is vector and final, so nothing is waiti
 ## Sources of truth
 
 - **Decisions:** `SURVEY.md`. Where another file disagrees, the survey wins.
-- **Colour and type:** [`app.rnc/src/styles/theme/themes/balancia.css`](../app.rnc/src/styles/theme/themes/balancia.css), the app's theme
+- **Colour and type:** [`app.balancia/src/styles/theme/themes/balancia.css`](../app.balancia/src/styles/theme/themes/balancia.css), the app's theme
   since step 3 (rnc-4, 16/11/2026). `extract.py` reads it; the copy that lived in `design-system/`
   is gone. `tokens.md` is only a summary; the CSS wins.
 - **The icon:** `logo/balancia-icon.svg` is the only drawn file. `build.py` generates every other
@@ -33,7 +33,7 @@ There is no `image-prompt.md`: the mark is vector and final, so nothing is waiti
 
 1. **Icon or wordmark:** edit `logo/balancia-icon.svg`, or the ratios in `build.py`. Then run
    `python3 brand/build.py`.
-2. **Theme:** edit `app.rnc/src/styles/theme/themes/balancia.css`. Then run `python3 brand/design-system/extract.py`,
+2. **Theme:** edit `app.balancia/src/styles/theme/themes/balancia.css`. Then run `python3 brand/design-system/extract.py`,
    which rewrites `tokens.json` and `index.html`.
 3. **The Claude Design version, once it exists:** revise it with the new `tokens.json`.
 
@@ -50,7 +50,7 @@ You need `fontTools` and `Pillow` for `build.py`, Google Chrome for the PNGs, an
 - **Claude Design:** not created. The Artifact tool wasn't available in this session. Create it from
   `design-system/tokens.json` and `design-system/assets/` next time `/battoni-new-brand` runs with
   that tool.
-- **The root domain:** `PLATFORM_ROOT_DOMAIN=balancia.com.br` is in `api.rnc/.env.example`, but the
+- **The root domain:** `PLATFORM_ROOT_DOMAIN=balancia.com.br` is in `api.balancia/.env.example`, but the
   domain is unregistered, so nothing serves it yet.
 - **Not protected yet:** the domain is unregistered and INPI is unfiled; see
   [`BRIEF.md`](BRIEF.md) and `SURVEY.md`.

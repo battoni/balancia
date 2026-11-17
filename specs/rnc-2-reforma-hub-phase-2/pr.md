@@ -2,13 +2,13 @@
 
 **Base:** stacks on rnc-1 — base branch `feature/rnc-1-reforma-hub-pilot` (rnc-1 is not on `main` and the remote is empty; publish with rnc-1).
 
-**Problem.** After Phase 1, Franco's partners could only be reached through the staff side: no partner login, no way to answer a referral, no ledger of what is owed, no chat on the diagnostic, no NF-e data behind the readiness and supplier-credit screens, and the portfolio radar guessed each client's profile. **Outcome.** The real Phase 2 in `api.rnc` + `app.rnc`: partner access and portal (inbox, status graph, SLA), the ledger (commission or subscription), the chat receptionist, NF-e XML import, NF-e readiness, supplier credit, split-payment alert, and the Radar with XML evidence and batch referral.
+**Problem.** After Phase 1, Franco's partners could only be reached through the staff side: no partner login, no way to answer a referral, no ledger of what is owed, no chat on the diagnostic, no NF-e data behind the readiness and supplier-credit screens, and the portfolio radar guessed each client's profile. **Outcome.** The real Phase 2 in `api.balancia` + `app.balancia`: partner access and portal (inbox, status graph, SLA), the ledger (commission or subscription), the chat receptionist, NF-e XML import, NF-e readiness, supplier credit, split-payment alert, and the Radar with XML evidence and batch referral.
 
 ## R# → tests
 
 | R# | Tests |
 | --- | --- |
-| R1–R4 partner role, access, login, scoping | `api.rnc/tests/Feature/Access/PartnerAccessTest.php`, `RouteMatrixTest.php`; `Feature/Partner/PortalMeTest.php`, `PartnerUserSeederTest.php`; `app.rnc/e2e/portal/access.spec.ts` |
+| R1–R4 partner role, access, login, scoping | `api.balancia/tests/Feature/Access/PartnerAccessTest.php`, `RouteMatrixTest.php`; `Feature/Partner/PortalMeTest.php`, `PartnerUserSeederTest.php`; `app.balancia/e2e/portal/access.spec.ts` |
 | R5–R6 inbox, what a partner sees | `Feature/Partner/PortalReferralsTest.php`; `PortalInboxView.view.integration.spec.ts`, `MPortalReferralCard.spec.ts`; `e2e/portal/inbox.spec.ts` |
 | R7–R9 status graph, SLA, timeline lines | `tests/Unit/Modules/Partner/ReferralStatusTest.php`, `ReferralSlaTest.php`, `BusinessHoursTest.php`; `MReferralMeetingForm.spec.ts`, `MReferralCloseForm.spec.ts`, `MSlaChip.spec.ts` |
 | R10 Franco sees progress | `Feature/Partner/ReferralsTest.php`, `PartnersTest.php` |

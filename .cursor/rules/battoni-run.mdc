@@ -45,7 +45,7 @@ nothing. Otherwise go to the first phase whose `<id>: F<n>` commit is not on the
      API and SPA served locally) · skip it and list every Chrome round as owed in the PR.
 3. Be in the feature's worktree: `EnterWorktree` with `path: .claude/worktrees/<id>` (none →
    `rtk make wt-new ID=<id> BRANCH=feature/<id>-<slug>` first), never a checkout in the main
-   checkout, which stays on `main`; the tree must be clean. Chrome QA on → `make fresh-seed`, `make serve-api` and `make serve-app` from there (no `wt-up` in rnc).
+   checkout, which stays on `main`; the tree must be clean. Chrome QA on → `make fresh-seed`, `make serve-api` and `make serve-app` from there (no `wt-up` in balancia).
 4. If Chrome QA is on: `curl` the API and the SPA, and open one tab through the
    `battoni-chrome-driver` agent. A failure here is said now, not found at 3 a.m.
 5. Tell the owner, in one block, what must already be allowed for nobody to be asked: `git add`,

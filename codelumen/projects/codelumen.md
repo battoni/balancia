@@ -28,7 +28,7 @@ Don't edit pages under `rules/` — they're regenerated and your change would be
 
 ## Authored vs generated
 
-- **Generated:** everything under `rules/` (Arcus, app.rnc, Shared).
+- **Generated:** everything under `rules/` (Arcus, app.balancia, Shared).
 - **Authored by hand:** the project overviews, the [monorepo map](/monorepo), [AI tooling](/ai-tooling), workflow pages, and the recipes.
 
 ## Conventions

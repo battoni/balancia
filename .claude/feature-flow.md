@@ -37,7 +37,7 @@ In doubt, ask the owner which track (rule 3).
 
 ## Task IDs
 
-- **Format:** `<TASK_PREFIX>-<n>`, e.g. `rnc-14`. Speakable: "open rnc-14".
+- **Format:** `<TASK_PREFIX>-<n>`, e.g. `balancia-14`. Speakable: "open balancia-14".
 - **Prefix:** the `TASK_PREFIX=` line of `.cortex-sync.conf` (SKIP in the sync manifest, so each
   project keeps its own). Missing → use `PROJECT=` and suggest adding the line. The bootstrap has no `.cortex-sync.conf`
   at all: there the prefix is the repository's folder name.
@@ -50,8 +50,8 @@ In doubt, ask the owner which track (rule 3).
   (`specs/` on `main`, every branch name, every commit subject — the small track leaves only the
   last two.) Nothing found → `1`. The ID is claimed at once: `/battoni-intent` creates the branch in the same step (in its
   own worktree, `rtk make wt-new`), so a second worktree sees it.
-- **Where it appears:** folder, branch (`feature/rnc-12-sidebar-menu`, `fix/rnc-14-…`),
-  commit subjects and PR title (`rnc-12: Add the Settings index page`).
+- **Where it appears:** folder, branch (`feature/balancia-12-sidebar-menu`, `fix/balancia-14-…`),
+  commit subjects and PR title (`balancia-12: Add the Settings index page`).
 - **Who gets one:** feature and small. Trivial never. A client's own ID (Jira, Trello) replaces it.
 - Work delivered before the flow keeps no ID; nothing is renumbered.
 
@@ -72,7 +72,7 @@ resume, so the extra two only added noise.
 In the cortex sync manifest `specs/` is `LOCAL`: every project keeps its own.
 
 ```
-specs/rnc-12-sidebar-menu/
+specs/balancia-12-sidebar-menu/
 ├── intent.md      # the request — no solution
 ├── facts.md       # the research (written by a Sonnet subagent)
 ├── spec.md        # the truth: R#, acceptance criteria A#, decisions D#
@@ -250,9 +250,9 @@ main checkout is already off `main` is `! git switch main` (an owner `!` skips t
 | --- | --- | --- |
 | create | `rtk make wt-new ID=<id> [SLUG=<slug>] [BRANCH=<branch>]` | `git fetch`, the worktree on `feature/<id>-<slug>` (`feature/<id>` without SLUG) from `origin/main` with no upstream, so a bare push never targets `main`; BRANCH = an existing local branch as it is, one only on `origin` (tracked), or a new name from `origin/main` (`fix/<id>-<slug>`). Clones `vendor/`/`node_modules/` (`cp -c`), reconciles them (`npm` under the unit's `.nvmrc` Node via `fnm exec`, also for `wt-app`; warns if an install leaves the tree dirty), writes `.worktree.json`. Refuses a label or a `<project>_<label>` DB another worktree holds. |
 | enter | `EnterWorktree` with `path: .claude/worktrees/<id>` | moves the session in; `/battoni-intent` and `/battoni-start-session <id>` do it |
-| serve | not in rnc | `wt-up` (inherited from boanerges) serves a worktree through Valet and copies a MySQL database. rnc runs on `php artisan serve` and SQLite, so `wt-up` refuses naming SQLite before touching anything, and `wt-app` refuses for want of the record `wt-up` writes. A browser round in a worktree: `make fresh-seed` (its own `database/database.sqlite`, gitignored), `make serve-api` and `make serve-app` from the worktree, with the main stack stopped, since both targets take the fixed ports 8000 and 5173. |
+| serve | not in balancia | `wt-up` (inherited from boanerges) serves a worktree through Valet and copies a MySQL database. balancia runs on `php artisan serve` and SQLite, so `wt-up` refuses naming SQLite before touching anything, and `wt-app` refuses for want of the record `wt-up` writes. A browser round in a worktree: `make fresh-seed` (its own `database/database.sqlite`, gitignored), `make serve-api` and `make serve-app` from the worktree, with the main stack stopped, since both targets take the fixed ports 8000 and 5173. |
 | sweep | `rtk make wt-gc` | at `/battoni-start-session` and `/battoni-close-session`: `wt-down` on every worktree that passes, the rest `kept` (failed check) or `left behind` (PR closed unmerged, or no commit and no session for 7 days), never torn down on its own; a left-behind line names its `wt-discard` dry run |
-| tear down | `rtk make wt-down ID=<id>` | only when no other worktree holds its label (in a MySQL project its DB name would be the other one's), its PR is merged, nothing is ahead of `origin/main`, `git status` is clean, every ignored file is regenerable, no session in it for 30 min and its Vite is quiet; then (in a Valet/MySQL project it first undoes what Valet shows `wt-up` left and drops the DB; rnc has neither) it removes the folder and deletes the branch (`-D`, since GitHub's merge commit is not in the local `main`). A failed check names itself and touches nothing. |
+| tear down | `rtk make wt-down ID=<id>` | only when no other worktree holds its label (in a MySQL project its DB name would be the other one's), its PR is merged, nothing is ahead of `origin/main`, `git status` is clean, every ignored file is regenerable, no session in it for 30 min and its Vite is quiet; then (in a Valet/MySQL project it first undoes what Valet shows `wt-up` left and drops the DB; balancia has neither) it removes the folder and deletes the branch (`-D`, since GitHub's merge commit is not in the local `main`). A failed check names itself and touches nothing. |
 | discard | `rtk make wt-discard ID=<id>`, then `rtk make wt-discard ID=<id> CONFIRM=<id>` | throws an UNMERGED worktree away (a closed PR, abandoned work): every `wt-down` check except "PR merged" and "nothing ahead of `origin/main`", and refuses an OPEN PR (`close PR #<n> first`). Without `CONFIRM` repeating the ID it is a dry run: the checks, then the folder and branch (and in a Valet/MySQL project the Valet steps and DB) with its tip SHA it would remove, and the confirmed command. Confirmed, it prints `git branch <branch> <sha>` (the only way back) before `wt-down`'s same teardown. No prompt, so owner and agent run the same command; the remote is never touched. `/battoni-close-session` offers it per left-behind worktree. |
 | e2e | `rtk make e2e [E2E_ARGS=<spec file>]` | Playwright on this checkout's own e2e port (`python3 scripts/worktree.py port`: a worktree's record, or the main checkout's `base + 100`, claiming the block on first use; an exported `E2E_PORT` wins). Playwright always starts its own `vite --mode test` there and never reuses a server, so a taken port fails before the first test; a local run without `E2E_PORT` fails naming `make e2e`. The run always exits (html report `open: 'never'`, `npx playwright show-report`), and a test that passes only on its retry fails it. |
 
@@ -262,12 +262,12 @@ checkout's e2e is `base + 100`), anything else the first free slot from 80 to 99
 refuse unless the main checkout's api `.env` is local (`APP_ENV=local`, `DB_HOST`
 127.0.0.1/localhost, source DB = the project, target `<project>_<label>`): production is never read or written.
 
-**What is not ported to rnc.** `wt-up` and `wt-app` (Valet sites, a MySQL copy of the local DB, sessions
+**What is not ported to balancia.** `wt-up` and `wt-app` (Valet sites, a MySQL copy of the local DB, sessions
 in the main database's table, and the one-time `valet trust` that goes with them) exist in
-`scripts/worktree.py` because the script is synced as it is, but rnc never runs them: it has no Valet
+`scripts/worktree.py` because the script is synced as it is, but balancia never runs them: it has no Valet
 and no MySQL in development. `new`, `down`, `discard`, `gc` and `port` do work: with
 `DB_CONNECTION=sqlite` in the main api `.env` they skip every MySQL step (`SqliteProjectTest`). The
-Ports paragraph's "api `.env` is local" check applies only to a MySQL project. If rnc one day serves
+Ports paragraph's "api `.env` is local" check applies only to a MySQL project. If balancia one day serves
 through Valet, drop the SQLite branch of the script, not the other way round.
 
 ## Sessions

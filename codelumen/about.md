@@ -33,7 +33,7 @@ Battoni Dev is a development company focused on creating high-quality, maintaina
 ### Key Resources
 - **The Monorepo**: [/monorepo](/monorepo) - The six sub-projects and how they fit together
 - **AI Tooling**: [/ai-tooling](/ai-tooling) - Rules, skills, agents, and commands
-- **Projects**: [Arcus](/projects/api.rnc), [app.rnc](/projects/app.rnc) - Per-project conventions
+- **Projects**: [Arcus](/projects/api.balancia), [app.balancia](/projects/app.balancia) - Per-project conventions
 - **Technologies**: [/technologies](/technologies) - Tools and frameworks we use
 
 ### Development Workflow

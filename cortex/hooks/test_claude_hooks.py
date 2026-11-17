@@ -3,13 +3,13 @@
 
 Claude Code hands a PreToolUse/PostToolUse hook its input as JSON on stdin, with the tool's
 arguments under `tool_input` and `file_path` as an ABSOLUTE path. The first version of these
-hooks read a `CLAUDE_TOOL_INPUT` variable that is never set and matched `api.rnc/*.php` against
+hooks read a `CLAUDE_TOOL_INPUT` variable that is never set and matched `api.balancia/*.php` against
 an absolute path, so neither ever fired. These tests pipe the payload exactly as it arrives.
 
 `CLAUDE_HOOK_DRY_RUN=1` makes post-edit.sh print the formatter command instead of running it.
 
 The tests live here, not in .claude/hooks/, because every file in that directory becomes a
-row of the features catalogue (app.rnc/scripts/build-features.mjs).
+row of the features catalogue (app.balancia/scripts/build-features.mjs).
 
 Run: python3 cortex/hooks/test_claude_hooks.py
 """
@@ -254,7 +254,7 @@ class BranchGuardTest(unittest.TestCase):
 
 class PostEditTest(unittest.TestCase):
     def test_runs_pint_on_the_edited_php_file_only(self):
-        result = run_hook('post-edit.sh', edit_payload('api.rnc/app/Models/User.php'), dry_run=True)
+        result = run_hook('post-edit.sh', edit_payload('api.balancia/app/Models/User.php'), dry_run=True)
 
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('vendor/bin/pint', result.stdout)
@@ -262,7 +262,7 @@ class PostEditTest(unittest.TestCase):
         self.assertNotIn('--dirty', result.stdout)
 
     def test_runs_eslint_on_the_edited_frontend_file_only(self):
-        for relative, expected in [('app.rnc/src/main.ts', 'src/main.ts'), ('app.rnc/src/App.vue', 'src/App.vue')]:
+        for relative, expected in [('app.balancia/src/main.ts', 'src/main.ts'), ('app.balancia/src/App.vue', 'src/App.vue')]:
             with self.subTest(relative=relative):
                 result = run_hook('post-edit.sh', edit_payload(relative), dry_run=True)
 
@@ -272,7 +272,7 @@ class PostEditTest(unittest.TestCase):
                 self.assertNotIn('npm run lint', result.stdout)
 
     def test_ignores_files_outside_the_two_projects(self):
-        for relative in ['CLAUDE.md', 'app.rnc/vite.config.ts', 'cortex/sync/sync.py', 'app.rnc/src/does-not-exist.ts']:
+        for relative in ['CLAUDE.md', 'app.balancia/vite.config.ts', 'cortex/sync/sync.py', 'app.balancia/src/does-not-exist.ts']:
             with self.subTest(relative=relative):
                 result = run_hook('post-edit.sh', edit_payload(relative), dry_run=True)
 

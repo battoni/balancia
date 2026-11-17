@@ -79,7 +79,7 @@ updated on every tick. Everything else is execution.
   not the web group: the web group encrypts the session cookie and the API group does not, so a
   web-group login is invisible to API routes. It never reaches a commit: save the block to the
   scratchpad, `git checkout` the file before committing, re-append while QA continues.
-- The SPA gates on a client-side hint (`localStorage['app.rnc:session-hint'] = '1'`); set it on the
+- The SPA gates on a client-side hint (`localStorage['app.balancia:session-hint'] = '1'`); set it on the
   **exact origin, port included**, or the guard skips the `/auth/me` probe.
 - Find the real dev server before starting one: `Port 5173 is already in use` means it is running;
   the Valet host without the port serves static files and renders a blank page.

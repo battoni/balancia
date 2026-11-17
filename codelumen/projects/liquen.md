@@ -28,7 +28,7 @@ liquen/
 
 ## Workflow
 
-Tokens are managed in **Tokens Studio** (the Figma plugin) and synced via the `github-token` config. The exported `tokens-studio.json` is the source of truth for all design decisions, which then flow into app.rnc's theme (`src/styles/theme/colors.css`) and the [Design System](/design-system).
+Tokens are managed in **Tokens Studio** (the Figma plugin) and synced via the `github-token` config. The exported `tokens-studio.json` is the source of truth for all design decisions, which then flow into app.balancia's theme (`src/styles/theme/colors.css`) and the [Design System](/design-system).
 
 ## Conventions
 

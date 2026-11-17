@@ -1,8 +1,8 @@
 ---
-description: MANDATORY checklist – run before/after every Vue/TS edit in app.rnc
+description: MANDATORY checklist – run before/after every Vue/TS edit in app.balancia
 paths:
-  - "app.rnc/**/*.vue"
-  - "app.rnc/**/*.ts"
+  - "app.balancia/**/*.vue"
+  - "app.balancia/**/*.ts"
 ---
 # Vue/TS Mandatory Checklist
 

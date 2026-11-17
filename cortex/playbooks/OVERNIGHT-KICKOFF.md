@@ -9,7 +9,7 @@
 # keep the machine and the display awake for the whole run (browser QA needs the screen on)
 caffeinate -dims -t [SECONDS] &
 
-# the playbook lives in the target project (every child of rnc has cortex/)
+# the playbook lives in the target project (every child of balancia has cortex/)
 mkdir -p [PROJECT_PATH]/cortex/playbooks && cp [PENDULUM_PATH]/cortex/playbooks/OVERNIGHT-BUILD.md [PROJECT_PATH]/cortex/playbooks/
 
 # the app dev server and the API are up, the browser is open with the Claude extension, the tree is clean

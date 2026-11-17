@@ -1,15 +1,15 @@
 ---
 name: docs-portal
-description: "Build a user- AND developer-friendly documentation portal (VitePress) with a User/Developer depth switcher, for a rnc-derived project. Load when asked to create or extend product/system documentation, a 'docs site', a client handoff doc, a docs.* sub-project, or when you need the ::: user / ::: dev pattern, codebase extractors (endpoints/schema/views → JSON), the user-documentation PDF export (/export-pdf), or the staff-only Vercel Edge gate. Reference builds: docs.trainingbeta and docs.impressao."
+description: "Build a user- AND developer-friendly documentation portal (VitePress) with a User/Developer depth switcher, for a balancia-derived project. Load when asked to create or extend product/system documentation, a 'docs site', a client handoff doc, a docs.* sub-project, or when you need the ::: user / ::: dev pattern, codebase extractors (endpoints/schema/views → JSON), the user-documentation PDF export (/export-pdf), or the staff-only Vercel Edge gate. Reference builds: docs.trainingbeta and docs.impressao."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 ---
 
 # Docs Portal — Dual-Audience VitePress Documentation
 
-> **Scope:** building a documentation portal for any rnc-derived project (an
-> api.rnc API + app.rnc SPA pair, or similar). The portal serves **two audiences from one
+> **Scope:** building a documentation portal for any balancia-derived project (an
+> api.balancia API + app.balancia SPA pair, or similar). The portal serves **two audiences from one
 > set of pages** via a User/Developer switch: plain-language guidance for the product
 > owner/end user, and schema/endpoint/architecture depth for the next developer.
 >
@@ -29,8 +29,8 @@ Load this skill when the task is to:
   Vue routes → views) and their data components.
 - Set up the **staff-only access gate** (Vercel Edge middleware → `/auth/me`).
 
-If the project is **app.rnc/api.rnc code itself** (not its docs), this is the wrong skill —
-use the app.rnc/api.rnc rules and skills instead.
+If the project is **app.balancia/api.balancia code itself** (not its docs), this is the wrong skill —
+use the app.balancia/api.balancia rules and skills instead.
 
 ## The non-negotiables (rules)
 

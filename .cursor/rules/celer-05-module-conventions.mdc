@@ -1,6 +1,6 @@
 ---
-description: Module file separation, enum naming, and service patterns for app.rnc (Vue 3 / TS)
-globs: app.rnc/**/*.vue, app.rnc/**/*.ts
+description: Module file separation, enum naming, and service patterns for app.balancia (Vue 3 / TS)
+globs: app.balancia/**/*.vue, app.balancia/**/*.ts
 alwaysApply: false
 ---
 # Module Structure (CRITICAL)

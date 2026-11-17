@@ -1,11 +1,11 @@
 ---
-description: app.rnc theme system rules — app.rnc/src/styles/theme/
-globs: app.rnc/src/styles/theme/**
+description: app.balancia theme system rules — app.balancia/src/styles/theme/
+globs: app.balancia/src/styles/theme/**
 alwaysApply: false
 ---
 # Theme System — Folder Rules
 
-> Pre-edit hook injects the full `RULES.md` chain when editing Vue/TS. Read `app.rnc/src/styles/theme/RULES.md` manually when editing `colors.css`.
+> Pre-edit hook injects the full `RULES.md` chain when editing Vue/TS. Read `app.balancia/src/styles/theme/RULES.md` manually when editing `colors.css`.
 
 ## Brand contract
 
@@ -21,4 +21,4 @@ alwaysApply: false
 
 ## Forking
 
-To retheme app.rnc: change hex in `colors.css` only — no component edits needed.
+To retheme app.balancia: change hex in `colors.css` only — no component edits needed.

@@ -1,6 +1,6 @@
 ---
-description: Script structure, reactivity order, and code patterns for app.rnc (Vue 3 / TS)
-globs: app.rnc/**/*.vue, app.rnc/**/*.ts
+description: Script structure, reactivity order, and code patterns for app.balancia (Vue 3 / TS)
+globs: app.balancia/**/*.vue, app.balancia/**/*.ts
 alwaysApply: false
 ---
 # Vue API

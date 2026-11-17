@@ -1627,7 +1627,7 @@ SQLITE_API_ENV = API_ENV.replace('DB_HOST=127.0.0.1', 'DB_CONNECTION=sqlite').re
 
 
 class SqliteProjectTest(TeardownSandbox):
-    """A project on SQLite (rnc: `php artisan serve`, no Valet, no MySQL): new and discard work, up refuses."""
+    """A project on SQLite (balancia: `php artisan serve`, no Valet, no MySQL): new and discard work, up refuses."""
 
     def setUp(self) -> None:
         super().setUp()

@@ -3,7 +3,7 @@ name: phase-review
 description: "Critically review a build plan, a built phase's implementation, or a downstream plan's consistency after an upstream phase shipped — grounded in the project's source-of-intent document and in real code, ranked by severity, with the open decisions grilled and the plan revised to a definitive, build-ready spec. Load when asked to 'review the plan', do a 'full review' of a phase (plan or what we built), check that deviations during one phase were absorbed into later plans, produce a 'definitive / build-ready' plan, write a 'vN addendum', or grill the user to lock decisions."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 ---
 
 # Phase Review — Plan & Implementation Critical Read

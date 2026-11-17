@@ -1,14 +1,14 @@
 ---
 name: celer-testing
-description: "Use this skill for Vitest unit/integration tests and Playwright e2e tests in the app.rnc Vue 3 project. Trigger whenever writing, editing, fixing, or refactoring tests — including component tests with mountWithPlugins (VTU), view/integration tests with renderWithPlugins (Testing Library), MSW handler setup, store tests with Pinia, composable tests, and Playwright e2e flows."
+description: "Use this skill for Vitest unit/integration tests and Playwright e2e tests in the app.balancia Vue 3 project. Trigger whenever writing, editing, fixing, or refactoring tests — including component tests with mountWithPlugins (VTU), view/integration tests with renderWithPlugins (Testing Library), MSW handler setup, store tests with Pinia, composable tests, and Playwright e2e flows."
 license: MIT
 metadata:
-  author: rnc
+  author: balancia
 paths:
-  - "app.rnc/**"
+  - "app.balancia/**"
 ---
 
-# app.rnc Testing
+# app.balancia Testing
 
 ## Three-tier model
 
@@ -29,10 +29,10 @@ make test-all      # unit + e2e + pest
 
 Or directly:
 ```bash
-cd app.rnc && npm run test:unit:run    # run once
-cd app.rnc && npm run test:unit        # watch mode
-cd app.rnc && npm run test:coverage
-cd app.rnc && npm run test:e2e
+cd app.balancia && npm run test:unit:run    # run once
+cd app.balancia && npm run test:unit        # watch mode
+cd app.balancia && npm run test:coverage
+cd app.balancia && npm run test:e2e
 ```
 
 ## Co-location and versioning
@@ -204,7 +204,7 @@ it('toggles sidenav', () => {
 
 ## Playwright e2e
 
-Config: `app.rnc/playwright.config.ts`. Tests in `app.rnc/e2e/*.spec.ts`.
+Config: `app.balancia/playwright.config.ts`. Tests in `app.balancia/e2e/*.spec.ts`.
 
 ```typescript
 import { expect, test } from '@playwright/test';
@@ -247,7 +247,7 @@ Prefer `data-testid` selectors and event-based waits (`page.waitForResponse(...)
 The terminal wrapper mangles pretty reporter output — Vitest/Playwright pass counts can read low (e.g. "23" when 24 actually passed). For trustworthy counts:
 
 - **Vitest**: `npx vitest run --reporter=json --outputFile=/tmp/x.json` and parse the JSON.
-- **Playwright**: run from `app.rnc/` (not the repo root — the root config picks up Vitest specs and errors with "did not expect test.describe()"), and use `--reporter=dot` or `--reporter=line`. The `.last-run.json` under the output dir holds the authoritative pass/fail summary.
+- **Playwright**: run from `app.balancia/` (not the repo root — the root config picks up Vitest specs and errors with "did not expect test.describe()"), and use `--reporter=dot` or `--reporter=line`. The `.last-run.json` under the output dir holds the authoritative pass/fail summary.
 
 ---
 

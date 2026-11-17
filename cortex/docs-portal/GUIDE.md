@@ -133,8 +133,8 @@ Each `extract-*.mjs` exports a pure function; `extract.mjs` orchestrates, sorts
 deterministically, and writes `.vitepress/data/*.json`. `--check` regenerates in memory and
 exits non-zero if the committed JSON differs (wire into CI / pre-commit).
 
-**These parse a specific stack** (Laravel `routes/api.php` + migrations; app.rnc
-`modules/*/views/routes.ts` + `NavTemplate.vue`). For an api.rnc/celer-derived project they
+**These parse a specific stack** (Laravel `routes/api.php` + migrations; app.balancia
+`modules/*/views/routes.ts` + `NavTemplate.vue`). For an api.balancia/celer-derived project they
 work after you:
 
 1. Fix the **sibling paths** at the top of each extractor (the `new URL('../../<dir>/...')`).
@@ -149,7 +149,7 @@ components expect) and rewrite the parsing. The data-component JSON shapes:
   an enclosing `Route::group` and the route's own both run, so the route needs every layer
   (`ideas.read + ideas.create` = group + route). Inside one layer a comma still means *any of*
   (`users.create,users.update`). A rewritten extractor keeps that notation, and the page that
-  renders the table explains it (legend in `docs.rnc/reference/api-endpoints.md`).
+  renders the table explains it (legend in `docs.balancia/reference/api-endpoints.md`).
 - `schema.json`: `{ generatedFrom, modules[], tables: { <name>: {name, module, status, columns[], indexes[]} } }`
 - `views.json`: `{ generatedFrom, views[], navItems[], permissionGroups[], reachability[] }`
 
@@ -199,7 +199,7 @@ Replace these when copying the scaffold into a new `docs.<project>/`:
 | `{{APP_LOGIN_URL}}` | app login page (gate bounce target) | `https://app.trainingbeta.com/login` |
 | `{{API_DIR}}` | sibling API folder name (for extractor paths) | `api.trainingbeta` |
 | `{{APP_DIR}}` | sibling SPA folder name (for extractor paths) | `app.trainingbeta` |
-| `{{STAFF_PERMISSION}}` | permission that marks staff — a key **no ordinary member holds**; check the seeded member role before choosing (`users.read` looks right and is not: it was in rnc's member role, so every self-registered account read the internal docs — LP-DOCS-01) | `permissions.update` |
+| `{{STAFF_PERMISSION}}` | permission that marks staff — a key **no ordinary member holds**; check the seeded member role before choosing (`users.read` looks right and is not: it was in balancia's member role, so every self-registered account read the internal docs — LP-DOCS-01) | `permissions.update` |
 | `{{API_SESSION_COOKIE}}` | the session cookie the API emits — Laravel derives it as `Str::slug(APP_NAME)-session`, so read it off the API rather than guessing from the project name (LP-DOCS-02) | `api-trainingbeta-session` |
 | `{{STAFF_ROLE_SLUG}}` | staff role slug | `staff` |
 | `{{BRAND_HEX}}` | primary brand color in `brand.css` | `#2f6fb0` |

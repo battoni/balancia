@@ -1,11 +1,11 @@
 ---
-description: MMainDialog folder rules — app.rnc/src/components/molecules/MMainDialog/
-globs: app.rnc/src/components/molecules/MMainDialog/**
+description: MMainDialog folder rules — app.balancia/src/components/molecules/MMainDialog/
+globs: app.balancia/src/components/molecules/MMainDialog/**
 alwaysApply: false
 ---
 # MMainDialog — Folder Rules
 
-> Pre-edit hook injects the full `RULES.md` chain. Canonical source: `app.rnc/src/components/molecules/MMainDialog/RULES.md`.
+> Pre-edit hook injects the full `RULES.md` chain. Canonical source: `app.balancia/src/components/molecules/MMainDialog/RULES.md`.
 
 ## Consumer pattern (CRITICAL)
 

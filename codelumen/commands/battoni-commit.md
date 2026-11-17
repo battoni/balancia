@@ -29,7 +29,7 @@ Run the following in parallel:
 
 For every changed file, assign:
 
-- **Sub-project** — `api.rnc`, `app.rnc`, `cortex`, or root
+- **Sub-project** — `api.balancia`, `app.balancia`, `cortex`, or root
 - **Module** — the domain module (e.g. `Auth`, `User`, `Home`)
 - **Layer** — the architectural layer, used for ordering:
 
@@ -96,7 +96,7 @@ type(Scope): imperative description
 ### Scope
 
 - Use the **module name** in PascalCase: `Auth`, `User`, `Home`
-- For cross-module changes, use the sub-project: `api.rnc`, `app.rnc`, `cortex`
+- For cross-module changes, use the sub-project: `api.balancia`, `app.balancia`, `cortex`
 - For root-level changes: omit scope or use `monorepo`
 
 ### Subject line
@@ -113,7 +113,7 @@ feat(Auth): add LoginCredentialsDTO for the login flow
 refactor(Auth): extract user lookup to UserRepository
 fix(User): resolve role mapping in permission keys
 test(Auth): add permission service unit tests
-chore(app.rnc): sort locale files
+chore(app.balancia): sort locale files
 ```
 
 ## Step 6 — Present the plan
@@ -122,11 +122,11 @@ Output the commit plan as a numbered list:
 
 ```
 1. feat(Auth): add LoginCredentialsDTO for the login flow
-   - api.rnc/app/Modules/Auth/DTOs/LoginCredentialsDTO.php
+   - api.balancia/app/Modules/Auth/DTOs/LoginCredentialsDTO.php
 
 2. refactor(Auth): extract user lookup to UserRepository
-   - api.rnc/app/Modules/Auth/Repositories/UserRepository.php
-   - api.rnc/app/Modules/Auth/Repositories/RoleRepository.php
+   - api.balancia/app/Modules/Auth/Repositories/UserRepository.php
+   - api.balancia/app/Modules/Auth/Repositories/RoleRepository.php
 ```
 
 **Do not commit yet.** Wait for approval.

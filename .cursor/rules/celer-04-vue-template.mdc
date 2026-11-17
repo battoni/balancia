@@ -1,6 +1,6 @@
 ---
-description: Template structure, attribute order, and formatting rules for app.rnc (Vue 3)
-globs: app.rnc/**/*.vue
+description: Template structure, attribute order, and formatting rules for app.balancia (Vue 3)
+globs: app.balancia/**/*.vue
 alwaysApply: false
 ---
 # i18n in Templates — `$t()`, never `t()` (CRITICAL)

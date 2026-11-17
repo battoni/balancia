@@ -25,7 +25,7 @@ is never discarded here, `/battoni-close-session` asks about it.
    `RULES.md` chain of the files it edits.
 3. Check that the worktree is on `feature/<id>-<slug>` (`rtk git branch --show-current`). A
    phase that needs a browser needs its environment: `make fresh-seed`, `make serve-api` and
-   `make serve-app` from the worktree, with the main stack stopped (no `wt-up` in rnc, see
+   `make serve-app` from the worktree, with the main stack stopped (no `wt-up` in balancia, see
    `.claude/feature-flow.md`, "Worktrees"). Confirm in one line: the phase, the A# it proves, the next step
    from `state.md`.
 4. Build only that phase: write the tests and **see them fail**, write the code, see them pass,
@@ -57,8 +57,8 @@ of them (plus `cortex` when it has no row of its own) they are working on, offer
 
 Then by the row's **Type** in that table:
 
-- **Laravel API** (`api.rnc/`) — read `.claude/rules/arcus-api-architecture.md`.
-- **Vue 3 SPA** (`app.rnc/`) — read all nine files (the canonical set is `celer-01` through `celer-09`):
+- **Laravel API** (`api.balancia/`) — read `.claude/rules/arcus-api-architecture.md`.
+- **Vue 3 SPA** (`app.balancia/`) — read all nine files (the canonical set is `celer-01` through `celer-09`):
   - `.claude/rules/celer-01-vue-checklist.md`
   - `.claude/rules/celer-02-vue-imports.md`
   - `.claude/rules/celer-03-vue-script.md`
@@ -80,7 +80,7 @@ Then by the row's **Type** in that table:
 
 Reply with a single line confirming what was loaded. For example:
 
-> Loaded shared + api.rnc + app.rnc rules. Ready — what are we building?
+> Loaded shared + api.balancia + app.balancia rules. Ready — what are we building?
 
 Or if a sub-project has no rules yet:
 

@@ -6,11 +6,11 @@ operator's console) and `<slug>.<root>` (one accounting firm each: its public si
 office). `<root>` stands for the production domain (`PLATFORM_ROOT_DOMAIN`; the target is
 `balancia.com.br`, not registered yet); `*.<root>` for every
 firm. `tests/Feature/EnvInventoryTest.php` fails when an env key the API config reads, or a `VITE_*`
-key of `app.rnc/.env.example`, is missing from this file.
+key of `app.balancia/.env.example`, is missing from this file.
 
 ## Shape
 
-- One API (`api.rnc`, Laravel, PHP 8.4, MySQL 8) and one SPA build (`app.rnc`, `npm run build` →
+- One API (`api.balancia`, Laravel, PHP 8.4, MySQL 8) and one SPA build (`app.balancia`, `npm run build` →
   `dist/`), served by **one vhost for `<root>` and `*.<root>`**. Each host serves the SPA, and the
   same host proxies `/api` and `/storage` to the API: same-origin (spec D4), so every firm host keeps
   its own session cookie and no request crosses an origin.
@@ -44,19 +44,19 @@ server {
     ssl_certificate     /etc/letsencrypt/live/<root>/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/<root>/privkey.pem;
 
-    root  /srv/rnc/app.rnc/dist;
+    root  /srv/balancia/app.balancia/dist;
     index index.html;
     client_max_body_size 2m;            # the logo is ≤ 512 KB; the NF-e import sends XML files
 
     location ^~ /api/ {
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME /srv/rnc/api.rnc/public/index.php;
-        fastcgi_param DOCUMENT_ROOT   /srv/rnc/api.rnc/public;
+        fastcgi_param SCRIPT_FILENAME /srv/balancia/api.balancia/public/index.php;
+        fastcgi_param DOCUMENT_ROOT   /srv/balancia/api.balancia/public;
         fastcgi_pass  unix:/run/php/php8.4-fpm.sock;
     }
 
     location ^~ /storage/ {
-        alias /srv/rnc/api.rnc/storage/app/public/;
+        alias /srv/balancia/api.balancia/storage/app/public/;
         access_log off;
         expires 7d;
     }
@@ -126,8 +126,8 @@ sign-in, on any host — point the load balancer and the uptime check at it (`He
   Supervisor or systemd, restarted on every deploy:
 
   ```ini
-  [program:rnc-queue]
-  command=php /srv/rnc/api.rnc/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+  [program:balancia-queue]
+  command=php /srv/balancia/api.balancia/artisan queue:work --sleep=3 --tries=3 --max-time=3600
   autorestart=true
   user=www-data
   stopwaitsecs=60
@@ -138,7 +138,7 @@ sign-in, on any host — point the load balancer and the uptime check at it (`He
 - **Scheduler** — one cron line, every minute:
 
   ```cron
-  * * * * * cd /srv/rnc/api.rnc && php artisan schedule:run >> /dev/null 2>&1
+  * * * * * cd /srv/balancia/api.balancia && php artisan schedule:run >> /dev/null 2>&1
   ```
 
   It runs (`routes/console.php`):
@@ -167,9 +167,9 @@ sign-in, on any host — point the load balancer and the uptime check at it (`He
 
 ## Backups
 
-- MySQL: nightly `mysqldump --single-transaction --routines --triggers rnc | gzip` to off-box storage,
+- MySQL: nightly `mysqldump --single-transaction --routines --triggers balancia | gzip` to off-box storage,
   kept 30 days; restore-tested once a month into a scratch database.
-- Files: `api.rnc/storage/app/public/` (the firm logos, `firms/<id>/logo-*.ext`) and
+- Files: `api.balancia/storage/app/public/` (the firm logos, `firms/<id>/logo-*.ext`) and
   `storage/app/` (imports), nightly with the dump.
 - `.env` of both apps in the secrets manager, not in the backup set.
 
@@ -185,7 +185,7 @@ First:
    specialists' invented hours, the invented leads, partners, clients, brands and channel rows) returns
    without writing anywhere but `local` and `testing` — `staging` included (`DemoEnvironment`). A re-seed
    never rewrites an existing firm row: the console's edits stay. Set `SUPERADMIN_PASSWORD` and `SEEDER_PWD` to strong values first.
-3. `npm ci && npm run build` in `app.rnc` with the SPA's production `.env` (below).
+3. `npm ci && npm run build` in `app.balancia` with the SPA's production `.env` (below).
 4. Queue worker and cron as above; `php artisan config:cache route:cache view:cache event:cache`.
 5. `curl -fsS https://<root>/api/health` and `https://franco.<root>/api/health` → `ok`.
 
@@ -201,7 +201,7 @@ on, a published table changes only through a new altering migration (`add_<colum
 
 ## Database
 
-MySQL 8, database `rnc`, `utf8mb4` / `utf8mb4_unicode_ci`, a user with rights on `rnc` only.
+MySQL 8, database `balancia`, `utf8mb4` / `utf8mb4_unicode_ci`, a user with rights on `balancia` only.
 
 **Proven on MySQL 8.0.41 (rnc-4 F7b, 14/11/2026)**, server in its default strict `sql_mode`
 (`ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,…`): `migrate:fresh --seed` with the local seeders (Franco, the
@@ -220,28 +220,28 @@ gave it and the commands below ran. Repeat them before a deploy that touches a m
 
 ```bash
 # 1. the databases (asks for the root password)
-mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS rnc_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE DATABASE IF NOT EXISTS rnc CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql -uroot -p -e "CREATE DATABASE IF NOT EXISTS balancia_test CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; CREATE DATABASE IF NOT EXISTS balancia CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 # 2. the full suite on MySQL — the shell's variables win over phpunit.xml's <env> (none is forced).
 #    The password comes from the environment, never from a file in the repo.
 read -s DB_PASSWORD && export DB_PASSWORD
-make test-mysql                          # DB_DATABASE defaults to rnc_test; DB_HOST/PORT/USERNAME to 127.0.0.1/3306/root
+make test-mysql                          # DB_DATABASE defaults to balancia_test; DB_HOST/PORT/USERNAME to 127.0.0.1/3306/root
 
-# 3. schema and seed on MySQL, without touching api.rnc/.env (it stays on SQLite)
-cd api.rnc
-DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3306 DB_DATABASE=rnc DB_USERNAME=root php artisan migrate:fresh --seed --force
+# 3. schema and seed on MySQL, without touching api.balancia/.env (it stays on SQLite)
+cd api.balancia
+DB_CONNECTION=mysql DB_HOST=127.0.0.1 DB_PORT=3306 DB_DATABASE=balancia DB_USERNAME=root php artisan migrate:fresh --seed --force
 ```
 
 Expect the SQLite count, every test green.
 
-## Env inventory — API (`api.rnc/.env`)
+## Env inventory — API (`api.balancia/.env`)
 
-Every key `api.rnc/config/*.php` reads. **Set** = must be set in production; the rest keep their
+Every key `api.balancia/config/*.php` reads. **Set** = must be set in production; the rest keep their
 default unless the row says otherwise.
 
 | Key | Production |
 | --- | --- |
-| `APP_NAME` | `api.rnc` (logs, cache and queue prefixes — not shown to people) |
+| `APP_NAME` | `api.balancia` (logs, cache and queue prefixes — not shown to people) |
 | `APP_ENV` | `production` (the local-only seeders and the QA login-as refuse it) |
 | `APP_KEY` | **Set** — `php artisan key:generate`; `APP_PREVIOUS_KEYS` keeps the old one during a rotation |
 | `APP_PREVIOUS_KEYS` | empty, or the prior key while rotating |
@@ -264,7 +264,7 @@ default unless the row says otherwise.
 | `REGISTRATION_VERIFY_EMAIL`, `REGISTRATION_CODE_TTL_MINUTES`, `REGISTRATION_NEW_USER_STATUS` | defaults (inert while closed) |
 | `SUPERADMIN_PASSWORD`, `SEEDER_PWD` | **Set** — strong, before the first `db:seed` |
 | `DB_CONNECTION` | `mysql` |
-| `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | **Set** — the MySQL 8 server, `rnc` |
+| `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` | **Set** — the MySQL 8 server, `balancia` |
 | `DB_URL`, `DB_SOCKET`, `DB_CHARSET`, `DB_COLLATION`, `DB_FOREIGN_KEYS`, `DB_SSLMODE`, `DB_ENCRYPT`, `DB_TRUST_SERVER_CERTIFICATE`, `MYSQL_ATTR_SSL_CA` | defaults; `MYSQL_ATTR_SSL_CA` when the database is remote over TLS |
 | `CACHE_STORE` | `database` |
 | `CACHE_PREFIX`, `DB_CACHE_CONNECTION`, `DB_CACHE_TABLE`, `DB_CACHE_LOCK_CONNECTION`, `DB_CACHE_LOCK_TABLE` | defaults |
@@ -292,12 +292,12 @@ default unless the row says otherwise.
 Read outside `config/` but in `.env.example`: `MAIL_VERIFIED_DOMAINS` (the sending domains Resend
 verified — `MailSenderTest` reads it), `BCRYPT_ROUNDS` (default 12).
 
-## Env inventory — SPA (`app.rnc/.env.production`, read at build time)
+## Env inventory — SPA (`app.balancia/.env.production`, read at build time)
 
 | Key | Production |
 | --- | --- |
 | `VITE_API_URL` | `/api` — same-origin on every host (D4); never an absolute URL |
-| `VITE_ROOT_DOMAIN` | **Set** — `<root>`: `<slug>.<root>` is a firm, the root and `www` the platform. `vite build` refuses a production build without it (`app.rnc/buildEnv.ts`) |
+| `VITE_ROOT_DOMAIN` | **Set** — `<root>`: `<slug>.<root>` is a firm, the root and `www` the platform. `vite build` refuses a production build without it (`app.balancia/buildEnv.ts`) |
 | `VITE_APP_URL` | `https://<root>` |
 | `VITE_DEMO_FIRM_SLUG` | the demo firm the product landing links (`alvorada` is local only — empty hides the link until a production demo firm exists) |
 | `VITE_ACTIVE_THEME` | `hub` (the neutral ground; each firm's colours come from its row) |

@@ -1,13 +1,13 @@
 ---
-description: UsersView folder rules — app.rnc/src/modules/User/views/Users/
-globs: app.rnc/src/modules/User/views/Users/**
+description: UsersView folder rules — app.balancia/src/modules/User/views/Users/
+globs: app.balancia/src/modules/User/views/Users/**
 alwaysApply: false
 ---
 # UsersView — Folder Rules
 
-> Pre-edit hook injects the full `RULES.md` chain. Canonical source: `app.rnc/src/modules/User/views/Users/RULES.md`.
+> Pre-edit hook injects the full `RULES.md` chain. Canonical source: `app.balancia/src/modules/User/views/Users/RULES.md`.
 
-Reference implementation for list + dialog CRUD in app.rnc. Follow `celer-07-view-patterns.mdc`.
+Reference implementation for list + dialog CRUD in app.balancia. Follow `celer-07-view-patterns.mdc`.
 
 ## Intentional decisions
 

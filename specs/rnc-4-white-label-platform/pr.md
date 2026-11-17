@@ -33,55 +33,55 @@ Problem: Franco did not commit to the pilot, so a hub built for one firm (`firm_
 
 | R# | A# | Test file::test |
 | --- | --- | --- |
-| R1, R2 | A1 | `api.rnc/tests/Feature/Firm/FirmByHostTest.php::starts diagnostic in firm, listed manager and never by another firm's team` |
-| R3 | A2 | `api.rnc/tests/Feature/Firm/FirmByHostTest.php::A2 — a subdomain that is not a firm` |
-| R4 | A3 | `api.rnc/tests/Feature/Auth/LoginFirmTest.php` |
-| R5 | A4 | `api.rnc/tests/Feature/Firm/FirmMismatchTest.php` |
-| R7 | A5 | `api.rnc/tests/Feature/Auth/RegistrationClosedTest.php` |
-| R2, R6, R3 | A6 | `app.rnc/e2e/tenancy/firm-host.spec.ts` |
-| R5, R6 | A7 | `app.rnc/e2e/tenancy/firm-host.spec.ts` |
-| R8, R9 | A8 | `api.rnc/tests/Feature/Firm/PublicFirmBrandTest.php` |
-| R12 | A9 | `api.rnc/tests/Feature/Mail/FirmMailBrandTest.php` |
-| R13 | A10 | `api.rnc/tests/Feature/Lead/ConsentVersionTest.php` |
-| R10 | A11 | `app.rnc/src/**/useBrandTheme.spec.ts` |
-| R10, R11 | A12 | `app.rnc/e2e/brand/two-palettes.spec.ts` |
-| R14 | A13 | `app.rnc/src/**/routes.local.spec.ts` |
-| R14 | A14 | `api.rnc/tests/Feature/Auth/SeededRolesTest.php` |
-| R15 | A15 | `api.rnc/tests/Arch/NoTenantNamesTest.php::in code, config, views, lang or routes` + `app.rnc/src/test/noTenantNames.spec.ts` |
-| R15 | A16 | `app.rnc/e2e/brand/no-franco.spec.ts` |
-| R16, R17 | A17 | `api.rnc/tests/Feature/Firm/ModuleGateTest.php` |
-| R17 | A18 | `api.rnc/tests/Feature/Firm/ModuleCommandsTest.php` |
-| R18 | A19 | `api.rnc/tests/Unit/Modules/Firm/FirmModulesServiceTest.php` |
-| R19 | A20 | `api.rnc/tests/Feature/Briefing/BriefingDegradeTest.php` |
-| R20 | A21 | `api.rnc/tests/Feature/Auth/MeFirmTest.php` |
-| R21, R13 | A22 | `api.rnc/tests/Feature/Firm/CreateFirmCommandTest.php` |
-| R22, R23 | A23 | `api.rnc/tests/Feature/Seed/DemoFirmSeedTest.php` |
-| R17, R20 | A24 | `app.rnc/e2e/tenancy/modules.spec.ts` |
-| R19 | A25 | `app.rnc/src/**/BriefingView.view.integration.spec.ts` |
-| R24 | A26 | `api.rnc/tests/Feature/Platform/OperatorSignInTest.php` |
-| R25, R11 | A27 | `api.rnc/tests/Feature/Platform/PlatformFirmsTest.php` |
-| R25, R13 | A28 | `api.rnc/tests/Feature/Platform/ConsentDefaultTest.php` |
-| R25 | A29 | `app.rnc/e2e/platform/console.spec.ts` |
-| R25 | A30 | `app.rnc/e2e/platform/console.spec.ts` |
-| R29 | A31 | `api.rnc/tests/Feature/Lead/BetaSignupTest.php` |
-| R28 | A32 | `app.rnc/e2e/product/landing.spec.ts` |
-| R29 | A33 | `app.rnc/e2e/product/landing.spec.ts` |
-| R28 | A34 | `app.rnc/e2e/product/landing.spec.ts` |
-| R30 | A35 | `api.rnc/tests/Feature/Firm/FirmSettingsTest.php` |
-| R31 | A36 | `api.rnc/tests/Feature/Auth/FirmUsersTest.php` |
-| R32 | A37 | `api.rnc/tests/Feature/Booking/SpecialistHoursTest.php` |
-| R33 | A38 | `api.rnc/tests/Feature/Lead/ConsentVersionEndpointTest.php` |
-| R30-R33 | A39 | `app.rnc/e2e/firm-settings/settings.spec.ts` |
-| R30-R33 | A40 | `app.rnc/e2e/firm-settings/settings.spec.ts` |
-| R27 | A41 | `api.rnc/tests/Feature/Platform/FirmLogoTest.php` |
-| R26 | A42 | `api.rnc/tests/Feature/Platform/ViewAsTest.php` |
-| R26, R27 | A43 | `app.rnc/e2e/platform/view-as.spec.ts` |
-| R35 | A44 | `api.rnc/tests/Feature/HealthTest.php` |
-| R34, R36 | A45 | `api.rnc/tests/Feature/EnvInventoryTest.php` |
-| R37 | A46 | `api.rnc/tests/Feature/Access/Phase4AccessTest.php` |
-| R38 | A47 | `api.rnc/tests/Feature/Firm/PublicPrivacyTest.php` + `app.rnc/e2e/site/privacy.spec.ts` |
-| R39 | A48 | `api.rnc/tests/Feature/Pipeline/LeadPrivacyTest.php` + `app.rnc/e2e/pipeline/lead-privacy.spec.ts` |
-| R40 | A49 | `api.rnc/tests/Feature/Firm/OffboardFirmCommandTest.php` |
+| R1, R2 | A1 | `api.balancia/tests/Feature/Firm/FirmByHostTest.php::starts diagnostic in firm, listed manager and never by another firm's team` |
+| R3 | A2 | `api.balancia/tests/Feature/Firm/FirmByHostTest.php::A2 — a subdomain that is not a firm` |
+| R4 | A3 | `api.balancia/tests/Feature/Auth/LoginFirmTest.php` |
+| R5 | A4 | `api.balancia/tests/Feature/Firm/FirmMismatchTest.php` |
+| R7 | A5 | `api.balancia/tests/Feature/Auth/RegistrationClosedTest.php` |
+| R2, R6, R3 | A6 | `app.balancia/e2e/tenancy/firm-host.spec.ts` |
+| R5, R6 | A7 | `app.balancia/e2e/tenancy/firm-host.spec.ts` |
+| R8, R9 | A8 | `api.balancia/tests/Feature/Firm/PublicFirmBrandTest.php` |
+| R12 | A9 | `api.balancia/tests/Feature/Mail/FirmMailBrandTest.php` |
+| R13 | A10 | `api.balancia/tests/Feature/Lead/ConsentVersionTest.php` |
+| R10 | A11 | `app.balancia/src/**/useBrandTheme.spec.ts` |
+| R10, R11 | A12 | `app.balancia/e2e/brand/two-palettes.spec.ts` |
+| R14 | A13 | `app.balancia/src/**/routes.local.spec.ts` |
+| R14 | A14 | `api.balancia/tests/Feature/Auth/SeededRolesTest.php` |
+| R15 | A15 | `api.balancia/tests/Arch/NoTenantNamesTest.php::in code, config, views, lang or routes` + `app.balancia/src/test/noTenantNames.spec.ts` |
+| R15 | A16 | `app.balancia/e2e/brand/no-franco.spec.ts` |
+| R16, R17 | A17 | `api.balancia/tests/Feature/Firm/ModuleGateTest.php` |
+| R17 | A18 | `api.balancia/tests/Feature/Firm/ModuleCommandsTest.php` |
+| R18 | A19 | `api.balancia/tests/Unit/Modules/Firm/FirmModulesServiceTest.php` |
+| R19 | A20 | `api.balancia/tests/Feature/Briefing/BriefingDegradeTest.php` |
+| R20 | A21 | `api.balancia/tests/Feature/Auth/MeFirmTest.php` |
+| R21, R13 | A22 | `api.balancia/tests/Feature/Firm/CreateFirmCommandTest.php` |
+| R22, R23 | A23 | `api.balancia/tests/Feature/Seed/DemoFirmSeedTest.php` |
+| R17, R20 | A24 | `app.balancia/e2e/tenancy/modules.spec.ts` |
+| R19 | A25 | `app.balancia/src/**/BriefingView.view.integration.spec.ts` |
+| R24 | A26 | `api.balancia/tests/Feature/Platform/OperatorSignInTest.php` |
+| R25, R11 | A27 | `api.balancia/tests/Feature/Platform/PlatformFirmsTest.php` |
+| R25, R13 | A28 | `api.balancia/tests/Feature/Platform/ConsentDefaultTest.php` |
+| R25 | A29 | `app.balancia/e2e/platform/console.spec.ts` |
+| R25 | A30 | `app.balancia/e2e/platform/console.spec.ts` |
+| R29 | A31 | `api.balancia/tests/Feature/Lead/BetaSignupTest.php` |
+| R28 | A32 | `app.balancia/e2e/product/landing.spec.ts` |
+| R29 | A33 | `app.balancia/e2e/product/landing.spec.ts` |
+| R28 | A34 | `app.balancia/e2e/product/landing.spec.ts` |
+| R30 | A35 | `api.balancia/tests/Feature/Firm/FirmSettingsTest.php` |
+| R31 | A36 | `api.balancia/tests/Feature/Auth/FirmUsersTest.php` |
+| R32 | A37 | `api.balancia/tests/Feature/Booking/SpecialistHoursTest.php` |
+| R33 | A38 | `api.balancia/tests/Feature/Lead/ConsentVersionEndpointTest.php` |
+| R30-R33 | A39 | `app.balancia/e2e/firm-settings/settings.spec.ts` |
+| R30-R33 | A40 | `app.balancia/e2e/firm-settings/settings.spec.ts` |
+| R27 | A41 | `api.balancia/tests/Feature/Platform/FirmLogoTest.php` |
+| R26 | A42 | `api.balancia/tests/Feature/Platform/ViewAsTest.php` |
+| R26, R27 | A43 | `app.balancia/e2e/platform/view-as.spec.ts` |
+| R35 | A44 | `api.balancia/tests/Feature/HealthTest.php` |
+| R34, R36 | A45 | `api.balancia/tests/Feature/EnvInventoryTest.php` |
+| R37 | A46 | `api.balancia/tests/Feature/Access/Phase4AccessTest.php` |
+| R38 | A47 | `api.balancia/tests/Feature/Firm/PublicPrivacyTest.php` + `app.balancia/e2e/site/privacy.spec.ts` |
+| R39 | A48 | `api.balancia/tests/Feature/Pipeline/LeadPrivacyTest.php` + `app.balancia/e2e/pipeline/lead-privacy.spec.ts` |
+| R40 | A49 | `api.balancia/tests/Feature/Firm/OffboardFirmCommandTest.php` |
 
 R9 (one product-name config), R12 (mail brand) and the rest of R1-R40 not listed on their own are carried by the rows above; R21 and R37 are covered by A22 and A46.
 
@@ -182,7 +182,7 @@ Cost: not measured.
   worker resolves nothing. To reverse: carry `firmId` and resolve it in the composer.
 - W16 F2a: e-mail links (report, briefing, footer) go to the firm's own host `<slug>.<root>` (spec
   C6) — a root link opened the platform firm, where the lead is absent. To reverse:
-  `config('rnc.frontend_url')` in `MailBrand::siteUrlOf`.
+  `config('balancia.frontend_url')` in `MailBrand::siteUrlOf`.
 - W17 F2a: Franco's `tagline` seeded null (the site keeps its own kicker and footer line, which one
   `tagline` would replace both of); its `proof` is the landing's four points, identical on screen. To
   reverse: a `tagline` in `FirmSeeder`.
@@ -422,7 +422,7 @@ Cost: not measured.
   signing in by QA login-as with the session hint set; the Chrome rounds (QA round 5) stay verify's (as W56). To reverse: n/a.
 - W95 F7: MySQL 8 not run (R36) — `mysql -uroot` without a password is refused (`ERROR 1045`, as rnc-1's W1) and no password was tried;
   the full Pest ran on SQLite in memory (2354). `docs/deploy/runbook.md` → "Database" gives the owner the exact commands (create
-  `rnc_test` + `rnc`, `DB_*` in the shell over phpunit.xml's unforced `<env>`, `make fresh-seed` with `.env` on MySQL). To reverse: run them
+  `balancia_test` + `balancia`, `DB_*` in the shell over phpunit.xml's unforced `<env>`, `make fresh-seed` with `.env` on MySQL). To reverse: run them
   and write the count there. **Retired by F7b (W112):** it held only because the password was unknown; the owner gave it and the suite
   and seed ran on MySQL 8.
 - W96 F7: F4d's W93 closed — `auth/me`'s `platform.view_as` carries the viewed firm's opt-in `modules` (`FirmModules::enabled`), and the
@@ -503,14 +503,14 @@ Cost: not measured.
   same "começa a ser cobrada em 01/01/2027" as the product landing lines the finding named. "Até a lei mudar, vale 01/01/2027" stays (still
   true). To reverse: drop the `cbsKey` calls in `LandingView`.
 - W121 Chrome QA 1.11: the QA login-as lands on the firm's own site (`MailBrand::siteUrlOf`) when the address named a firm (firm host or
-  `X-Firm`), the root otherwise — built from config, never the Host header echoed. Every other `rnc.frontend_url` read already went through
-  `siteUrlOf` per firm or is the platform's root by design. To reverse: redirect to `config('rnc.frontend_url')` again.
+  `X-Firm`), the root otherwise — built from config, never the Host header echoed. Every other `balancia.frontend_url` read already went through
+  `siteUrlOf` per firm or is the platform's root by design. To reverse: redirect to `config('balancia.frontend_url')` again.
 - W122 Chrome QA 1.10: a `beta` lead's detail shows the beta form's rows (role, city/UF, clients band with the Site's band labels, message)
   instead of the empty diagnostic rows, and its consent summary is channel-aware ("contatado sobre o beta"); the stored text and version are
   shown as given. No API change — `LeadDetailResource` already sent the whole `profile`. No C# — spec behaviour (R29, D29) unchanged; this
   is the detail showing what was stored. To reverse: drop the `LEAD_CHANNEL.BETA` branches in `LeadView`.
 - W123 Chrome QA 4.11/4.12: not reproduced on full page loads (headless Chromium on franco.localhost:5173, the running stack):
-  `?marca=principal` clears `app.rnc:brand` and every later public call goes without `X-Brand`. 4.11 as scripted opens plain
+  `?marca=principal` clears `app.balancia:brand` and every later public call goes without `X-Brand`. 4.11 as scripted opens plain
   `/diagnostico` after 4.10's `?marca=prime`, which keeps Prime for the tab by design (rnc-3 R2). Pinned by `publicBrand.spec` and
   `brands.spec` (red with the main-brand clear removed). The cached FIRM brand was the real hole (5.21): kept as `{ firm, host }`,
   dropped by `reload()`, `forget()` on logout, "Sair" reloads even when `auth/me` fails. Not done: the 401 path in `errorHandler`
@@ -535,7 +535,7 @@ Cost: not measured.
 - W127 Chrome QA 4.11/4.12 (lead 86 "Franco Prime" with Prime's consent after a full load of `/diagnostico?marca=principal`):
   reproduced headless on the live stack. The SPA was right — the second start left without `X-Brand`, title "Franco Contabilidade"
   — and the API answered the SAME token with Prime's consent: `LeadService::startLead` reopens the visitor's open `visitante`
-  (same `rnc:visitor` uuid in localStorage, no stored diagnostic token) and kept the brand it was born under. The hypothesis of a
+  (same `balancia:visitor` uuid in localStorage, no stored diagnostic token) and kept the brand it was born under. The hypothesis of a
   resumed client-side token was wrong; the resume is server-side, by visitor. Picked: reopen only under the same brand, else a new
   lead of the current one (C24) — keeps rnc-3 R4's "brand written once" and the per-brand start counts honest. Rejected: re-brand
   the reopened lead (rewrites where a counted Prime start came from); re-apply the lead's brand to the page (overrides the visitor's

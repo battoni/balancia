@@ -1,13 +1,13 @@
 ---
-description: RULES.md auto-injection for app.rnc — pre-edit hook loads folder RULES.md before Edit/Write
-globs: app.rnc/**/*.vue, app.rnc/**/*.ts
+description: RULES.md auto-injection for app.balancia — pre-edit hook loads folder RULES.md before Edit/Write
+globs: app.balancia/**/*.vue, app.balancia/**/*.ts
 alwaysApply: false
 ---
 # RULES.md Auto-Injection
 
-Before every **Edit** or **Write** on Vue/TS files under `app.rnc/src/`, a pre-edit hook injects the full `RULES.md` chain from the target file's folder up to `app.rnc/src/`.
+Before every **Edit** or **Write** on Vue/TS files under `app.balancia/src/`, a pre-edit hook injects the full `RULES.md` chain from the target file's folder up to `app.balancia/src/`.
 
-**Closer `RULES.md` files override parent rules.** Files outside `app.rnc/src/` are ignored.
+**Closer `RULES.md` files override parent rules.** Files outside `app.balancia/src/` are ignored.
 
 ## Hook locations
 
@@ -19,5 +19,5 @@ Before every **Edit** or **Write** on Vue/TS files under `app.rnc/src/`, a pre-e
 ## Agent obligations
 
 1. **Follow injected RULES.md content** — it takes priority over generic conventions when they conflict.
-2. **Folder-specific rules** in `.cursor/rules/celer-folder-*.mdc` also load when matching app.rnc files are open.
+2. **Folder-specific rules** in `.cursor/rules/celer-folder-*.mdc` also load when matching app.balancia files are open.
 3. On **Read** or planning (no Edit/Write yet), manually read `RULES.md` in the folder chain if not already injected.

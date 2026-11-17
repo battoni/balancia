@@ -1,25 +1,25 @@
 name: CI
 
-# Green-gating CI for the rnc monorepo. Runs the full suite — app.rnc
-# (type-check, lint, format, unit + integration, e2e) and api.rnc (Pint, PHPStan,
+# Green-gating CI for the balancia monorepo. Runs the full suite — app.balancia
+# (type-check, lint, format, unit + integration, e2e) and api.balancia (Pint, PHPStan,
 # Pest) — on every push to main and every pull request. `make pre-commit` is the
 # local mirror of this file; `cortex/sync/TESTING-STRATEGY.md` lists what runs where.
 #
-# UPSTREAM-ONLY STEPS. Some checks concern rnc itself — the sync engine, the landing
+# UPSTREAM-ONLY STEPS. Some checks concern balancia itself — the sync engine, the landing
 # site, the handbook — and must not run in a derived project, which receives this file.
 # They are guarded by `hashFiles('.cortex-sync.conf') == ''`: every derived project tracks
-# that file (the sync engine reads its name map from it) and rnc never has one. The
+# that file (the sync engine reads its name map from it) and balancia never has one. The
 # guard cannot name the repository instead, because the sync rewrites the upstream word in
 # this file, and cannot name the landing's folder, because that name is a brand literal that
 # `make sync-brand-audit` refuses in the shipped surface.
 #
 # This workflow is a MERGE artifact: it propagates to downstream projects via
-# the cortex sync engine (the app.rnc/api.rnc directory tokens are rewritten per
+# the cortex sync engine (the app.balancia/api.balancia directory tokens are rewritten per
 # project). Keep it project-name-driven so the transform stays mechanical.
 #
 # JOB IDS ARE `app` AND `api`, NOT THE PROJECT NAMES (CRITICAL). A job id must match
 # ^[A-Za-z_][A-Za-z0-9_-]*$ — no dots. The sync transform rewrites the upstream project word
-# into a DOTTED name (app.rnc -> app.impressao), so a job id carrying that word becomes invalid
+# into a DOTTED name (app.balancia -> app.impressao), so a job id carrying that word becomes invalid
 # downstream and GitHub refuses to start the workflow at all: zero jobs, conclusion "failure",
 # no logs, and nothing to tell you the suite never ran. Names free of the project word survive
 # the transform untouched; the human-readable `name:` below is where the project name belongs.
@@ -62,9 +62,9 @@ jobs:
         run: python3 cortex/sync/test_sync.py
 
       # The back-port preflight tells a Laravel global helper (`collect`) from a missing test
-      # persona by reading api.rnc's vendor tree, so its tests need `composer install` first:
+      # persona by reading api.balancia's vendor tree, so its tests need `composer install` first:
       # without vendor/, "collect() is not a persona" fails and nothing else does.
-      - name: Setup PHP (back-port tests read api.rnc/vendor)
+      - name: Setup PHP (back-port tests read api.balancia/vendor)
         if: ${{ hashFiles('.cortex-sync.conf') == '' }}
         uses: shivammathur/setup-php@v2
         with:
@@ -72,9 +72,9 @@ jobs:
           extensions: pdo_sqlite, sqlite3, mbstring, dom, bcmath
           coverage: none
 
-      - name: Install api.rnc dependencies
+      - name: Install api.balancia dependencies
         if: ${{ hashFiles('.cortex-sync.conf') == '' }}
-        working-directory: api.rnc
+        working-directory: api.balancia
         run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Back-port tooling tests
@@ -101,19 +101,19 @@ jobs:
         run: bash cortex/sync/test_init.sh
 
   app:
-    name: app.rnc — type-check, lint, unit, e2e
+    name: app.balancia — type-check, lint, unit, e2e
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: app.rnc
+        working-directory: app.balancia
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: app.rnc/.nvmrc
+          node-version-file: app.balancia/.nvmrc
           cache: npm
-          cache-dependency-path: app.rnc/package-lock.json
+          cache-dependency-path: app.balancia/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -157,7 +157,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: app.rnc/playwright-report/
+          path: app.balancia/playwright-report/
           retention-days: 7
 
   # The documentation portal. Its `docs:extract:check` existed and worked — it names each stale
@@ -166,47 +166,47 @@ jobs:
   # only runs where someone might look is not a gate.
   #
   # Every step is conditional on the portal existing, because this file is MERGE and ships to
-  # every derived project, where `docs.rnc` becomes `docs.<project>` — and not every project
+  # every derived project, where `docs.balancia` becomes `docs.<project>` — and not every project
   # has a portal. `hashFiles` is only allowed in a STEP's `if`, never the job's, hence the
   # repetition. The job id carries no project word for the same reason `app` and `api` don't.
   portal:
-    name: docs.rnc — data fresh, gate tests, lint, build
+    name: docs.balancia — data fresh, gate tests, lint, build
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: docs.rnc
+        working-directory: docs.balancia
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         with:
-          node-version-file: app.rnc/.nvmrc
+          node-version-file: app.balancia/.nvmrc
           cache: npm
-          cache-dependency-path: docs.rnc/package-lock.json
+          cache-dependency-path: docs.balancia/package-lock.json
 
       - name: Install dependencies
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         run: npm ci
 
-      # The extractors read app.rnc and api.rnc as siblings, so this also fails when a route,
+      # The extractors read app.balancia and api.balancia as siblings, so this also fails when a route,
       # migration or view changed without the portal data being regenerated with it.
       - name: Extracted data is current
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         run: npm run docs:extract:check
 
       - name: Staff gate tests
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         run: npm test
 
       - name: Markdown lint
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         run: npm run lint
 
       # `vitepress build` and not `docs:build`: the latter extracts first and would regenerate the
       # data the check above just judged, hiding staleness if the steps were ever reordered.
       - name: Build
-        if: ${{ hashFiles('docs.rnc/package-lock.json') != '' }}
+        if: ${{ hashFiles('docs.balancia/package-lock.json') != '' }}
         run: npx vitepress build
 
   # The landing site and the handbook are deployed by Vercel on every push to main, and until
@@ -232,7 +232,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: ${{ steps.landing.outputs.dir != '' }}
         with:
-          node-version-file: app.rnc/.nvmrc
+          node-version-file: app.balancia/.nvmrc
           cache: npm
           cache-dependency-path: ${{ steps.landing.outputs.dir }}/package-lock.json
 
@@ -260,7 +260,7 @@ jobs:
       - uses: actions/setup-node@v4
         if: ${{ hashFiles('.cortex-sync.conf') == '' && hashFiles('codelumen/package-lock.json') != '' }}
         with:
-          node-version-file: app.rnc/.nvmrc
+          node-version-file: app.balancia/.nvmrc
           cache: npm
           cache-dependency-path: codelumen/package-lock.json
 
@@ -275,11 +275,11 @@ jobs:
         run: npm run docs:build
 
   api:
-    name: api.rnc — Pint, PHPStan, Pest
+    name: api.balancia — Pint, PHPStan, Pest
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: api.rnc
+        working-directory: api.balancia
     steps:
       - uses: actions/checkout@v4
 
@@ -305,7 +305,7 @@ jobs:
         run: vendor/bin/pint --test
 
       # The whole of app/ (phpstan.neon.dist), not only the files a branch touched: a type error
-      # in a file nobody edited is exactly what `make phpstan-api.rnc` never sees. After the key,
+      # in a file nobody edited is exactly what `make phpstan-api.balancia` never sees. After the key,
       # because larastan boots the application.
       - name: Static analysis (PHPStan)
         run: vendor/bin/phpstan analyse --memory-limit=1G --no-progress
@@ -319,12 +319,12 @@ jobs:
   # still fails visibly (red X in the run) so the advisory is seen; `continue-on-error` keeps
   # the run green, and deploy-api.yml never looks at this workflow at all.
   audit:
-    name: api.rnc — composer audit (informational)
+    name: api.balancia — composer audit (informational)
     runs-on: ubuntu-latest
     continue-on-error: true
     defaults:
       run:
-        working-directory: api.rnc
+        working-directory: api.balancia
     steps:
       - uses: actions/checkout@v4
 
@@ -338,6 +338,6 @@ jobs:
       - name: Audit locked dependencies
         run: composer audit --locked
 
-# Note: rnc's own CI should additionally run the rnc-only meta-tests
+# Note: balancia's own CI should additionally run the balancia-only meta-tests
 # (convention/architecture guards) once they land — see TESTING-ENHANCEMENTS.md.
 # Downstream projects inherit only the suite above.

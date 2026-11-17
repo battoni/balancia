@@ -8,10 +8,10 @@
 <!-- Uncomment and fill in your local URLs and DB details.
      Claude uses these to give accurate commands and links during your session.
 
-My local api.rnc URL: http://api.rnc.test
-My local app.rnc URL: http://localhost:5173
+My local api.balancia URL: http://api.balancia.test
+My local app.balancia URL: http://localhost:5173
 My local DB host: 127.0.0.1:3306
-My local DB name: api.rnc
+My local DB name: api.balancia
 -->
 
 ## Response style

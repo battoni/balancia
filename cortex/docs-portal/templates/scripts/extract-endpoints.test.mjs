@@ -76,4 +76,4 @@ test('stripPhpComments: keeps a // or # that sits inside a string', () => {
 
 // The two cases above test the helpers alone, because the template has no routes file of its own.
 // The end-to-end case — `extractEndpoints()` reporting `auth: true` and every `permission:` key for
-// a route guarded through a variable — needs real routes; docs.rnc's copy of this file shows it.
+// a route guarded through a variable — needs real routes; docs.balancia's copy of this file shows it.

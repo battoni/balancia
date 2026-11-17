@@ -1,9 +1,9 @@
 ---
 name: arcus-external-integrations
-description: "Conventions for talking to an external provider from api.rnc — payment gateways, messaging APIs, anything with a webhook. Load when adding or changing an integration: a sender or gateway class, a webhook endpoint, an idempotency key, a provider status mapping, or an e-mail sent from a listener. Covers what a provider failure may and may not do to a request, what to write before the call, what the audit row must NOT keep, card data and PCI scope, matching events by the provider's id, signature verification, monotonic webhook status, and where the provider's vocabulary is allowed to live."
+description: "Conventions for talking to an external provider from api.balancia — payment gateways, messaging APIs, anything with a webhook. Load when adding or changing an integration: a sender or gateway class, a webhook endpoint, an idempotency key, a provider status mapping, or an e-mail sent from a listener. Covers what a provider failure may and may not do to a request, what to write before the call, what the audit row must NOT keep, card data and PCI scope, matching events by the provider's id, signature verification, monotonic webhook status, and where the provider's vocabulary is allowed to live."
 license: MIT
 paths:
-  - "api.rnc/**"
+  - "api.balancia/**"
 ---
 
 # External integrations — what a provider is allowed to do to your app

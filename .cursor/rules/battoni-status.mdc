@@ -11,7 +11,7 @@ alwaysApply: false
 > **Usage:** `/battoni-status` — the current project (also from a worktree). `/battoni-status all` —
 > every flow project under `~/Work`. Add `delivered` to either to list delivered features too.
 
-Why it exists (owner, 10/11/2026): "I'm already kind of lost. I'm building rnc 4 and we have
+Why it exists (owner, 10/11/2026): "I'm already kind of lost. I'm building balancia 4 and we have
 7 already on track. I think that will happen a lot." That same day a session started in the main
 folder found no boanerges-4 at all, because the feature lived on its branch, in a worktree.
 

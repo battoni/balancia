@@ -6,11 +6,11 @@ reviewed by `fable-reviewer` 07/11/2026 → Amendments AM1–AM13 below
 Every phase: Pest tests red first for the API, then Vitest for the SPA, then code; then
 `make pre-commit` green (stop `npm run dev` first); then commit `rnc-2: F<n> <what>`. API code
 follows `.claude/rules/arcus-api-architecture.md` (route → FormRequest → DTO → Service → Repository →
-Resource → `ApiResponse`; modules under `api.rnc/app/Modules/<Name>/` with RULES.md + CHANGELOG.md
+Resource → `ApiResponse`; modules under `api.balancia/app/Modules/<Name>/` with RULES.md + CHANGELOG.md
 bumped); routes go in `routes/api.local.php`; permission keys are declared in
 `app/Modules/Auth/Helpers/permission-groups.local.php` and given in `database/seeders/RoleSeeder.php`
 (`SeededRolesTest` updated). SPA code follows `.claude/rules/celer-0*.md` (modules under
-`app.rnc/src/modules/<Name>/`, barrels `@XModule`, two routes per screen `-en`/`-pt-BR`, rail in
+`app.balancia/src/modules/<Name>/`, barrels `@XModule`, two routes per screen `-en`/`-pt-BR`, rail in
 `navItems.local.ts` by permission, `MAddEdit{Entity}Form` in `MMainDialog`, strings in
 `src/locales/{en,pt-BR}.json`). Behaviour reference: the demo files named in the spec header.
 
