@@ -1,104 +1,49 @@
-# balancia
+# Balancia
 
-A monorepo containing design systems, code conventions, client bootstrap projects, and AI tooling for battoni.dev.
+Plataforma white-label para escritórios de contabilidade atravessarem a Reforma Tributária (CBS a partir de 01/01/2027) e crescerem com ela. Cada escritório recebe, no próprio subdomínio e com a própria marca, um site público com diagnóstico de impacto para empresários, um back office para trabalhar os leads e uma rede de parceiros. A Balancia é o produto da Battoni Dev; os escritórios são inquilinos dela.
 
-<div align="center">
-  <img src="./cortex/logo/png/logo-full-light.png" alt="Cortex Logo" width="150" height="150" style="margin: 0 10px;" />
-  <img src="./codelumen/public/logo/logo-light-full.png" alt="CodeLumen Logo" width="150" height="150" style="margin: 0 10px;" />
-  <img src="./liquen/logo/liquen-logo-full-light.png" alt="Liquen Logo" width="150" height="150" style="margin: 0 10px;" />
-</div>
+## De onde veio
 
-<div align="center" style="margin-top: 10px">
-  <img src="./app.balancia/src/assets/logo/logo-full-light.png" alt="app.balancia Logo" width="150" height="150" style="margin: 0 10px;" />
-  <img src="./api.balancia/logo/png/logo-arcus-full-light.png" alt="Arcus Logo" width="150" height="150" style="margin: 0 10px;" />
-  <img src="./vitrum/src/assets/logo/png/logo-vitrum-full-light.png" alt="Vitrum Logo" width="150" height="150" style="margin: 0 10px;" />
-</div>
+O projeto nasceu como o "Hub da Reforma" da Franco Contabilidade (rnc-1 a rnc-3, por isso a pasta local e os IDs antigos ainda se chamam `rnc`). Em 13/11/2026 virou uma plataforma vendida por assinatura a vários escritórios (rnc-4), e em 16/11/2026 ganhou o nome e a marca Balancia. A Franco continua como um inquilino, ao lado de um escritório fictício de demonstração, o Alvorada.
 
-## Projects
+## Como funciona
 
-### Arcus
+- **Um escritório por subdomínio.** `franco.<domínio>`, `alvorada.<domínio>`: cada um com site, back office e portal de parceiros na marca dele. Localmente é `<slug>.localhost:5173`, nunca `127.0.0.1`.
+- **A raiz é a própria Balancia.** O domínio raiz serve o site do produto, com o cadastro do beta; quem se cadastra vira lead no pipeline da própria plataforma (a "firma zero", slug `balancia`).
+- **Papéis.** `operador` (a Battoni Dev: opera a plataforma, sem escritório, e só entra num escritório pelo "ver como", auditado e com faixa na tela), `gestao` (o gestor do escritório: equipe, marca, consentimento, métricas) e `equipe` (trabalha os leads; `is_specialist` marca o especialista que atende as reuniões). Parceiros entram pelo portal deles.
+- **O que o empresário vê.** Conteúdo sobre a Reforma, o diagnóstico de impacto, o agendamento de uma conversa e o consentimento de LGPD, cujo texto o gestor edita e versiona.
+- **Multiempresa desde o início.** Toda tabela de negócio tem `firm_id`; um escritório novo é uma linha, não um deploy.
 
-**Laravel API bootstrap** — starting point for backend APIs.
+## O repositório
 
-- Laravel 13, PHP 8.4, DDD-style module structure
-- RESTful API with Spatie Data DTOs, Eloquent Resources, role-based permissions
-- AI-ready: rules, skills, and commands configured at monorepo root
+| Pasta | O que é |
+| --- | --- |
+| [`api.balancia/`](./api.balancia/) | API em Laravel (PHP 8.4): escritórios, autenticação e papéis, conteúdo, diagnóstico, agenda, pipeline, parceiros, métricas, LGPD. Testes em Pest |
+| [`app.balancia/`](./app.balancia/) | SPA em Vue 3: o site público (`ThePublicLayout`) e o back office (`TheLayout`), com o tema do escritório aplicado em tempo de execução. Testes em Vitest e Playwright |
+| [`brand/`](./brand/) | A marca da Balancia: comece por [`brand/SYSTEM.md`](./brand/SYSTEM.md); a versão renderizada é `brand/design-system/index.html` |
+| [`specs/`](./specs/) | Uma pasta por feature (`spec.md`, `plan.md`, `state.md`, roteiro de QA). A mais recente é [`specs/rnc-4-white-label-platform/`](./specs/rnc-4-white-label-platform/) |
+| [`docs/deploy/`](./docs/deploy/) | Como a demonstração é publicada (`docs/deploy/demo/README.md`) e o runbook |
+| [`codelumen/`](./codelumen/) | Manual de convenções de código (VitePress) |
+| `cortex/`, `.claude/`, `scripts/` | Ferramentas de IA e o fluxo de features (`/battoni-*`); ver [`CLAUDE.md`](./CLAUDE.md) |
 
-[View Project](./api.balancia/)
+## Rodar localmente
 
----
+Requisitos: PHP 8.3+ (8.4 recomendado), Composer, Node 24 (`source ~/.nvm/nvm.sh && nvm use 24`; no Node 20 o Vitest quebra com `ERR_REQUIRE_ESM`).
 
-### app.balancia
+```bash
+make fresh-seed   # recria o banco SQLite com a plataforma, a Franco, o Alvorada e as pessoas
+make serve-api    # API em http://localhost:8000
+make serve-app    # SPA em http://localhost:5173
+```
 
-**Vue 3 client bootstrap** — starting point for web applications.
+Depois abra `http://localhost:5173` (site da Balancia), `http://franco.localhost:5173` ou `http://alvorada.localhost:5173`. As pessoas criadas pelos seeders e a senha estão no `state.md` da feature atual e no roteiro de QA. Os e-mails vão para `api.balancia/storage/logs/laravel.log`.
 
-- Vue 3.5 + TypeScript, PrimeVue, Tailwind CSS, Pinia, Vue Router, Vue I18n
-- ESLint + Prettier auto-fix on save
-- Single-file theme system: change `src/styles/theme/colors.css` to retheme the entire project — semantic palette names (`primary`, `surface`, `ink`) propagate to PrimeVue tokens and Tailwind utilities automatically
-- AI-ready: rules and commands configured at monorepo root
+Testes: `make check-api` e `make check-app`.
 
-[View Project](./app.balancia/)
+## Demonstração online
 
----
+https://balancia.battoni.dev (plataforma), https://franco.balancia.battoni.dev e https://alvorada.balancia.battoni.dev. Só dados inventados; o banco é recriado a cada `make deploy-demo`.
 
-### Vitrum
+## Licença
 
-**Astro bootstrap** — starting point for public, institutional and marketing websites.
-
-- Astro, TypeScript, Tailwind CSS
-- Static-first, SEO-ready, lightweight
-
-[View Project](./vitrum/)
-
----
-
-### Cortex
-
-**AI knowledge layer** — history, documentation, and prompts for balancia's AI infrastructure.
-
-- All rules live at the monorepo root (`.claude/rules/`, `.cursor/rules/`) and activate automatically by file path
-- Commands: `/battoni-setup-project`, `/battoni-start-session`, `/battoni-review-vue-conventions`, `/battoni-review-arcus-code`, `/battoni-review-design-conventions`, `/battoni-generate-component-rules`
-- Skills, agents, and hooks for Claude Code; full rule parity for Cursor
-- `docs-portal` skill — generates a dual-audience (User/Developer) VitePress documentation portal; method and templates live in `cortex/docs-portal/`
-- `landing-page` skill — builds or reviews high-performance Astro landing pages against the seven-pillar recipe (`codelumen/landing-page-recipe.md`); template and deterministic audit live in `public.battoni.dev/`
-
-[View AI Docs](./cortex/)
-
----
-
-### CodeLumen
-
-**Code conventions documentation** — VitePress site for battoni.dev standards.
-
-- Comprehensive coding standards, Atomic Design, Domain-Driven Design
-
-[View Documentation](./codelumen/)
-
----
-
-### Liquen
-
-**Design tokens and Figma integration** — design consistency across projects.
-
-- Design token management with Tokens Studio
-- Figma variable sync and theme customization
-
-[View Project](./liquen/)
-
----
-
-### docs.balancia
-
-**Documentation portal** — dual-audience (User/Developer) VitePress site documenting this monorepo, built from the `docs-portal` skill.
-
-- User/Developer depth switcher, codebase-driven extractors (endpoints, schema, views), fail-closed staff gate
-- Run with `make portal` (see the `portal-*` targets in the Makefile)
-- A worked example of the `docs-portal` skill applied to balancia itself
-
-[View Portal](./docs.balancia/)
-
----
-
-## License
-
-Private project — All rights reserved.
+Projeto privado. Todos os direitos reservados.
