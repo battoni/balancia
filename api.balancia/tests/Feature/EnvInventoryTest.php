@@ -66,3 +66,10 @@ it('states in its Database section how the suite ran on MySQL 8', function () {
 it('says the folded migrations end at the first deploy', function () {
     expect(envInventoryRunbook())->toContain('folded migrations end at the first deploy')->toContain('add_');
 });
+
+it('ships a .env.example that parses and is set for local development', function () {
+    $values = Dotenv\Dotenv::parse((string) file_get_contents(base_path('.env.example')));
+
+    expect($values['SESSION_SAME_SITE'])->toBe('lax')
+        ->and($values['PLATFORM_ROOT_DOMAIN'])->toBe('localhost');
+});
