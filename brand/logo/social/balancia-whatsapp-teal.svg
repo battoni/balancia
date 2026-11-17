@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- WhatsApp profile picture: square, cropped to a circle by WhatsApp. Mark from ../balancia-icon*.svg, unchanged. -->
+  <rect width="512" height="512" fill="#0e5a5c"/>
+  <g transform="translate(73.29 76.10) scale(0.70275)">
+    <path fill="#ffffff" d="M118 52H318C371 52 414 94 414 142C414 184 388 212 348 220C300 229.6 200 244 160 257C124 268.7 82 268 82 232V88C82 68.1 98.1 52 118 52Z"/>
+    <path fill="#ffffff" d="M82 360C82 336 100 316.6 128 304C168 286 310 262 350 258C396 253.4 438 290 438 338C438 406 384 460 306 460H118C98.1 460 82 443.9 82 424Z"/>
+  </g>
+</svg>
