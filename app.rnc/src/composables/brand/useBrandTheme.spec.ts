@@ -137,7 +137,7 @@ describe('useBrandTheme, mounted by App.vue', () => {
     await flushPromises();
 
     expect(i18n.global.t('site.landing.proofLabel', {}, { locale: 'pt-BR' })).toBe('Por que a Alvorada Contabilidade');
-    expect(i18n.global.t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain('hub da Alvorada Contabilidade');
+    expect(i18n.global.t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain('espaço da Alvorada Contabilidade');
   });
 
   it("paints the tab's stored palette on a second mount, before the API answers", async () => {

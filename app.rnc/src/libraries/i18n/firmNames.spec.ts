@@ -16,7 +16,7 @@ describe('the firm placeholders', () => {
     setFirmNames({ name: 'Alvorada Contabilidade', short: 'Alvorada' });
 
     expect(t('site.landing.proofLabel', {}, { locale: 'pt-BR' })).toBe('Por que a Alvorada');
-    expect(t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain('O hub da Alvorada Contabilidade');
+    expect(t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain('O espaço da Alvorada Contabilidade');
     expect(t('site.landing.proofLabel', {}, { locale: 'en' })).toBe('Why Alvorada');
   });
 
@@ -55,6 +55,6 @@ describe('the firm placeholders', () => {
     setFirmNames({ name: "S@L {x} d'Ouro \\ Lda", short: 'Souza | Lima' });
 
     expect(t('site.landing.proofLabel', {}, { locale: 'pt-BR' })).toBe('Por que a Souza | Lima');
-    expect(t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain("O hub da S@L {x} d'Ouro \\ Lda");
+    expect(t('auth.brand.tagline', {}, { locale: 'pt-BR' })).toContain("O espaço da S@L {x} d'Ouro \\ Lda");
   });
 });

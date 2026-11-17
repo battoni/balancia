@@ -89,7 +89,9 @@ function useFirmBrand() {
   function load(): Promise<PublicFirm | null> {
     if (isLoaded) return Promise.resolve(firm.value);
 
-    pendingRequest ??= API({ endpoint: 'public/firm', method: 'get', outlivesNavigation: true }).then(onLoaded).catch(onFailed);
+    pendingRequest ??= API({ endpoint: 'public/firm', method: 'get', outlivesNavigation: true })
+      .then(onLoaded)
+      .catch(onFailed);
 
     return pendingRequest;
   }

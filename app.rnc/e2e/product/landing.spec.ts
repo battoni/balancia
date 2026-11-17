@@ -228,6 +228,12 @@ test.describe('the product landing on the root', () => {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(rootUrl(baseURL));
       await expect(page.getByTestId('beta-consent-text')).toBeVisible();
+      // Balancia's screens: PrimeVue's surface ramp is the teal one (themes/balancia.css), not the bootstrap's warm grey.
+      await expect
+        .poll(() =>
+          page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--color-surface-500').trim())
+        )
+        .toBe('#739091');
 
       expect(await horizontalOverflow(page)).toBeLessThanOrEqual(0);
 

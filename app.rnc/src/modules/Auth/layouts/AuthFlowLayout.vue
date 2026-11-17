@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useFirmBrand } from '@Composables';
+
+/*
+ * The sign-in's brand panel. A firm's copy is `auth.brand.*`; Balancia's own sign-in (the platform
+ * firm: the root, app.<root>) carries `auth.platformBrand.*`, which leaves the Reforma out of the
+ * product's slogan, and a plain teal panel: `ABrandPattern` is Battoni Dev's, never Balancia's
+ * (brand/SYSTEM.md §6, §9).
+ */
 withDefaults(
   defineProps<{
     title?: string;
@@ -7,6 +16,10 @@ withDefaults(
     title: '',
   }
 );
+
+const { isPlatform } = useFirmBrand();
+
+const copyKey = computed(() => (isPlatform.value ? 'auth.platformBrand' : 'auth.brand'));
 </script>
 
 <template>
@@ -14,7 +27,10 @@ withDefaults(
     <aside
       class="bg-primary-500 relative hidden overflow-hidden lg:flex lg:w-[44%] lg:flex-col lg:justify-between lg:p-12 xl:p-16"
     >
-      <div class="text-primary-contrast absolute inset-0 opacity-[0.07]">
+      <div
+        v-if="!isPlatform"
+        class="text-primary-contrast absolute inset-0 opacity-[0.07]"
+      >
         <ABrandPattern
           :rotate="-8"
           :tile="168"
@@ -29,27 +45,28 @@ withDefaults(
       </div>
 
       <div class="relative flex flex-col gap-6">
-        <!-- The hero copy is the PROJECT's: every string is an `auth.brand.*` key, overridden in
+        <!-- The hero copy is the PROJECT's: every string is an `auth.brand.*` (a firm's) or
+             `auth.platformBrand.*` (Balancia's) key, overridden in
              `src/locales/local/*.json` so a sync never reverts it. -->
         <span
           class="text-primary-contrast/70 font-mono text-sm tracking-[0.2em] uppercase"
           data-testid="auth-brand-tag"
         >
-          {{ $t('auth.brand.tag') }}
+          {{ $t(`${copyKey}.tag`) }}
         </span>
 
         <h2
           class="text-primary-contrast text-5xl leading-[1.04] font-bold tracking-tight whitespace-pre-line xl:text-6xl"
           data-testid="auth-brand-headline"
         >
-          {{ $t('auth.brand.headline') }}
+          {{ $t(`${copyKey}.headline`) }}
         </h2>
 
         <p
           class="text-primary-contrast/80 max-w-sm font-mono text-sm leading-relaxed"
           data-testid="auth-brand-tagline"
         >
-          {{ $t('auth.brand.tagline') }}
+          {{ $t(`${copyKey}.tagline`) }}
         </p>
       </div>
 
@@ -57,12 +74,15 @@ withDefaults(
         class="text-primary-contrast/90 relative font-mono text-sm font-medium tracking-tight"
         data-testid="auth-brand-domain"
       >
-        {{ $t('auth.brand.domain') }}
+        {{ $t(`${copyKey}.domain`) }}
       </div>
     </aside>
 
     <main class="relative flex flex-1 flex-col">
-      <div class="text-subtle pointer-events-none absolute inset-0 opacity-[0.03] lg:hidden">
+      <div
+        v-if="!isPlatform"
+        class="text-subtle pointer-events-none absolute inset-0 opacity-[0.03] lg:hidden"
+      >
         <ABrandPattern :tile="150" />
       </div>
 

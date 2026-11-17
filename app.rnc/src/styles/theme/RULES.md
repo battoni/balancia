@@ -462,6 +462,9 @@ For a theme that changes the role mapping itself, or shares nothing with an exis
   (ramp and teal neutrals) and its dark twin are Balancia's own screens only — `useBrandTheme` sets
   `data-platform` while the host firm is the platform firm. A tenant keeps its ramp and the bootstrap's
   neutrals.
+- **PrimeVue's `surface` ramp is teal on the platform too**: `--color-surface-*` under `:root[data-platform]`, each step at
+  the bootstrap's relative luminance (within 1%), so every pair the preset was measured against keeps its ratio. A new
+  surface step keeps that rule; re-derive with the same luminance match, never by eye.
 - **The selectors outvote the theme by specificity**, not by order: `:root[data-platform]` (0,2,0) beats
   `[data-theme='dark']`, and the dark platform block (0,3,0) beats both. A new override of a neutral on
   the platform needs the same specificity. `hub.css`'s print block lists the platform selectors for this

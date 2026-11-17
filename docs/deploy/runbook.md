@@ -100,7 +100,7 @@ The session is a host-only cookie: signing in on `alvorada.<root>` never signs a
 | `SANCTUM_STATEFUL_DOMAINS` | `<root>,*.<root>` | the SPA's hosts (no port in production) |
 | `SANCTUM_TOKEN_PREFIX` | empty | no API tokens are issued |
 | `CORS_ALLOWED_ORIGINS` | `https://<root>` | same-origin needs no CORS; a stray cross-origin caller gets none |
-| `CORS_ALLOWED_ORIGINS_PATTERNS` | `^https://[a-z0-9-]+\.<root escaped>$` | the firm hosts, should a tool ever call cross-origin |
+| `CORS_ALLOWED_ORIGINS_PATTERNS` | `^https://[a-z0-9-]+\.<root escaped>$` | the firm hosts, should a tool ever call cross-origin. With a delimiter, single-quote it (`'#…#'`): an unquoted `#` is a comment, and `\.` in double quotes stops the app from booting |
 
 ## Behind a proxy or load balancer
 

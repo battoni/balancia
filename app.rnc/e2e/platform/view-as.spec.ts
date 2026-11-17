@@ -188,7 +188,11 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
 
     const input = page.getByTestId('firm-logo-input');
 
-    await input.setInputFiles({ buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'), mimeType: 'image/svg+xml', name: 'logo.svg' });
+    await input.setInputFiles({
+      buffer: Buffer.from('<svg xmlns="http://www.w3.org/2000/svg"/>'),
+      mimeType: 'image/svg+xml',
+      name: 'logo.svg',
+    });
     await expect(page.getByTestId('firm-logo-error')).toBeVisible();
     await expect(page.getByTestId('firm-logo-upload')).toHaveCount(0);
 
@@ -228,7 +232,9 @@ test.describe('logo upload and view-as (rnc-4 A43)', () => {
     await page.goto(hostUrl(baseURL, 'localhost', '/platform/firms'));
 
     // The platform firm is never entered: no action on its row.
-    await expect(page.locator('[data-testid="firm-row"][data-firm="balancia"]').getByTestId('firm-view-as')).toHaveCount(0);
+    await expect(
+      page.locator('[data-testid="firm-row"][data-firm="balancia"]').getByTestId('firm-view-as')
+    ).toHaveCount(0);
     await expect(page.getByTestId('view-as-banner')).toHaveCount(0);
 
     await page.locator('[data-testid="firm-row"][data-firm="alvorada"]').getByTestId('firm-view-as').click();

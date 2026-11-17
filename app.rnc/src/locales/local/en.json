@@ -4,7 +4,13 @@
       "domain": "Tax Reform · 2026–2033",
       "headline": "The reform is coming.\n{firmShort} is ready.",
       "tag": "Tax reform",
-      "tagline": "{firmName}'s hub to walk every client through the 2026–2033 transition."
+      "tagline": "{firmName}'s space to walk every client through the 2026–2033 transition."
+    },
+    "platformBrand": {
+      "domain": "For accounting firms",
+      "headline": "Your contacts, your fees.\nOne place.",
+      "tag": "Balancia",
+      "tagline": "The platform for your accounting firm: site, diagnostic, contacts and fee repricing."
     }
   },
   "home": {
@@ -26,8 +32,8 @@
       },
       "operator": {
         "title": "Operator",
-        "description": "The hub's users, profiles and permissions.",
-        "upcoming": "Running the hub: users and profiles live in the settings menu."
+        "description": "The platform's users, profiles and permissions.",
+        "upcoming": "Running the platform: users and profiles live in the settings menu."
       }
     }
   },
@@ -474,7 +480,7 @@
         "textStarted": "Sign your firm up for the beta and have the Reforma site under your brand through the transition."
       },
       "footer": {
-        "tagline": "The Reforma Tributária hub for accounting firms.",
+        "tagline": "The platform for your accounting firm: site, diagnostic, contacts and fee repricing.",
         "disclaimer": "Reforma dates per LC 214/2025, checked on 14/11/2026. The diagnostic's values are estimates, not a tax calculation."
       }
     },

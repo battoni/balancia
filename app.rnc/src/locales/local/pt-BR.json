@@ -4,7 +4,13 @@
       "domain": "Reforma Tributária · 2026–2033",
       "headline": "A Reforma chega.\nA {firmShort} já está pronta.",
       "tag": "Reforma Tributária",
-      "tagline": "O hub da {firmName} para levar cada cliente pela transição de 2026 a 2033."
+      "tagline": "O espaço da {firmName} para levar cada cliente pela transição de 2026 a 2033."
+    },
+    "platformBrand": {
+      "domain": "Para escritórios de contabilidade",
+      "headline": "Seus contatos, seus honorários.\nUm lugar só.",
+      "tag": "Balancia",
+      "tagline": "A plataforma do seu escritório de contabilidade: site, diagnóstico, contatos e reajuste de honorários."
     }
   },
   "home": {
@@ -26,8 +32,8 @@
       },
       "operator": {
         "title": "Operador",
-        "description": "Usuários, perfis e permissões do hub.",
-        "upcoming": "A operação do hub: usuários e perfis ficam no menu de configurações."
+        "description": "Usuários, perfis e permissões da plataforma.",
+        "upcoming": "A operação da plataforma: usuários e perfis ficam no menu de configurações."
       }
     }
   },
@@ -474,7 +480,7 @@
         "textStarted": "Inscreva o escritório no beta e tenha o site da Reforma com a sua marca durante a transição."
       },
       "footer": {
-        "tagline": "O hub da Reforma Tributária para escritórios de contabilidade.",
+        "tagline": "A plataforma do seu escritório de contabilidade: site, diagnóstico, contatos e reajuste de honorários.",
         "disclaimer": "Datas da Reforma pela LC 214/2025, conferidas em 14/11/2026. Os valores do diagnóstico são estimativas, não cálculo fiscal."
       }
     },

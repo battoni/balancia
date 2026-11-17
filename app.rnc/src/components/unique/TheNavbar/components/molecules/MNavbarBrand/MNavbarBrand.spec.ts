@@ -89,7 +89,9 @@ describe('MNavbarBrand', () => {
   it("shows Balancia's icon in the platform firm's tile, without repeating the product's name", async () => {
     server.use(
       http.get('http://localhost/public/firm', () =>
-        HttpResponse.json({ data: { ...ALVORADA, is_platform: true, logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' } })
+        HttpResponse.json({
+          data: { ...ALVORADA, is_platform: true, logo_text: 'Balancia', name: 'Balancia', slug: 'balancia' },
+        })
       )
     );
 

@@ -29,7 +29,9 @@ const props = withDefaults(
 
 const files = computed(() => BALANCIA_LOGO[props.variant]);
 const isOnBand = computed(() => props.tone === 'inherit');
-const sizeClass = computed(() => (props.variant === 'min' ? 'aspect-square h-[1.75em] w-[1.75em]' : 'h-[1.75em] w-auto'));
+const sizeClass = computed(() =>
+  props.variant === 'min' ? 'aspect-square h-[1.75em] w-[1.75em]' : 'h-[1.75em] w-auto'
+);
 </script>
 
 <template>

@@ -54,16 +54,8 @@ You need `fontTools` and `Pillow` for `build.py`, Google Chrome for the PNGs, an
   domain is unregistered, so nothing serves it yet.
 - **Not protected yet:** the domain is unregistered and INPI is unfiled; see
   [`BRIEF.md`](BRIEF.md) and `SURVEY.md`.
-- **PrimeVue's own surfaces stay warm on Balancia's screens.** The teal neutrals are the role tokens
-  (`canvas`, `panel`, `muted`…); PrimeVue components that read the `surface` ramp directly (the
-  secondary button, the dark contrast fills) keep the bootstrap's neutrals.
-- **The root site's copy is still the placeholder's.** The product landing's footer tagline says "O hub
-  da Reforma Tributária…", which SYSTEM.md §6 keeps out of the brand layer; the copy rewrite is its own
-  step.
-- **The sign-in aside draws `ABrandPattern`**, Battoni Dev's pattern, behind Balancia's white mark on
-  the root's login.
 
 Done in step 3 (rnc-4, 16/11/2026): `PLATFORM_NAME` = Balancia, the platform firm's slug `balancia`
 (`hub` stays reserved), its colours `#0e5a5c` / `#2fb7a3`, Manrope on every screen, the teal neutrals on
 the platform's screens (`data-platform`), `APlatformLogo` in `MFirmLogo`, `MNavbarBrand` and the root
-site, the favicon set, and the "powered by Balancia" signature in tenant footers and e-mails.
+site, the favicon set, and the "powered by Balancia" signature in tenant footers and e-mails. Then, the same day: no "hub" left in the copy; Balancia's sign-in has its own panel copy (`auth.platformBrand.*`, no Reforma slogan) on plain teal, without Battoni Dev's `ABrandPattern`; PrimeVue's `surface` ramp is teal-tinted on the platform's screens, each step at the bootstrap's luminance.

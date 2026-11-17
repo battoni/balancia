@@ -12,7 +12,7 @@
  * - `:root` — the brand words and the type, on EVERY screen: Manrope is the product's typeface, a
  *   tenant's included (Space Grotesk was Battoni Dev's, from the bootstrap). The `--brand-*` words
  *   are read only by Balancia's own marks.
- * - `:root[data-platform]` — Balancia's ramp and its teal-tinted neutrals, on Balancia's own screens
+ * - `:root[data-platform]` — Balancia's ramp, its teal-tinted neutrals and PrimeVue's `surface` ramp in teal, on Balancia's own screens
  *   only: the root site, the platform console, the root's login. `useBrandTheme` sets `data-platform`
  *   on `<html>` while the host firm is the platform firm (`is_platform`). A firm tenant keeps its own
  *   ramp (painted inline by `useBrandTheme`) and the bootstrap's neutrals.
@@ -39,8 +39,10 @@
   --brand-pale-mint: #bfeee5; /* usage: the logo's bottom form on dark grounds only */
 
   /* --- type ------------------------------------------------------------------------------------ */
-  --font-sans: 'Manrope', ui-sans-serif, system-ui, sans-serif; /* usage: everything: UI, site, documents (weights 400/500/600/700/800) */
-  --font-mono: 'Sometype Mono', ui-monospace, monospace; /* usage: codes, CNPJ, numeric tables (inherited from the bootstrap) */
+  --font-sans:
+    'Manrope', ui-sans-serif, system-ui, sans-serif; /* usage: everything: UI, site, documents (weights 400/500/600/700/800) */
+  --font-mono:
+    'Sometype Mono', ui-monospace, monospace; /* usage: codes, CNPJ, numeric tables (inherited from the bootstrap) */
 }
 
 :root[data-platform] {
@@ -67,6 +69,19 @@
   --color-subtle: #6f8384; /* usage: placeholders, disabled text, large text only (4.00:1, never small body text) */
   --color-line: #d3dede; /* usage: borders and dividers */
   --color-line-strong: #c3d0d0; /* usage: input borders, emphasised dividers */
+
+  /* --- PrimeVue's surface ramp, teal-tinted: each step at the bootstrap's luminance, so every pair the preset measured keeps its ratio -- */
+  --color-surface-50: #f2f5f5; /* usage: PrimeVue surface.50 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-100: #dbe3e3; /* usage: PrimeVue surface.100 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-200: #cdd7d8; /* usage: PrimeVue surface.200 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-300: #bdcbcc; /* usage: PrimeVue surface.300 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-400: #afbfc0; /* usage: PrimeVue surface.400 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-500: #739091; /* usage: PrimeVue surface.500 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-600: #688384; /* usage: PrimeVue surface.600 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-700: #5d7677; /* usage: PrimeVue surface.700 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-800: #495c5c; /* usage: PrimeVue surface.800 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-900: #344142; /* usage: PrimeVue surface.900 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
+  --color-surface-950: #1f2828; /* usage: PrimeVue surface.950 (secondary buttons, contrast fills); the bootstrap step's luminance in teal */
 }
 
 :root[data-platform][data-theme='dark'] {
