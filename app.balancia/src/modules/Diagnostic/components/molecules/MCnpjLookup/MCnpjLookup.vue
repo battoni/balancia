@@ -134,7 +134,7 @@ function onSubmit() {
 
     <div
       v-if="props.status === LOOKUP_STATUS.UNAVAILABLE"
-      class="bg-info-50 text-body flex flex-col items-start gap-3 rounded-lg p-4 text-sm"
+      class="bg-info-500/10 text-body flex flex-col items-start gap-3 rounded-lg p-4 text-sm"
       data-testid="cnpj-fallback"
       role="status"
     >

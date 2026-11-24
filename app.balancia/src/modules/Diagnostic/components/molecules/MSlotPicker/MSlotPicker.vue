@@ -101,7 +101,7 @@ function onConfirm() {
             :class="[
               'touch-target flex min-w-0 items-center gap-3 rounded-lg border p-4 text-left transition-colors',
               entry.id === specialistId
-                ? 'border-primary-500 bg-primary-50 ring-primary-500 ring-1'
+                ? 'border-primary-500 bg-primary-500/10 ring-primary-500 ring-1'
                 : 'border-line-strong hover:bg-panel-muted',
             ]"
             :data-id="entry.id"

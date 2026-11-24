@@ -147,7 +147,7 @@ function onPrint() {
 
             <div
               v-if="report.meeting"
-              class="border-primary-200 bg-primary-50 flex break-inside-avoid items-start gap-4 rounded-lg border p-5"
+              class="border-primary-500/40 bg-primary-500/10 flex break-inside-avoid items-start gap-4 rounded-lg border p-5"
               data-testid="report-meeting"
             >
               <i
