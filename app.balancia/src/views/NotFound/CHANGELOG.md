@@ -3,6 +3,11 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 1.1.0 — 2026-11-24
+
+### Added
+- "Sair" (`navigation.logout`, `useSignOut` from `@AuthModule`) beside the way back, only for a signed-in person: a partner whose module was switched off landed here with no navbar and could not leave the session (balancia-5, online QA 8.14).
+
 ## 1.0.4 — 2026-11-14
 
 ### Changed

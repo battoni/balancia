@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { getI18nRouteName } from '@Helpers';
+import { useSignOut } from '@AuthModule';
+import { useUserStore } from '@UserModule';
+
+const userStore = useUserStore();
 
 const { push } = useRouter();
+const { signOut } = useSignOut();
 
 // EVENTS
 function onHomeClick() {
@@ -36,12 +41,26 @@ function onHomeClick() {
         </p>
       </div>
 
-      <Button
-        icon="pi pi-home"
-        severity="primary"
-        :label="$t('notFound.backHome')"
-        @click="onHomeClick"
-      />
+      <!-- A signed-in person can land here with no navbar to leave by — a partner whose module was
+           switched off (online QA 8.14), so the way back leads to this same page. -->
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button
+          data-testid="not-found-home"
+          icon="pi pi-home"
+          severity="primary"
+          :label="$t('notFound.backHome')"
+          @click="onHomeClick"
+        />
+
+        <Button
+          v-if="userStore.isAuthenticated"
+          data-testid="not-found-sign-out"
+          icon="pi pi-sign-out"
+          severity="secondary"
+          :label="$t('navigation.logout')"
+          @click="signOut"
+        />
+      </div>
     </section>
   </TheCenteredLayout>
 </template>

@@ -1,5 +1,6 @@
 # Spec: Reforma hub as a white-label platform for accounting firms
 ID: rnc-4 · Status: closed 13/11/2026 (product decisions O1–O12 by the owner on 13/11/2026; D# taken by Claude in away mode, each says how to reverse) · Intent: approved 13/11/2026
+Amended: 24/11/2026 — D32 (sign out from the not-found page), after Leonardo's online QA round 1 (fix balancia-5).
 Proposal: none — skipped in away mode (D27). Visual bar: the public site of rnc-1/2/3 (motion
 directives, brand ramp, `ThePublicLayout`), the back office's existing atoms/molecules.
 
@@ -357,6 +358,10 @@ D30 Gate cost → per phase only the touched modules' Pest/Vitest files + the ph
 gate (every Pest, Vitest, Playwright) at the end of F2c, F4b and in verify (O10). Reverse: n/a.
 D31 Playwright host → default `baseURL` `http://franco.localhost:<port>`; product-site specs use
 `http://localhost:<port>`. Reverse: one line in `playwright.config.ts`.
+D32 Signing out from the not-found page (owner, 24/11/2026, after online QA 8.14, balancia-5) → a
+signed-in person sees "Sair" beside "Voltar ao início" on "Esta página não existe": a partner whose
+module is off (A17) lands there with no navbar, and the way back leads to the same page. A17 itself
+is unchanged. Reverse: drop the button in `NotFoundView`.
 
 ## Constraints, met by
 - Cross-firm isolation → R4, R5, R6, R31, R37; A1, A3, A4, A36, A46, Chrome access sweep.
