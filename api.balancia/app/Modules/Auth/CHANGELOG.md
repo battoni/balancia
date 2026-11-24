@@ -3,6 +3,11 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 2.20.2 — 2026-11-24
+
+### Fixed
+- `StoreUserRequest` and `UpdateUserRequest` answer a taken username with `users.form.usernameTaken`, the SPA's key, instead of Laravel's English "The username has already been taken." (balancia-5, online QA 5.19, A36).
+
 ## 2.20.1 — 2026-11-14
 - `QaLoginAsController` redirects to the firm's own site (`MailBrand::siteUrlOf`) when opened on a firm host,
   not to `balancia.frontend_url` (Chrome QA 1.11). Tested by `LoginFirmTest`.
