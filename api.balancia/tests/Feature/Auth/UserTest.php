@@ -357,6 +357,25 @@ describe('POST /api/auth/users', function () {
         $this->assertDatabaseHas('users', ['username' => 'eve']);
     });
 
+    it('refuses a taken username with the SPA key, not Laravel\'s English sentence', function () {
+        // Leonardo's online QA 5.19 (24/11/2026): "The username has already been taken." reached the form.
+        $actor = userWithPermissions(['users.create']);
+        $role = Role::create(['name' => 'Test Role', 'slug' => 'test-role']);
+        User::factory()->create(['username' => 'eve']);
+
+        $this->actingAs($actor)
+            ->postJson('/api/auth/users', [
+                'name' => 'Eve',
+                'last_name' => 'Green',
+                'username' => 'eve',
+                'role_id' => $role->id,
+                'password' => 'password123',
+                'status' => UserStatus::ACTIVE->value,
+            ])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['username' => 'users.form.usernameTaken']);
+    });
+
     it('returns 403 when actor lacks users.create', function () {
         $actor = User::factory()->create();
 
@@ -389,6 +408,17 @@ describe('PATCH /api/auth/users/{id}', function () {
             ->assertJsonPath('data.id', $target->id);
 
         $this->assertDatabaseHas('users', ['id' => $target->id, 'name' => 'Franklin']);
+    });
+
+    it('refuses renaming to a taken username with the SPA key', function () {
+        $actor = userWithPermissions(['users.update']);
+        User::factory()->create(['username' => 'eve']);
+        $target = User::factory()->create(['username' => 'frank']);
+
+        $this->actingAs($actor)
+            ->patchJson("/api/auth/users/{$target->id}", ['username' => 'eve'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['username' => 'users.form.usernameTaken']);
     });
 
     it('refuses to let an administrator deactivate their own account via edit', function () {

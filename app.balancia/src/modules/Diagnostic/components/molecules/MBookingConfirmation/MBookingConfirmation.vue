@@ -31,7 +31,7 @@ const meetingMinutes = computed(() => {
     class="flex flex-col gap-6"
     data-testid="booking-confirmed"
   >
-    <div class="border-success-200 bg-success-50 flex items-start gap-4 rounded-lg border p-5">
+    <div class="border-success-500/40 bg-success-500/10 flex items-start gap-4 rounded-lg border p-5">
       <span
         aria-hidden="true"
         class="bg-success-600 text-success-50 flex size-10 shrink-0 items-center justify-center rounded-full"

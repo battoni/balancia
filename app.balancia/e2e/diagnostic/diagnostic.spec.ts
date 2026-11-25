@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect, seedLanguage, test } from '../fixtures/auth';
+import { contrastOf, renderedTextPairs } from '../fixtures/contrast';
 import { emulateDarkPrint, readPrintedSheet } from '../fixtures/print';
 
 /*
@@ -167,6 +168,45 @@ test('walks the quiz from step 1 to the locked result and the specialist CTA', a
   await expect(page.getByTestId('sim-year')).toHaveCount(8);
 });
 
+for (const scheme of ['light', 'dark'] as const) {
+  // Leonardo's online QA 4.17/4.18 (24/11/2026): in dark, the chosen specialist's card and the
+  // "Reunião confirmada" card kept their pale light-scheme grounds under the flipped chalk text, ~1.3:1.
+  test(`the chosen specialist and the confirmation read at 4.5:1 (${scheme})`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await walkQuizToResult(page);
+    await expect(page.locator('html')).toHaveAttribute('data-theme', scheme);
+    await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
+
+    await bookTheSuggestedSlot(page);
+
+    const chosen = await renderedTextPairs(page, '[data-testid="specialist"][aria-checked="true"]');
+
+    await page.getByTestId('slot-confirm').click();
+    await expect(page.getByTestId('booking-error')).toBeVisible();
+    await page.getByTestId('booking-email').fill('ana@horizonte.com.br');
+    await expect(page.getByTestId('slot-confirm')).not.toHaveAttribute('data-click-guard', 'locked');
+    await page.getByTestId('slot-confirm').click();
+    await expect(page.getByTestId('booking-confirmed')).toBeVisible();
+
+    const confirmed = await renderedTextPairs(page, '[data-testid="booking-confirmed"]');
+
+    await page.getByTestId('open-report').click();
+    await expect(page.getByTestId('report-meeting')).toBeVisible();
+
+    const reported = await renderedTextPairs(page, '[data-testid="report-meeting"]');
+
+    expect(chosen.length).toBeGreaterThanOrEqual(2);
+    expect(confirmed.length).toBeGreaterThanOrEqual(2);
+    expect(reported.length).toBeGreaterThanOrEqual(2);
+
+    for (const pair of [...chosen, ...confirmed, ...reported]) {
+      const ratio = contrastOf(pair);
+
+      expect(ratio, `${pair.label} (${scheme}): ${ratio.toFixed(2)}:1 ${pair.colour} on ${pair.background}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+}
+
 // A visitor saves the report as PDF from whatever scheme the screen is in; paper is white (R17).
 test('prints the report as a light document while the screen is dark', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
@@ -196,6 +236,32 @@ test('says calmly that a dead report link expired', async ({ page }) => {
 
   await expect(page.getByTestId('report-missing')).toContainText('Este link expirou ou não existe');
 });
+
+for (const scheme of ['light', 'dark'] as const) {
+  // Same pale ground as 4.17/4.18 (balancia-5): the CNPJ fallback kept `info-50` under the flipped text.
+  test(`the CNPJ fallback reads at 4.5:1 (${scheme})`, async ({ page }) => {
+    await page.route(`**/public/diagnostics/${TOKEN}/cnpj`, (route) =>
+      route.fulfill({ status: 503, contentType: 'application/json', body: '{}' })
+    );
+    await page.emulateMedia({ colorScheme: scheme });
+    await page.goto('/diagnostico');
+    await page.addStyleTag({ content: '*, *::before, *::after { transition: none !important; }' });
+    await page.getByTestId('path-cnpj').click();
+    await page.getByTestId('cnpj-input').fill('11.222.333/0001-81');
+    await page.getByTestId('cnpj-lookup').click();
+    await expect(page.getByTestId('cnpj-fallback')).toBeVisible();
+
+    const pairs = await renderedTextPairs(page, '[data-testid="cnpj-fallback"]');
+
+    expect(pairs.length).toBeGreaterThanOrEqual(1);
+
+    for (const pair of pairs) {
+      const ratio = contrastOf(pair);
+
+      expect(ratio, `${pair.label} (${scheme}): ${ratio.toFixed(2)}:1 ${pair.colour} on ${pair.background}`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+}
 
 test('says a CNPJ with a wrong check digit is wrong', async ({ page }) => {
   await page.goto('/diagnostico');

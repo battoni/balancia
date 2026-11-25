@@ -39,4 +39,17 @@ class UpdateUserRequest extends FormRequest
             'permissions.*' => ['required', 'boolean'],
         ];
     }
+
+    /**
+     * The SPA's own key for a taken username, so the form shows its pt-BR line instead of Laravel's
+     * English sentence (online QA 5.19, 24/11/2026).
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'username.unique' => 'users.form.usernameTaken',
+        ];
+    }
 }

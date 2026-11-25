@@ -3,6 +3,11 @@
 All notable changes to this unit are documented here. Versioned with SemVer.
 This file is the canonical source for the unit's version (RULES.md frontmatter mirrors it).
 
+## 2.2.0 — 2026-11-24
+
+### Added
+- `useSignOut` (composables): sign out from a screen with no navbar — the not-found page (balancia-5, online QA 8.14). Known Gap: `TheNavbar` keeps its own copy.
+
 ## 2.1.2 — 2026-09-17
 
 ### Removed

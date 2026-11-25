@@ -1,5 +1,5 @@
 ---
-version: 2.1.2
+version: 2.2.0
 origin: pendulum
 based-on: 2.1.2
 ---
@@ -25,7 +25,7 @@ Authentication flows, session bootstrap, roles, and permissions. This module own
 
 ## Public Barrel (`@AuthModule`)
 
-Exports: components, composables (`useLoginError`), constants (`LOGIN_CODE_LENGTH`, `LOGIN_CODE_RESEND_COOLDOWN_SECONDS`, `SIGN_UP_CODE_RESEND_COOLDOWN_SECONDS`), enums (`LOGIN_CODE_ERROR`, `ROLES`), interfaces (all service payloads + `LoginApiError`, `PermissionGroup`, `Profile`, `Permission`), services, types, views (route configs), `AuthRoutes`.
+Exports: components, composables (`useLoginError`, `useSignOut`), constants (`LOGIN_CODE_LENGTH`, `LOGIN_CODE_RESEND_COOLDOWN_SECONDS`, `SIGN_UP_CODE_RESEND_COOLDOWN_SECONDS`), enums (`LOGIN_CODE_ERROR`, `ROLES`), interfaces (all service payloads + `LoginApiError`, `PermissionGroup`, `Profile`, `Permission`), services, types, views (route configs), `AuthRoutes`.
 
 `Permission`, `PermissionGroup` and `Profile` are defined in the module's `interfaces.ts`. Services import them from there (`../interfaces`); components and code outside the module import them from `@AuthModule` as `import type` (erased at build, so it loads no barrel), as `MAddEditProfileForm` and `MPermissionPanel` do.
 
@@ -99,3 +99,10 @@ key (`auth.accountInactive`) — translate whatever the API sent; do not guess i
 - **Do not add user management features** (CRUD, archive, status) here — those belong in `User` module.
 - **Do not import `Permission` or `Profile` by sub-path** — they are re-exported from the barrel.
 - **Do not write a `.catch` on a login call.** Use `useLoginError`; a form that handles its own statuses drifts from the other two the first time a case is added.
+
+## Known Gaps
+
+- **Signing out lives in two places** (balancia-5, 24/11/2026): `useSignOut` serves the not-found
+  page, which has no navbar, and `TheNavbar`'s `onLogout` keeps its own copy of the same steps. Its
+  spec mocks `LogoutService` through `@AuthModule`, and folding it into the composable means
+  re-pointing that mock. Until then, a change to signing out goes in both.

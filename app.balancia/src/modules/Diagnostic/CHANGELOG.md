@@ -2,6 +2,11 @@
 
 All notable changes to this unit are documented here. Versioned with SemVer.
 
+## 1.6.1 — 2026-11-24
+
+### Fixed
+- `MSlotPicker`'s chosen specialist (`bg-primary-500/10`) and `MBookingConfirmation`'s card (`bg-success-500/10`, border `success-500/40`) take a translucent tint over the panel instead of the raw `primary-50`/`success-50`, which do not flip: in dark the chalk text sat on cream and mint at 1.30:1 (balancia-5, online QA 4.17/4.18, A12). The report's meeting card (`ReportView`, `bg-primary-500/10`) and the CNPJ fallback (`MCnpjLookup`, `bg-info-500/10`) had the same pale ground and get the same tint. `e2e/diagnostic/diagnostic.spec.ts` measures all four in light and dark.
+
 ## 1.6.0 — 2026-11-14
 
 ### Added
